@@ -47,6 +47,7 @@ namespace TutorialPlugin.Commands
                     return true;
                 }
                 else
+                    byte Effect = player.GetEffectIntensity<MovementBoost>;
                 {
                     player.DisableEffect<MovementBoost>();
                     response =  " Removed Speed!";
