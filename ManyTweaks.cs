@@ -8,12 +8,13 @@ public class ManyTweaks : Plugin<Config>
 
     public override void OnEnabled()
     {
+        Log.Info("ManyTweaks v1.1.0 by Tiliboyy has been enabled!");
 
         ManyTweaks.Singleton = this;
 
         this.EventHandler = new EventHandlers();
 
-        Log.Info("ManyTweaks v1.1.0 by Tiliboyy has been enabled!");
+        
 
         Player.Hurting += this.EventHandler.OnHurting;
 
