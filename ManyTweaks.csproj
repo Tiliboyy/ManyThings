@@ -104,11 +104,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cola.cs" />
+    <Compile Include="Commands\Cola.cs" />
     <Compile Include="ManyTweaks.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="EventHandlers.cs" />
+    <Compile Include="EventHandlers\EventHandlers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
