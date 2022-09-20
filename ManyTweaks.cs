@@ -9,7 +9,7 @@ public class ManyTweaks : Plugin<Config>
 {
     public override string Author => "Tiliboyy";
     public override string Prefix => "ManyTweaks";
-    public override Version Version => new Version(1, 2, 0);
+    public override Version Version => new Version(1, 3, 0);
     public override Version RequiredExiledVersion => new Version(5, 0, 0, 0);
 
     public EventHandlers EventHandler;

@@ -22,12 +22,8 @@ namespace TutorialPlugin.Commands
         {
             Player player = Player.Get(sender);
             int speednum;
-
             if (sender.CheckPermission("ManyTweaks.Speed"))
             {
-
-
-
                 if (arguments.Count < 1)
                 {
                     response = $"<color=yellow>Usage: {Command} <Speed> </color>";
@@ -36,31 +32,28 @@ namespace TutorialPlugin.Commands
                 else
                 {
                     int.TryParse(arguments.Array[1], out speednum);
-
                 }
 
-                if (!player.GetEffectActive<MovementBoost>())
-                {
-                    player.EnableEffect<MovementBoost>();
-                    player.ChangeEffectIntensity<MovementBoost>((byte)speednum);
-                    response = "Added Speed!";
-                    return true;
-                }
-                else
-                    byte Effect = player.GetEffectIntensity<MovementBoost>;
+
+                if (speednum == 0)
                 {
                     player.DisableEffect<MovementBoost>();
-                    response =  " Removed Speed!";
-                    return true;
+                    response = " Removed Speed!";
                 }
-
+                    else
+                    {
+                        player.EnableEffect<MovementBoost>(0f, false);
+                        player.ChangeEffectIntensity<MovementBoost>((byte)speednum);
+                        response = "Added Speed!";
+                    }
             }
             else
             {
                 response = "You dont have the Perms for that command!";
-                return true;
-
             }
+            return true;
+
+
         }
     }
 }
