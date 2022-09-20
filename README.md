@@ -1,3 +1,3 @@
 # ManyTweaks
 
-A Plugin that adds fun stuff
+An Exiled Plugin for Daylight Gaming with many small tweaks/rebalances
