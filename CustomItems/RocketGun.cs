@@ -22,13 +22,13 @@
         public override uint Id { get; set; } = 69;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "RocketGun";
+        public override string Name { get; set; } = "Rocket Gun";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "Uiiii";
+        public override string Description { get; set; } = "Is Funní";
 
         /// <inheritdoc/>
-        public override float Weight { get; set; } = 3.25f;
+        public override float Weight { get; set; } = 0f;
 
         /// <inheritdoc/>
         public override byte ClipSize { get; set; } = 100;
