@@ -43,11 +43,7 @@
         /// <inheritdoc/>
         public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties
         {
-            Limit = 0,
-            DynamicSpawnPoints = new List<DynamicSpawnPoint>
-            {
 
-            },
         };
 
         /// <inheritdoc />
@@ -57,11 +53,10 @@
             AttachmentName.ExtendedBarrel,
             AttachmentName.ScopeSight,
         };
-
-        /// <summary>
-        /// Gets or sets the amount of extra damage this weapon does, as a multiplier.
-        /// </summary>
-        [Description("The amount of extra damage this weapon does, as a multiplier.")]
+    /// <summary>
+    /// Gets or sets the amount of extra damage this weapon does, as a multiplier.
+    /// </summary>
+    [Description("The amount of extra damage this weapon does, as a multiplier.")]
         public float DamageMultiplier { get; set; } = 0f;
 
         /// <inheritdoc/>
