@@ -150,6 +150,7 @@
     <Compile Include="ManyTweaks.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="EventHandlers\EventHandlers.cs" />
+    <Compile Include="Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomItems\RocketGun.cs" />
     <Compile Include="UnityMethods.cs" />

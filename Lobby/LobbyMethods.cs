@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ManyTweaksLobby
 {
-    internal static class LobbyMethods
+    public static class LobbyMethods
     {
         internal static IEnumerator<float> LobbyTimer()
         {

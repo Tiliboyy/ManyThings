@@ -16,13 +16,16 @@ public class Config : IConfig
 
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
-
+    
+    [Description("Enables Localchat")]
+    public bool GlobalVoiceChat { get; set; } = false;
     [Description("Lobby Stuff")]
-    public bool DisplayWaitMessage { get; private set; } = true;
-    public bool UseHints { get; private set; } = true;
+    public bool DisplayWaitMessage { get; set; } = true;
+
+    public bool UseHints { get; set; } = true;
 
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
-    public int HintVertPos { get; private set; } = 25;
+    public int HintVertPos { get; set; } = 25;
 
     public string TopMessage { get; set; } = "<size=40><color=yellow><b>The game will be starting soon, {seconds}</b></color></size>";
 

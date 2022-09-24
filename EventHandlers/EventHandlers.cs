@@ -9,6 +9,9 @@ using Exiled.API.Features.Items;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using Log = Exiled.API.Features.Log;
+using ManyTweaksLobby;
+using Exiled.API.Extensions;
+using GameCore;
 
 public class EventHandlers : Plugin<Config>
 {
@@ -339,6 +342,12 @@ public class EventHandlers : Plugin<Config>
     }
     public void VerifiedPlayer(VerifiedEventArgs ev)
     {
+
+
+        if (!ManyTweaks.Singleton.Config.GlobalVoiceChat)
+        {
+            MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
+        }
         if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
         {
             Timing.CallDelayed(0.5f, () =>

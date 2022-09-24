@@ -4,6 +4,7 @@ using CustomItems.Items;
 using Exiled.API.Features;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.Handlers;
+using HarmonyLib;
 using MEC;
 using Player = Exiled.Events.Handlers.Player;
 
@@ -18,7 +19,8 @@ public class ManyTweaks : Plugin<Config>
     public static ManyTweaks Singleton;
 
     public override void OnEnabled()
-    {        
+    {
+        new Harmony("ManyTweaks.patches").PatchAll();        
         ManyTweaks.Singleton = this;
         
         this.EventHandler = new EventHandlers();
