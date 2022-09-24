@@ -36,31 +36,43 @@ namespace UnityMethods
                         case ItemType.Ammo9x19:
                             Ammo9.Add(pickup);
                             AmmoBoxes = true;
-                            Log.Info("9 mm");
+                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            {
+                                Log.Debug("9 mm");
+                            }
                             break;
-
                         case ItemType.Ammo12gauge:
                             Ammo12.Add(pickup);
                             AmmoBoxes = true;
-                            Log.Info("12 gauge");
+                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            {
+                                Log.Debug("12 gauge");
+                            }
                             break;
-
                         case ItemType.Ammo44cal:
                             Ammo44.Add(pickup);
                             AmmoBoxes = true;
-                            Log.Info("44 cal");
+                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            {
+                                Log.Debug("44 cal");
+                            }
                             break;
-
                         case ItemType.Ammo556x45:
                             Ammo556.Add(pickup);
                             AmmoBoxes = true;
-                            Log.Info("556 ammo");
+                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            {
+                                Log.Debug("556 ammo");
+                            }
                             break;
 
                         case ItemType.Ammo762x39:
                             Ammo762.Add(pickup);
                             AmmoBoxes = true;
-                            Log.Info("762 ammo");
+                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            {
+                                Log.Debug("762 ammo");
+                            }
                             break;
                     }
                 }
@@ -247,5 +259,6 @@ namespace UnityMethods
                 }
             }
         }
+
     }
 }

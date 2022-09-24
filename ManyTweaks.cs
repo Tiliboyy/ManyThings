@@ -11,27 +11,29 @@ public class ManyTweaks : Plugin<Config>
 {
     public override string Author => "Tiliboyy";
     public override string Prefix => "ManyTweaks";
-    public override Version Version => new Version(1, 3, 1);
+    public override Version Version => new Version(1, 4, 1);
     public override Version RequiredExiledVersion => new Version(5, 0, 0, 0);
 
     public EventHandlers EventHandler;
     public static ManyTweaks Singleton;
 
     public override void OnEnabled()
-    {
-        Log.Info("ManyTweaks v1.3.1 by Tiliboyy has been enabled!");
-        
+    {        
         ManyTweaks.Singleton = this;
         
         this.EventHandler = new EventHandlers();
         
         Player.Hurting += this.EventHandler.OnHurting;
+
+        Exiled.Events.Handlers.Player.Verified += EventHandler.VerifiedPlayer;
+
+        Exiled.Events.Handlers.Server.WaitingForPlayers += this.EventHandler.WaitingForPlayers;
         
-        CustomItem.RegisterItems();
+        Exiled.Events.Handlers.Server.RoundStarted += this.EventHandler.OnRoundStart;
 
         Player.DroppingAmmo += this.EventHandler.OnDroppingAmmo;
 
-        base.OnEnabled();
+        CustomItem.RegisterItems();
     }
 
     public override void OnDisabled()
@@ -39,15 +41,16 @@ public class ManyTweaks : Plugin<Config>
         ManyTweaks.Singleton = null;
         
         this.EventHandler = null;
-        
+
         Player.Hurting -= this.EventHandler.OnHurting;
 
-       
-    }
+        Exiled.Events.Handlers.Player.Verified -= EventHandler.VerifiedPlayer;
 
-    public override void OnReloaded()
-    {
-        base.OnReloaded();
-    }
+        Exiled.Events.Handlers.Server.WaitingForPlayers -= this.EventHandler.WaitingForPlayers;
 
+        Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
+
+        Player.DroppingAmmo -= this.EventHandler.OnDroppingAmmo;
+
+    }
 }
