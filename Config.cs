@@ -11,4 +11,7 @@ public class Config : IConfig
     [Description("Disables 207 Damage")]
     public bool No207Dmg { get; set; } = false;
 
+    [Description("Merges Ammo of the same type")]
+    public bool AntiLag { get; set; } = true;
+
 }

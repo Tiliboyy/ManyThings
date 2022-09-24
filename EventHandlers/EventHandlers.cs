@@ -13,6 +13,10 @@ using Item = Exiled.API.Features.Items.Item;
 
 public class EventHandlers : Plugin<Config>
 {
+
+    public Dictionary<string, int> PlayTimeRecords { get; set; } = new Dictionary<string, int>();
+    public DateTime LastSeen { get; set; }
+
     public void OnHurting(HurtingEventArgs ev)
     {
         
@@ -25,6 +29,8 @@ public class EventHandlers : Plugin<Config>
             }
         }
     }
+
+
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
         const int maxAmnt = 50;
@@ -45,6 +51,11 @@ public class EventHandlers : Plugin<Config>
             yield return Timing.WaitForOneFrame;
         }
     }
-
-
+    public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
+    {
+        if (ManyTweaks.Singleton.Config.AntiLag)
+        {
+            Timing.RunCoroutine(UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
+        }
+    }
 }
