@@ -12,7 +12,7 @@ using Log = Exiled.API.Features.Log;
 using ManyTweaksLobby;
 using Exiled.API.Extensions;
 using GameCore;
-
+using LobbySpawner;
 public class EventHandlers : Plugin<Config>
 {
 
@@ -42,7 +42,7 @@ public class EventHandlers : Plugin<Config>
 
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
-        const int maxAmnt = 50;
+        const int maxAmnt = 25;
         int amnt = 0;
         while (player.Role != RoleType.Spectator)
         {
@@ -330,6 +330,37 @@ public class EventHandlers : Plugin<Config>
     }
     public void WaitingForPlayers()
     {
+        #region Ugly Code
+        var GameObject1 = new GameObject("Spawner1");
+        var Collider1 = GameObject1.AddComponent<SphereCollider>();
+        Collider1.isTrigger = true;
+        Collider1.radius = 3;
+        GameObject1.AddComponent<ScpSpawner>();
+        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(-7.935f, 0, -13.74f);
+        
+        var GameObject2 = new GameObject("Spawner2");
+        var Collider2 = GameObject2.AddComponent<SphereCollider>();
+        Collider2.isTrigger = true;
+        Collider2.radius = 3;
+        GameObject2.AddComponent<ClassDSpawner>();
+        GameObject2.transform.position = EventHandlers.SpawnPoint + new Vector3(13.74382f, 0, -7.935f);
+        
+        var GameObject3 = new GameObject("Spawner3");
+        var Collider3 = GameObject3.AddComponent<SphereCollider>();
+        Collider3.isTrigger = true;
+        Collider3.radius = 3;
+        GameObject3.AddComponent<ScientistSpawner>();
+        GameObject3.transform.position = EventHandlers.SpawnPoint + new Vector3(-13.74382f, 0, -7.935f);
+        
+        var GameObject4 = new GameObject("Spawner4");
+        var Collider4 = GameObject4.AddComponent<SphereCollider>();
+        Collider4.isTrigger = true;
+        Collider4.radius = 3;
+        GameObject4.AddComponent<GuardSpawner>();
+        GameObject4.transform.position = EventHandlers.SpawnPoint + new Vector3(7.934999f, 0, -13.74382f);
+
+        #endregion
+
         GameObject.Find("StartRound").transform.localScale = Vector3.zero;
         ObjectSpawner.SpawnSchematic("CustomSpawnerLobby", SpawnPoint, Quaternion.identity);
 
@@ -340,6 +371,7 @@ public class EventHandlers : Plugin<Config>
         LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
     }
+    
     public void VerifiedPlayer(VerifiedEventArgs ev)
     {
 

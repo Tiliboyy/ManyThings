@@ -36,7 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>10</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
@@ -45,7 +45,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>10</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
@@ -146,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Speed.cs" />
+    <Compile Include="CustomItems\SCP420J.cs" />
+    <Compile Include="Lobby\LobbySpawner.cs" />
     <Compile Include="Lobby\LobbyMethods.cs" />
     <Compile Include="ManyTweaks.cs" />
     <Compile Include="Config.cs" />

@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using Exiled.API.Enums;
 using Exiled.API.Interfaces;
+using Scp914;
 
 public class Config : IConfig
 {
@@ -20,6 +23,9 @@ public class Config : IConfig
     [Description("Enables Localchat")]
     public bool GlobalVoiceChat { get; set; } = false;
     [Description("Lobby Stuff")]
+
+
+    
     public bool DisplayWaitMessage { get; set; } = true;
 
     public bool UseHints { get; set; } = true;
@@ -42,5 +48,13 @@ public class Config : IConfig
     public string OnePlayerConnected { get; set; } = "player has connected";
 
     public string XPlayersConnected { get; set; } = "players have connected";
+
+
+    [Description("Diese Nachrichten werden angezeigt, wenn der Spieler auf den Spawn Pads steht")]
+    public string Scpmessage { get; set; } = "Du hast <color=#ff0509>SCP</color> gewählt!";
+    public string Classdmessge { get; set; } = "Du hast <color=#ff7d05>Klasse-D</color> gewählt!";
+    public string Guardmessage { get; set; } = "Du hast <color=#898889>Sicherheitspersonal</color> gewählt!";
+    public string ScientistMessage { get; set; } = "Du hast <color=#ffee00>Wissenschaftler</color> gewählt!";
+
 }
 
