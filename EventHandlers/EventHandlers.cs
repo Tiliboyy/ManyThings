@@ -120,7 +120,7 @@ public class EventHandlers : Plugin<Config>
         foreach (var player in Player.List)
         {
 
-            if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(8.4f, 0, 5.0f)) <= 3.4)
+            if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ScpSpawner) <= 3.4)
             {
                 SCPPlayers.Add(player);
                 Log.Info($"SCP1: {player}");
