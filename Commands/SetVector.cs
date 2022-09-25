@@ -6,7 +6,7 @@ using Player = Exiled.API.Features.Player;
 
 namespace TutorialPlugin.Commands
 {
-    [CommandHandler(typeof(ClientCommandHandler))]
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SetVector : ICommand
     {
         public string Command { get; } = "SetVector";

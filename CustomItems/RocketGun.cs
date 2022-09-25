@@ -22,7 +22,7 @@
         public override string Name { get; set; } = "Rocket Gun";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "Is Funní";
+        public override string Description { get; set; } = "Is Funni";
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 0f;
@@ -57,11 +57,15 @@
         public float DamageMultiplier { get; set; } = 0f;
 
         /// <inheritdoc/>
-        protected override void OnHurting(HurtingEventArgs ev)
+        /// 
+
+        protected override void OnShot(ShotEventArgs ev)
         {
             Player player = ev.Target;
-            if (ev.Attacker != ev.Target && ev.Handler.Base is FirearmDamageHandler firearmDamageHandler && firearmDamageHandler.WeaponType == ev.Attacker.CurrentItem.Type)
-                Timing.RunCoroutine(EventHandlers.DoRocket(player, 1));
+            Timing.RunCoroutine(EventHandlers.DoRocket(player, 1));
+        }
+        protected override void OnHurting(HurtingEventArgs ev)
+        {
 
         }
     }

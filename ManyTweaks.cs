@@ -40,6 +40,7 @@ public class ManyTweaks : Plugin<Config>
 
     public override void OnDisabled()
     {
+        new Harmony("ManyTweaks.patches").UnpatchAll();
         ManyTweaks.Singleton = null;
 
         this.EventHandler = null;

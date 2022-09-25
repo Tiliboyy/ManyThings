@@ -16,17 +16,17 @@ namespace CustomItems.Items
     using Player = Exiled.Events.Handlers.Player;
 
     /// <inheritdoc />
-    [CustomItem(ItemType.Adrenaline)]
-    public class FOURTWEANTY : CustomItem
+    [CustomItem(ItemType.Painkillers)]
+    public class ZombiePille : CustomItem
     {
         /// <inheritdoc/>
-        public override uint Id { get; set; } = 420;
+        public override uint Id { get; set; } = 68;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "420J";
+        public override string Name { get; set; } = "Zombie Pille";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "Gibt dir 3 zufällige Effekte und einen Speedboost.";
+        public override string Description { get; set; } = "Macht dich ein Zombie.";
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 1f;
@@ -68,31 +68,7 @@ namespace CustomItems.Items
             {
                 return;
             }
-
-            var effect = new List<EffectType>();
-            effect.Add(EffectType.Poisoned);
-            effect.Add(EffectType.RainbowTaste);
-            effect.Add(EffectType.Visuals939);
-            effect.Add(EffectType.SinkHole);
-            effect.Add(EffectType.Invigorated);
-            effect.Add(EffectType.Concussed);
-            effect.Add(EffectType.Deafened);
-            effect.Add(EffectType.Exhausted);
-            effect.Add(EffectType.Invisible);
-
-
-            var time = UnityEngine.Random.Range(1, 10);
-            var rngeffect1 = UnityEngine.Random.Range(0, 7);
-            var rngeffect2 = UnityEngine.Random.Range(0, 7);
-            var rngeffect3 = UnityEngine.Random.Range(0, 7);
-            ev.Player.ShowHint($"Du hast {effect[rngeffect1]}, {effect[rngeffect2]} und {effect[rngeffect3]} bekommen.", 3f);
-            ev.Player.EnableEffect(effect[rngeffect1], time);
-            ev.Player.EnableEffect(effect[rngeffect2], time);
-            ev.Player.EnableEffect(effect[rngeffect3], time);
-            ev.Player.EnableEffect(EffectType.MovementBoost, time + 2);
-
-            ev.Player.ChangeEffectIntensity<MovementBoost>(75);
-            ev.Player.RemoveItem(ev.Player.CurrentItem);
+            ev.Player.SetRole(RoleType.Scp0492,SpawnReason.ForceClass, true);
         }
     }
 }

@@ -6,14 +6,14 @@ using Player = Exiled.API.Features.Player;
 
 namespace TutorialPlugin.Commands
 {
-    [CommandHandler(typeof(ClientCommandHandler))]
-    internal class Speed : ICommand
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    internal class Speeddesynced : ICommand
     {
-        public string Command { get; } = "Speed";
+        public string Command { get; } = "SpeedDeSynced";
 
         public string[] Aliases { get; } = new string[0];
 
-        public string Description { get; } = "Makes you Speed";
+        public string Description { get; } = "Makes you very fast but can Desync you";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {

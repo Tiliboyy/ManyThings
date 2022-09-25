@@ -8,6 +8,7 @@ using LobbySpawner;
 using ManyTweaksLobby;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
+using MapEditorReborn.Commands.UtilityCommands;
 using MEC;
 using Respawning;
 using Respawning.NamingRules;
@@ -74,7 +75,6 @@ public class EventHandlers : Plugin<Config>
 
         if (lobby != null)
         {
-            Log.Info("Yay, lobby spawned!");
             lobby.Destroy();
         }
 
@@ -120,22 +120,22 @@ public class EventHandlers : Plugin<Config>
         foreach (var player in Player.List)
         {
 
-            if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(7.935f, 0, 13.74f)) <= 3)
+            if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(8.4f, 0, 5.0f)) <= 3.4)
             {
                 SCPPlayers.Add(player);
                 Log.Info($"SCP1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(13.74382f, 0, -7.935f)) <= 3)
+            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-8.4f, 0, 5.1f)) <= 3.4)
             {
                 ClassDPlayers.Add(player);
                 Log.Info($"ClassD1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-13.74382f, 0, -7.935f)) <= 3)
+            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-5.1f, 0, 15.0f)) <= 3.4)
             {
                 ScientistPlayers.Add(player);
                 Log.Info($"Scientist1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(7.934999f, 0, -13.74382f)) <= 3)
+            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(5.0f, 0, 14.9f)) <= 3.4)
             {
                 GuardPlayers.Add(player);
                 Log.Info($"Guard1: {player}");
@@ -348,36 +348,36 @@ public class EventHandlers : Plugin<Config>
             };
             RespawnManager.Singleton.NamingManager.AllUnitNames.Add(mtfUnit);
         }
-        lobby = ObjectSpawner.SpawnSchematic("CustomSpawnerLobby", SpawnPoint, Quaternion.identity);
+        lobby = ObjectSpawner.SpawnSchematic("Lobby", SpawnPoint, Quaternion.identity);
 
         #region Ugly Code
         var GameObject1 = new GameObject("Spawner1");
         var Collider1 = GameObject1.AddComponent<SphereCollider>();
         Collider1.isTrigger = true;
-        Collider1.radius = 3;
+        Collider1.radius = 3.4f;
         GameObject1.AddComponent<ScpSpawner>();
-        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(7.935f, 0, 13.74f);
+        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(8.4f, 0, 5.0f);
 
         var GameObject2 = new GameObject("Spawner2");
         var Collider2 = GameObject2.AddComponent<SphereCollider>();
         Collider2.isTrigger = true;
-        Collider2.radius = 3;
+        Collider2.radius = 3.4f;
         GameObject2.AddComponent<ClassDSpawner>();
-        GameObject2.transform.position = EventHandlers.SpawnPoint + new Vector3(13.74382f, 0, -7.935f);
+        GameObject2.transform.position = EventHandlers.SpawnPoint + new Vector3(-8.4f, 0, 5.1f);
 
         var GameObject3 = new GameObject("Spawner3");
         var Collider3 = GameObject3.AddComponent<SphereCollider>();
         Collider3.isTrigger = true;
-        Collider3.radius = 3;
+        Collider3.radius = 3.4f;
         GameObject3.AddComponent<ScientistSpawner>();
-        GameObject3.transform.position = EventHandlers.SpawnPoint + new Vector3(-13.74382f, 0, -7.935f);
+        GameObject3.transform.position = EventHandlers.SpawnPoint + new Vector3(-5.1f, 0, 15.0f);
 
         var GameObject4 = new GameObject("Spawner4");
         var Collider4 = GameObject4.AddComponent<SphereCollider>();
         Collider4.isTrigger = true;
-        Collider4.radius = 3;
+        Collider4.radius = 3.4f;
         GameObject4.AddComponent<GuardSpawner>();
-        GameObject4.transform.position = EventHandlers.SpawnPoint + new Vector3(7.934999f, 0, -13.74382f);
+        GameObject4.transform.position = EventHandlers.SpawnPoint + new Vector3(5.0f, 0, 14.9f);
 
 
         #endregion
@@ -388,7 +388,6 @@ public class EventHandlers : Plugin<Config>
             Timing.KillCoroutines(LobbyTimer);
         }
         LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
-
     }
 
     public void VerifiedPlayer(VerifiedEventArgs ev)
@@ -405,9 +404,9 @@ public class EventHandlers : Plugin<Config>
             {
                 if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
                                         GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
-                ev.Player.IsOverwatchEnabled = false;
-                ev.Player.Role.Type = RoleType.Tutorial;
-                Scp096.TurnedPlayers.Add(ev.Player);
+                ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
+                Player player = ev.Player;
+                player.ClearInventory();
             });
 
             Timing.CallDelayed(1.5f, () =>
@@ -430,16 +429,16 @@ public class EventHandlers : Plugin<Config>
     }
     public void OnDied(DiedEventArgs ev)
     {
-        if (!Round.IsStarted)
+        Timing.CallDelayed(2f, () =>
         {
-            Timing.CallDelayed(2f, () =>
+            if (!Round.IsStarted)
             {
                 Player player = ev.Target;
                 ev.Target.SetRole(RoleType.Tutorial);
                 ev.Target.Position = SpawnPoint + Vector3.up;
-                ev.Target.AddItem(ItemType.Coin);
-            });
-        }
+            }
+        }); 
+
 
     }
 }

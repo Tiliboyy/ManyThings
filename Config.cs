@@ -1,4 +1,5 @@
 using Exiled.API.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 public class Config : IConfig
@@ -45,6 +46,12 @@ public class Config : IConfig
 
     public string XPlayersConnected { get; set; } = "Spieler sind verbunden";
 
+    public List<RoleType> RolesToChoose { get; private set; } = new List<RoleType>()
+        {
+            RoleType.Tutorial,
+            RoleType.ChaosMarauder,
+            RoleType.NtfCaptain,
+        };
 
     [Description("Diese Nachrichten werden angezeigt, wenn der Spieler auf den Spawn Pads steht")]
     public string Scpmessage { get; set; } = "Du hast <color=#ff0509>SCP</color> gewählt!";
