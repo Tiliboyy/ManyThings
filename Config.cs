@@ -1,6 +1,15 @@
+using Exiled.API.Features;
 using Exiled.API.Interfaces;
+using Exiled.Events.Commands.Reload;
+using Exiled.Loader;
+using SerializedVector3;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using UnityEngine;
+
+
+
 
 public class Config : IConfig
 {
@@ -10,6 +19,10 @@ public class Config : IConfig
 
     [Description("Enables Debug mode")]
     public bool IsDebug { get; set; } = false;
+
+    public string ConfigFolder { get; set; } = Path.Combine(Paths.Configs, "CustomItems");
+
+    public string ConfigFile { get; set; } = "global.yml";
 
     [Description("Disables 207 Damage")]
     public bool No207Dmg { get; set; } = false;
@@ -59,5 +72,13 @@ public class Config : IConfig
     public string Guardmessage { get; set; } = "Du hast <color=#898889>Sicherheitspersonal</color> gewählt!";
     public string ScientistMessage { get; set; } = "Du hast <color=#ffee00>Wissenschaftler</color> gewählt!";
 
+    public SerializedVector3.SerializedVector3 ClassDSpawner { get; set; } = new Vector3(8.4f, 0, 5.0f);
+
+    public SerializedVector3.SerializedVector3 GuardSpawner { get; set; } = new Vector3(-8.4f, 0, 5.1f);
+
+    public SerializedVector3.SerializedVector3 ScientistSpawner { get; set; } = new Vector3(-5.1f, 0, 15.0f);
+
+    public SerializedVector3.SerializedVector3 ScpSpawner { get; set; } = new Vector3(5.0f, 0, 14.9f);
 }
+
 

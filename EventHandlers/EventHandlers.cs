@@ -45,7 +45,7 @@ public class EventHandlers : Plugin<Config>
 
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
-        const int maxAmnt = 25;
+        const int maxAmnt = 100;
         int amnt = 0;
         while (player.Role != RoleType.Spectator)
         {
@@ -55,9 +55,9 @@ public class EventHandlers : Plugin<Config>
             {
                 player.IsGodModeEnabled = false;
                 ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
-                grenade.FuseTime = 0.5f;
+                grenade.FuseTime = 10f;
                 grenade.SpawnActive(player.Position, player);
-                player.Kill("Went on a trip in their favorite rocket ship.");
+                player.Kill("Death.");
             }
 
             yield return Timing.WaitForOneFrame;
@@ -125,17 +125,17 @@ public class EventHandlers : Plugin<Config>
                 SCPPlayers.Add(player);
                 Log.Info($"SCP1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-8.4f, 0, 5.1f)) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ClassDSpawner) <= 3.4)
             {
                 ClassDPlayers.Add(player);
                 Log.Info($"ClassD1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-5.1f, 0, 15.0f)) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ScientistSpawner) <= 3.4)
             {
                 ScientistPlayers.Add(player);
                 Log.Info($"Scientist1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(5.0f, 0, 14.9f)) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.GuardSpawner) <= 3.4)
             {
                 GuardPlayers.Add(player);
                 Log.Info($"Guard1: {player}");
@@ -356,28 +356,28 @@ public class EventHandlers : Plugin<Config>
         Collider1.isTrigger = true;
         Collider1.radius = 3.4f;
         GameObject1.AddComponent<ScpSpawner>();
-        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(8.4f, 0, 5.0f);
+        GameObject1.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ScpSpawner;
 
         var GameObject2 = new GameObject("Spawner2");
         var Collider2 = GameObject2.AddComponent<SphereCollider>();
         Collider2.isTrigger = true;
         Collider2.radius = 3.4f;
         GameObject2.AddComponent<ClassDSpawner>();
-        GameObject2.transform.position = EventHandlers.SpawnPoint + new Vector3(-8.4f, 0, 5.1f);
+        GameObject2.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ClassDSpawner;
 
         var GameObject3 = new GameObject("Spawner3");
         var Collider3 = GameObject3.AddComponent<SphereCollider>();
         Collider3.isTrigger = true;
         Collider3.radius = 3.4f;
         GameObject3.AddComponent<ScientistSpawner>();
-        GameObject3.transform.position = EventHandlers.SpawnPoint + new Vector3(-5.1f, 0, 15.0f);
+        GameObject3.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ScientistSpawner;
 
         var GameObject4 = new GameObject("Spawner4");
         var Collider4 = GameObject4.AddComponent<SphereCollider>();
         Collider4.isTrigger = true;
         Collider4.radius = 3.4f;
         GameObject4.AddComponent<GuardSpawner>();
-        GameObject4.transform.position = EventHandlers.SpawnPoint + new Vector3(5.0f, 0, 14.9f);
+        GameObject4.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.GuardSpawner;
 
 
         #endregion
@@ -420,7 +420,6 @@ public class EventHandlers : Plugin<Config>
     }
     public void OnSpawned(SpawnedEventArgs ev)
     {
-
         if (!Round.IsStarted)
         {
             ev.Player.Position = SpawnPoint + Vector3.up;
