@@ -1,12 +1,6 @@
-﻿using MapGeneration.Distributors;
-using System;
+﻿using Exiled.API.Features;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using Exiled.API.Features;
-using System.Threading;
 
 namespace LobbySpawner
 {
@@ -16,15 +10,15 @@ namespace LobbySpawner
         public void OnTriggerStay(Collider other)
         {
             if (!timeGameObject.ContainsKey(other.gameObject)) timeGameObject[other.gameObject] = -1;
-         
+
             if (Time.time > timeGameObject[other.gameObject])
             {
                 timeGameObject[other.gameObject] = Time.time + 1;
                 var player = Player.Get(other.gameObject);
                 if (player == null) return;
-
                 player = Player.Get(other.gameObject);
-                player.Broadcast((ushort)1, ManyTweaks.Singleton.Config.Classdmessge);
+                player.ClearBroadcasts();
+                player.Broadcast(1, ManyTweaks.Singleton.Config.Classdmessge);
             }
         }
     }
@@ -40,9 +34,9 @@ namespace LobbySpawner
                 timeGameObject[other.gameObject] = Time.time + 1;
                 var player = Player.Get(other.gameObject);
                 if (player == null) return;
-
                 player = Player.Get(other.gameObject);
-                player.Broadcast((ushort)1, ManyTweaks.Singleton.Config.Scpmessage);
+                player.ClearBroadcasts();
+                player.Broadcast(1, ManyTweaks.Singleton.Config.Scpmessage);
             }
         }
     }
@@ -58,9 +52,9 @@ namespace LobbySpawner
                 timeGameObject[other.gameObject] = Time.time + 1;
                 var player = Player.Get(other.gameObject);
                 if (player == null) return;
-
                 player = Player.Get(other.gameObject);
-                player.Broadcast((ushort)1, ManyTweaks.Singleton.Config.Guardmessage);
+                player.ClearBroadcasts();
+                player.Broadcast(1, ManyTweaks.Singleton.Config.Guardmessage);
             }
         }
     }
@@ -70,15 +64,14 @@ namespace LobbySpawner
         public void OnTriggerStay(Collider other)
         {
             if (!timeGameObject.ContainsKey(other.gameObject)) timeGameObject[other.gameObject] = -1;
-
             if (Time.time > timeGameObject[other.gameObject])
             {
                 timeGameObject[other.gameObject] = Time.time + 1;
                 var player = Player.Get(other.gameObject);
                 if (player == null) return;
-
                 player = Player.Get(other.gameObject);
-                player.Broadcast((ushort)1, ManyTweaks.Singleton.Config.ScientistMessage);
+                player.ClearBroadcasts();
+                player.Broadcast(1, ManyTweaks.Singleton.Config.ScientistMessage);
             }
         }
     }

@@ -1,11 +1,7 @@
-﻿using System;
-using CommandSystem;
-using CustomPlayerEffects;
-using Exiled.API.Enums;
+﻿using CommandSystem;
 using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.Events.Handlers;
 using Exiled.Permissions.Extensions;
+using System;
 using Player = Exiled.API.Features.Player;
 
 namespace TutorialPlugin.Commands
@@ -34,7 +30,7 @@ namespace TutorialPlugin.Commands
                 {
                     float.TryParse(arguments.Array[1], out speednum);
                 }
-                
+
 
                 if (speednum == 0)
                 {
@@ -46,16 +42,16 @@ namespace TutorialPlugin.Commands
 
                 }
                 else
-                    {
+                {
                     player.ChangeWalkingSpeed(speednum, false);
 
                     player.ChangeRunningSpeed(speednum, false);
-                        response = "Added Speed!";
-                    }
+                    response = "Added Speed!";
+                }
             }
             else
             {
-                response = "You dont have the Perms for that command!";
+                response = "You do not have the required Permissions for that!";
             }
             return true;
 

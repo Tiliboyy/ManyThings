@@ -1,13 +1,5 @@
 ﻿using GameCore;
 using HarmonyLib;
-using MapEditorReborn.API;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Exiled.API.Features;
-using Log = Exiled.API.Features.Log;
 
 namespace ManyTweaksPatches
 {

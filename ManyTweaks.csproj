@@ -145,6 +145,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetVector.cs" />
+    <Compile Include="Commands\SetVector.cs" />
     <Compile Include="Commands\Speed.cs" />
     <Compile Include="CustomItems\SCP420J.cs" />
     <Compile Include="Lobby\LobbySpawner.cs" />

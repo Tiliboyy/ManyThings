@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Exiled.API.Enums;
 using Exiled.API.Interfaces;
-using Scp914;
+using System.ComponentModel;
 
 public class Config : IConfig
 {
@@ -19,13 +15,13 @@ public class Config : IConfig
 
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
-    
+
     [Description("Enables Localchat")]
     public bool GlobalVoiceChat { get; set; } = false;
     [Description("Lobby Stuff")]
 
 
-    
+
     public bool DisplayWaitMessage { get; set; } = true;
 
     public bool UseHints { get; set; } = true;
@@ -33,21 +29,21 @@ public class Config : IConfig
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int HintVertPos { get; set; } = 25;
 
-    public string TopMessage { get; set; } = "<size=40><color=yellow><b>The game will be starting soon, {seconds}</b></color></size>";
+    public string TopMessage { get; set; } = "<size=40><color=yellow><b>Die Runde startet bald, {seconds}</b></color></size>";
 
     public string BottomMessage { get; set; } = "<size=30><i>{players}</i></size>";
 
-    public string ServerIsPaused { get; set; } = "Server is paused";
+    public string ServerIsPaused { get; set; } = "Server ist Pausiert";
 
-    public string RoundIsBeingStarted { get; set; } = "Round is being started";
+    public string RoundIsBeingStarted { get; set; } = "Die Runde startet";
 
-    public string OneSecondRemain { get; set; } = "second remain";
+    public string OneSecondRemain { get; set; } = "Sekunde";
 
-    public string XSecondsRemains { get; set; } = "seconds remains";
+    public string XSecondsRemains { get; set; } = "Sekunden";
 
-    public string OnePlayerConnected { get; set; } = "player has connected";
+    public string OnePlayerConnected { get; set; } = "Spieler ist verbunden";
 
-    public string XPlayersConnected { get; set; } = "players have connected";
+    public string XPlayersConnected { get; set; } = "Spieler sind verbunden";
 
 
     [Description("Diese Nachrichten werden angezeigt, wenn der Spieler auf den Spawn Pads steht")]

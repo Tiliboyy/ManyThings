@@ -1,25 +1,27 @@
-using Exiled.API.Features;
 using Exiled.API.Enums;
-using Exiled.Events.EventArgs;
-using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using MEC;
-using Exiled.API.Features.Items;
-using MapEditorReborn.API.Features;
-using MapEditorReborn.API.Features.Objects;
-using Log = Exiled.API.Features.Log;
-using ManyTweaksLobby;
 using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs;
 using GameCore;
 using LobbySpawner;
+using ManyTweaksLobby;
+using MapEditorReborn.API.Features;
+using MapEditorReborn.API.Features.Objects;
+using MEC;
+using Respawning;
+using Respawning.NamingRules;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Log = Exiled.API.Features.Log;
+
 public class EventHandlers : Plugin<Config>
 {
-
     public static CoroutineHandle LobbyTimer;
 
     public SchematicObject lobby;
-    
+
     public static System.Random random = new System.Random();
 
     public static List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
@@ -69,8 +71,13 @@ public class EventHandlers : Plugin<Config>
     }
     public void OnRoundStart()
     {
+
         if (lobby != null)
+        {
+            Log.Info("Yay, lobby spawned!");
             lobby.Destroy();
+        }
+
 
         List<Player> BulkList = Player.List.ToList();
         List<Player> SCPPlayers = new List<Player> { };
@@ -113,7 +120,7 @@ public class EventHandlers : Plugin<Config>
         foreach (var player in Player.List)
         {
 
-            if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(-7.935f, 0, -13.74f)) <= 3)
+            if (Vector3.Distance(player.Position, SpawnPoint + new Vector3(7.935f, 0, 13.74f)) <= 3)
             {
                 SCPPlayers.Add(player);
                 Log.Info($"SCP1: {player}");
@@ -330,28 +337,41 @@ public class EventHandlers : Plugin<Config>
     }
     public void WaitingForPlayers()
     {
+
+        List<string> lines = new List<string> { "<color=orange>Funni Text</color>" };
+        foreach (var line in lines)
+        {
+            SyncUnit mtfUnit = new SyncUnit
+            {
+                SpawnableTeam = (byte)SpawnableTeamType.NineTailedFox,
+                UnitName = line
+            };
+            RespawnManager.Singleton.NamingManager.AllUnitNames.Add(mtfUnit);
+        }
+        lobby = ObjectSpawner.SpawnSchematic("CustomSpawnerLobby", SpawnPoint, Quaternion.identity);
+
         #region Ugly Code
         var GameObject1 = new GameObject("Spawner1");
         var Collider1 = GameObject1.AddComponent<SphereCollider>();
         Collider1.isTrigger = true;
         Collider1.radius = 3;
         GameObject1.AddComponent<ScpSpawner>();
-        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(-7.935f, 0, -13.74f);
-        
+        GameObject1.transform.position = EventHandlers.SpawnPoint + new Vector3(7.935f, 0, 13.74f);
+
         var GameObject2 = new GameObject("Spawner2");
         var Collider2 = GameObject2.AddComponent<SphereCollider>();
         Collider2.isTrigger = true;
         Collider2.radius = 3;
         GameObject2.AddComponent<ClassDSpawner>();
         GameObject2.transform.position = EventHandlers.SpawnPoint + new Vector3(13.74382f, 0, -7.935f);
-        
+
         var GameObject3 = new GameObject("Spawner3");
         var Collider3 = GameObject3.AddComponent<SphereCollider>();
         Collider3.isTrigger = true;
         Collider3.radius = 3;
         GameObject3.AddComponent<ScientistSpawner>();
         GameObject3.transform.position = EventHandlers.SpawnPoint + new Vector3(-13.74382f, 0, -7.935f);
-        
+
         var GameObject4 = new GameObject("Spawner4");
         var Collider4 = GameObject4.AddComponent<SphereCollider>();
         Collider4.isTrigger = true;
@@ -359,11 +379,10 @@ public class EventHandlers : Plugin<Config>
         GameObject4.AddComponent<GuardSpawner>();
         GameObject4.transform.position = EventHandlers.SpawnPoint + new Vector3(7.934999f, 0, -13.74382f);
 
+
         #endregion
 
         GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-        ObjectSpawner.SpawnSchematic("CustomSpawnerLobby", SpawnPoint, Quaternion.identity);
-
         if (LobbyTimer.IsRunning)
         {
             Timing.KillCoroutines(LobbyTimer);
@@ -371,7 +390,7 @@ public class EventHandlers : Plugin<Config>
         LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
     }
-    
+
     public void VerifiedPlayer(VerifiedEventArgs ev)
     {
 
@@ -395,11 +414,33 @@ public class EventHandlers : Plugin<Config>
             {
                 if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
                                         GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
-                ev.Player.Position = SpawnPoint + Vector3.up;
-                ev.Player.AddItem(ItemType.Coin);
             });
 
 
         }
     }
+    public void OnSpawned(SpawnedEventArgs ev)
+    {
+
+        if (!Round.IsStarted)
+        {
+            ev.Player.Position = SpawnPoint + Vector3.up;
+            ev.Player.AddItem(ItemType.Coin);
+        }
+    }
+    public void OnDied(DiedEventArgs ev)
+    {
+        if (!Round.IsStarted)
+        {
+            Timing.CallDelayed(2f, () =>
+            {
+                Player player = ev.Target;
+                ev.Target.SetRole(RoleType.Tutorial);
+                ev.Target.Position = SpawnPoint + Vector3.up;
+                ev.Target.AddItem(ItemType.Coin);
+            });
+        }
+
+    }
 }
+

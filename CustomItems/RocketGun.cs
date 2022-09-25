@@ -1,17 +1,14 @@
 ﻿namespace CustomItems.Items
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using Exiled.API.Features;
     using Exiled.API.Features.Attributes;
-    using Exiled.API.Features.Items;
     using Exiled.API.Features.Spawn;
-    using Exiled.CustomItems.API;
     using Exiled.CustomItems.API.Features;
     using Exiled.Events.EventArgs;
     using InventorySystem.Items.Firearms.Attachments;
     using MEC;
     using PlayerStatsSystem;
+    using System.ComponentModel;
     using YamlDotNet.Serialization;
 
     /// <inheritdoc />
@@ -53,10 +50,10 @@
             AttachmentName.ExtendedBarrel,
             AttachmentName.ScopeSight,
         };
-    /// <summary>
-    /// Gets or sets the amount of extra damage this weapon does, as a multiplier.
-    /// </summary>
-    [Description("The amount of extra damage this weapon does, as a multiplier.")]
+        /// <summary>
+        /// Gets or sets the amount of extra damage this weapon does, as a multiplier.
+        /// </summary>
+        [Description("The amount of extra damage this weapon does, as a multiplier.")]
         public float DamageMultiplier { get; set; } = 0f;
 
         /// <inheritdoc/>

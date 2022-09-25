@@ -3,11 +3,7 @@ using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
 using InventorySystem.Items.Firearms.Ammo;
 using MEC;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace UnityMethods

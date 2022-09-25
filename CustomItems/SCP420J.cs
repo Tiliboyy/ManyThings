@@ -2,24 +2,13 @@
 
 namespace CustomItems.Items
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using CustomPlayerEffects;
-    using Exiled.API.Enums;
-    using Exiled.API.Features;
     using Exiled.API.Features.Attributes;
     using Exiled.API.Features.Spawn;
-    using Exiled.CustomItems.API;
     using Exiled.CustomItems.API.Features;
     using Exiled.Events.EventArgs;
-    using MEC;
-    using PlayableScps;
-    using PlayerStatsSystem;
-    using UnityEngine;
+    using System.Collections.Generic;
+    using System.ComponentModel;
     using Player = Exiled.Events.Handlers.Player;
-    using Scp096 = PlayableScps.Scp096;
-    using Exiled.Events;
 
     /// <inheritdoc />
     [CustomItem(ItemType.Adrenaline)]
@@ -70,7 +59,7 @@ namespace CustomItems.Items
 
         private void OnUsingItem(UsedItemEventArgs ev)
         {
-            if (!Check(ev.Player.CurrentItem)) 
+            if (!Check(ev.Player.CurrentItem))
             {
                 return;
             }
