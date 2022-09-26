@@ -1,4 +1,5 @@
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using Exiled.CustomItems.API.Features;
 using HarmonyLib;
 using System;
@@ -34,6 +35,8 @@ public class ManyTweaks : Plugin<Config>
         Player.Died += EventHandler.OnDied;
 
         Player.Spawned += EventHandler.OnSpawned;
+        
+        
 
         CustomItem.RegisterItems();
     }
