@@ -44,7 +44,6 @@ public class Plugin : Plugin<Config, Translation>
 
             Player.ThrowingItem += EventHandler.OnThrow;
 
-            Player.DroppingAmmo += EventHandler.OnDroppingAmmo;
             //CustomItem.RegisterItems();
 
             Log.Info($"ManyTweaks v{Version} by Tiliboyy has been loaded!");
@@ -74,8 +73,6 @@ public class Plugin : Plugin<Config, Translation>
         Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
 
         Player.DroppingAmmo -= this.EventHandler.OnDroppingAmmo;
-
-        Player.DroppingAmmo -= EventHandler.OnDroppingAmmo;
 
         Player.Died -= EventHandler.OnDied;
 

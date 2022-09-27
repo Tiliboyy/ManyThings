@@ -473,17 +473,7 @@ public class EventHandlers : Plugin<Config>
         }
 
     }
-    public void OnAmmoDrop(DroppingAmmoEventArgs ev)
-    {
-        if (Plugin.Instance.Config.AllowDroppingItem == false)
-        {
-            if (!Round.IsStarted)
-            {
-                ev.IsAllowed = false;
-            }
-        }
 
-    }
 
 }
 
