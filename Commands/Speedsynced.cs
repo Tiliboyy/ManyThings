@@ -1,12 +1,11 @@
 ﻿using CommandSystem;
 using CustomPlayerEffects;
-using Exiled.API.Extensions;
 using Exiled.Permissions.Extensions;
-using FMOD;
+using MEC;
 using System;
 using Player = Exiled.API.Features.Player;
 
-namespace TutorialPlugin.Commands
+namespace ManyTweaks.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SpeedSynced : ICommand
@@ -20,36 +19,66 @@ namespace TutorialPlugin.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            float speednum;
-            float playerid;
+            float speednumself;
+            float speednumother;
+
+            float.TryParse(arguments.Array[1], out speednumself);
+            float.TryParse(arguments.Array[2], out speednumother);
+
 
             if (sender.CheckPermission("ManyTweaks.Speed"))
             {
-                if (arguments.Count < 1)
+                if (arguments.Count != 1)
                 {
-                    response = $"<color=yellow>Usage: {Command} <Speed> </color>";
+                    if (arguments.Count != 2)
+                    {
+                        response = $"<color=yellow>Usage: {Command} <Speed> </color>";
+                        return false;
+                    }
+                }
+
+                if (arguments.Count == 1)
+                {
+                    if (speednumself == 0)
+                    {
+                        player.DisableEffect<MovementBoost>();
+                        response = "Resettet Speed!";
+                        return true;
+
+                    }
+                    else
+                    {
+                        player.EnableEffect<MovementBoost>(speednumself);
+                        response = "Added Speed!";
+                        return true;
+                    }
+
+                }
+                else
+                if (arguments.Count != 2)
+                {
+                    response = $"<color=yellow>Usage: {Command} <PlayerID> <Speed> </color>";
+                    return false;
+
+                }
+                Player pl = Player.Get(arguments.At(0));
+                if (pl == null)
+                {
+                    response = $"Player not found: {arguments.At(0)}";
+                    return false;
+                }
+                else if (pl.Role == RoleType.Spectator || pl.Role == RoleType.None)
+                {
+                    response = $"Player {pl.Nickname} is not a valid class to set speed";
                     return false;
                 }
                 else
-
                 {
-                    float.TryParse(arguments.Array[1], out speednum);
-                    float.TryParse(arguments.Array[2], out playerid);
-                }
-
-
-                if (speednum == 0)
-                {
-                    player.DisableEffect<MovementBoost>();
-                    response = "Resettet Speed!";
+                    pl.EnableEffect(Exiled.API.Enums.EffectType.MovementBoost);
+                    pl.ChangeEffectIntensity<MovementBoost>((byte)speednumother);
+                    response = "Set speed of" + pl.Nickname + " to " + speednumother + "!";
                     return true;
 
-                }
-                else
-                {
-                    player.EnableEffect(Exiled.API.Enums.EffectType.MovementBoost);
-                    player.ChangeEffectIntensity<MovementBoost>((byte)speednum);
-                    response = "Added Speed!";
                 }
             }
             else

@@ -1,13 +1,14 @@
 ﻿using CommandSystem;
+using CustomPlayerEffects;
 using Exiled.API.Extensions;
 using Exiled.Permissions.Extensions;
 using System;
 using Player = Exiled.API.Features.Player;
 
-namespace TutorialPlugin.Commands
+namespace ManyTweaks.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    internal class Speeddesynced : ICommand
+    internal class SpeedDeSynced : ICommand
     {
         public string Command { get; } = "SpeedDeSynced";
 
@@ -17,36 +18,77 @@ namespace TutorialPlugin.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+
+
             Player player = Player.Get(sender);
-            float speednum;
+            float speednumself;
+            float speednumother;
+
+            float.TryParse(arguments.Array[1], out speednumself);
+            float.TryParse(arguments.Array[2], out speednumother);
+
+
             if (sender.CheckPermission("ManyTweaks.Speed"))
             {
-                if (arguments.Count < 1)
+                if (arguments.Count != 1)
                 {
-                    response = $"<color=yellow>Usage: {Command} <Speed> </color>";
+                    if (arguments.Count != 2)
+                    {
+                        response = $"<color=yellow>Usage: {Command} <Speed> </color>";
+                        return false;
+                    }
+                }
+
+                if (arguments.Count == 1)
+                {
+                    if (speednumself == 0)
+                    {
+                        player.ChangeWalkingSpeed(1.05f, false);
+                        player.ChangeRunningSpeed(1.25f, false);
+
+                    }
+                    else
+                    {
+                        player.ChangeWalkingSpeed(speednumself, false);
+                        player.ChangeRunningSpeed(speednumself, false);
+                        response = "Added Speed!";
+                        return true;
+                    }
+
+                }
+                else
+                if (arguments.Count != 2)
+                {
+                    response = $"<color=yellow>Usage: {Command} <PlayerID> <Speed> </color>";
+                    return false;
+
+                }
+                Player pl = Player.Get(arguments.At(0));
+                if (pl == null)
+                {
+                    response = $"Player not found: {arguments.At(0)}";
                     return false;
                 }
+                else if (pl.Role == RoleType.Spectator || pl.Role == RoleType.None)
+                {
+                    response = $"Player {pl.Nickname} is not a valid class to set speed";
+                    return false;
+                }
+                else if (speednumother == 0)
+                {
+                    pl.ChangeWalkingSpeed(1.05f, false);
+
+                    pl.ChangeRunningSpeed(1.25f, false);
+                    response = $"Resetted {pl.Nickname}'s speed";
+                    return true;
+                }
                 else
                 {
-                    float.TryParse(arguments.Array[1], out speednum);
-                }
-
-
-                if (speednum == 0)
-                {
-                    player.ChangeWalkingSpeed(1.05f, false);
-
-                    player.ChangeRunningSpeed(1.25f, false);
-                    response = "Resettet Speed!";
+                    pl.ChangeWalkingSpeed(speednumother, false);
+                    pl.ChangeRunningSpeed(speednumother, false);
+                    response = "Set speed of " + pl.Nickname + " to " + speednumother + "!";
                     return true;
 
-                }
-                else
-                {
-                    player.ChangeWalkingSpeed(speednum, false);
-
-                    player.ChangeRunningSpeed(speednum, false);
-                    response = "Added Speed!";
                 }
             }
             else
@@ -54,6 +96,7 @@ namespace TutorialPlugin.Commands
                 response = "You do not have the required Permissions for that!";
             }
             return true;
+
 
 
         }

@@ -1,21 +1,22 @@
-﻿
+﻿/*
+using CustomPlayerEffects;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
+using Exiled.API.Features.Spawn;
+using Exiled.CustomItems.API.Features;
+using Exiled.Events.EventArgs;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Player = Exiled.Events.Handlers.Player;
+using Random = UnityEngine.Random;
 
-namespace CustomItems.Items
+
+
+
+namespace ManyTweaks.Items
 {
-    using CustomPlayerEffects;
-    using Exiled.API.Enums;
-    using Exiled.API.Extensions;
-    using Exiled.API.Features;
-    using Exiled.API.Features.Attributes;
-    using Exiled.API.Features.Spawn;
-    using Exiled.CustomItems.API.Features;
-    using Exiled.Events.EventArgs;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using UnityEngine;
-    using Player = Exiled.Events.Handlers.Player;
-    using Random = UnityEngine.Random;
+
 
     /// <inheritdoc />
     [CustomItem(ItemType.Adrenaline)]
@@ -99,7 +100,7 @@ namespace CustomItems.Items
                 int rngsus = Random.Range(1, 10);
                 if (rngsus < 2)
                 {
-                    
+
                     ev.Player.EnableEffect(type, time);
                     Log.Info($"{ev.Player.Nickname} got {type} for {time} seconds.");
                     effects = type.ToString();
@@ -112,11 +113,12 @@ namespace CustomItems.Items
             Log.Info(effecttype);
             ev.Player.ShowHint(effecttext, 5);
             ev.Player.EnableEffect(EffectType.MovementBoost, time + 2);
-            
-            
+
+
 
             ev.Player.ChangeEffectIntensity<MovementBoost>(75);
             ev.Player.RemoveItem(ev.Player.CurrentItem);
         }
     }
 }
+*/

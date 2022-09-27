@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LobbySpawner
+namespace ManyTweaks.LobbySpawner
 {
     public class ClassDSpawner : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace LobbySpawner
                 if (player == null) return;
                 player = Player.Get(other.gameObject);
                 player.ClearBroadcasts();
-                player.Broadcast(1, ManyTweaks.Singleton.Config.Classdmessge);
+                player.Broadcast(1, Plugin.Instance.Translation.Classdmessge);
             }
         }
     }
@@ -36,7 +36,7 @@ namespace LobbySpawner
                 if (player == null) return;
                 player = Player.Get(other.gameObject);
                 player.ClearBroadcasts();
-                player.Broadcast(1, ManyTweaks.Singleton.Config.Scpmessage);
+                player.Broadcast(1, Plugin.Instance.Translation.Scpmessage);
             }
         }
     }
@@ -54,7 +54,7 @@ namespace LobbySpawner
                 if (player == null) return;
                 player = Player.Get(other.gameObject);
                 player.ClearBroadcasts();
-                player.Broadcast(1, ManyTweaks.Singleton.Config.Guardmessage);
+                player.Broadcast(1, Plugin.Instance.Translation.Guardmessage);
             }
         }
     }
@@ -71,7 +71,7 @@ namespace LobbySpawner
                 if (player == null) return;
                 player = Player.Get(other.gameObject);
                 player.ClearBroadcasts();
-                player.Broadcast(1, ManyTweaks.Singleton.Config.ScientistMessage);
+                player.Broadcast(1, Plugin.Instance.Translation.ScientistMessage);
             }
         }
     }

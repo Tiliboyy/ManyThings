@@ -3,7 +3,7 @@ using MEC;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ManyTweaksLobby
+namespace ManyTweaks
 {
     public static class LobbyMethods
     {
@@ -13,45 +13,45 @@ namespace ManyTweaksLobby
             {
                 string text = string.Empty;
 
-                if (ManyTweaks.Singleton.Config.HintVertPos != 0 && ManyTweaks.Singleton.Config.HintVertPos < 0)
+                if (Plugin.Instance.Config.HintVertPos != 0 && Plugin.Instance.Config.HintVertPos < 0)
                 {
-                    for (int i = ManyTweaks.Singleton.Config.HintVertPos; i < 0; i++)
+                    for (int i = Plugin.Instance.Config.HintVertPos; i < 0; i++)
                     {
                         text += "\n";
                     }
                 }
 
-                text += ManyTweaks.Singleton.Config.TopMessage;
+                text += Plugin.Instance.Translation.TopMessage;
 
-                text += $"\n{ManyTweaks.Singleton.Config.BottomMessage}";
+                text += $"\n{Plugin.Instance.Translation.BottomMessage}";
 
                 short networkTimer = GameCore.RoundStart.singleton.NetworkTimer;
 
                 switch (networkTimer)
                 {
-                    case -2: text = text.Replace("{seconds}", ManyTweaks.Singleton.Config.ServerIsPaused); break;
+                    case -2: text = text.Replace("{seconds}", Plugin.Instance.Translation.ServerIsPaused); break;
 
-                    case -1: text = text.Replace("{seconds}", ManyTweaks.Singleton.Config.RoundIsBeingStarted); break;
+                    case -1: text = text.Replace("{seconds}", Plugin.Instance.Translation.RoundIsBeingStarted); break;
 
-                    case 1: text = text.Replace("{seconds}", $"{networkTimer} {ManyTweaks.Singleton.Config.OneSecondRemain}"); break;
+                    case 1: text = text.Replace("{seconds}", $"{networkTimer} {Plugin.Instance.Translation.OneSecondRemain}"); break;
 
-                    case 0: text = text.Replace("{seconds}", ManyTweaks.Singleton.Config.RoundIsBeingStarted); break;
+                    case 0: text = text.Replace("{seconds}", Plugin.Instance.Translation.RoundIsBeingStarted); break;
 
-                    default: text = text.Replace("{seconds}", $"{networkTimer} {ManyTweaks.Singleton.Config.XSecondsRemains}"); break;
+                    default: text = text.Replace("{seconds}", $"{networkTimer} {Plugin.Instance.Translation.XSecondsRemains}"); break;
                 }
 
                 if (Player.List.Count() == 1)
                 {
-                    text = text.Replace("{players}", $"{Player.List.Count()} {ManyTweaks.Singleton.Config.OnePlayerConnected}");
+                    text = text.Replace("{players}", $"{Player.List.Count()} {Plugin.Instance.Translation.OnePlayerConnected}");
                 }
                 else
                 {
-                    text = text.Replace("{players}", $"{Player.List.Count()} {ManyTweaks.Singleton.Config.XPlayersConnected}");
+                    text = text.Replace("{players}", $"{Player.List.Count()} {Plugin.Instance.Translation.XPlayersConnected}");
                 }
 
-                if (ManyTweaks.Singleton.Config.HintVertPos != 0 && ManyTweaks.Singleton.Config.HintVertPos > 0)
+                if (Plugin.Instance.Config.HintVertPos != 0 && Plugin.Instance.Config.HintVertPos > 0)
                 {
-                    for (int i = 0; i < ManyTweaks.Singleton.Config.HintVertPos; i++)
+                    for (int i = 0; i < Plugin.Instance.Config.HintVertPos; i++)
                     {
                         text += "\n";
                     }
@@ -59,7 +59,7 @@ namespace ManyTweaksLobby
 
                 foreach (Player player in Player.List)
                 {
-                    if (ManyTweaks.Singleton.Config.UseHints)
+                    if (Plugin.Instance.Config.UseHints)
                     {
                         player.ShowHint(text.ToString(), 1.1f);
                     }

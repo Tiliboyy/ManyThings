@@ -7,13 +7,13 @@ using Player = Exiled.API.Features.Player;
 namespace ManyTweaks.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    internal class SetVector : ICommand
+    internal class SetRotation : ICommand
     {
-        public string Command { get; } = "SetVector";
+        public string Command { get; } = "SetRotation";
 
         public string[] Aliases { get; } = new string[0];
 
-        public string Description { get; } = "Changes your Vector from Spawnpoint used for getting Positions";
+        public string Description { get; } = "Changes your Rotation";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -21,7 +21,8 @@ namespace ManyTweaks.Commands
             float x;
             float y;
             float z;
-            if (sender.CheckPermission("ManyTweaks.Vector"))
+
+            if (sender.CheckPermission("ManyTweaks.Tools"))
             {
                 if (arguments.Count < 3)
                 {
@@ -31,13 +32,16 @@ namespace ManyTweaks.Commands
                 else
                 {
                     float.TryParse(arguments.Array[1], out x);
-                    float.TryParse(arguments.Array[2], out y);
-                    float.TryParse(arguments.Array[3], out z);
+                    float.TryParse(arguments.Array[1], out y);
+                    float.TryParse(arguments.Array[1], out z);
 
+
+
+                    
                 }
 
-                player.Position = EventHandlers.SpawnPoint + new Vector3(x, y, z);
-                response = "Teleported!";
+                player.Rotation = new Vector3(x, y, z);
+                response = "Rotated!";
 
                 return true;
 

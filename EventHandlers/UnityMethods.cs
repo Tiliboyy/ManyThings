@@ -6,7 +6,7 @@ using MEC;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityMethods
+namespace ManyTweaks.UnityMethods
 
 {
     class UnityMethods
@@ -32,7 +32,7 @@ namespace UnityMethods
                         case ItemType.Ammo9x19:
                             Ammo9.Add(pickup);
                             AmmoBoxes = true;
-                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            if (Plugin.Instance.Config.IsDebug)
                             {
                                 Log.Debug("9 mm");
                             }
@@ -40,7 +40,7 @@ namespace UnityMethods
                         case ItemType.Ammo12gauge:
                             Ammo12.Add(pickup);
                             AmmoBoxes = true;
-                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            if (Plugin.Instance.Config.IsDebug)
                             {
                                 Log.Debug("12 gauge");
                             }
@@ -48,7 +48,7 @@ namespace UnityMethods
                         case ItemType.Ammo44cal:
                             Ammo44.Add(pickup);
                             AmmoBoxes = true;
-                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            if (Plugin.Instance.Config.IsDebug)
                             {
                                 Log.Debug("44 cal");
                             }
@@ -56,7 +56,7 @@ namespace UnityMethods
                         case ItemType.Ammo556x45:
                             Ammo556.Add(pickup);
                             AmmoBoxes = true;
-                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            if (Plugin.Instance.Config.IsDebug)
                             {
                                 Log.Debug("556 ammo");
                             }
@@ -65,7 +65,7 @@ namespace UnityMethods
                         case ItemType.Ammo762x39:
                             Ammo762.Add(pickup);
                             AmmoBoxes = true;
-                            if (ManyTweaks.Singleton.Config.IsDebug)
+                            if (Plugin.Instance.Config.IsDebug)
                             {
                                 Log.Debug("762 ammo");
                             }

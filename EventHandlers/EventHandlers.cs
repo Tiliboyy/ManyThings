@@ -4,11 +4,8 @@ using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
 using GameCore;
-using LobbySpawner;
-using ManyTweaksLobby;
-using MapEditorReborn.API.Features;
-using MapEditorReborn.API.Features.Objects;
-using MapEditorReborn.Commands.UtilityCommands;
+using ManyTweaks.LobbySpawner;
+using Exiled.API.Interfaces;
 using MEC;
 using Respawning;
 using Respawning.NamingRules;
@@ -16,6 +13,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Log = Exiled.API.Features.Log;
+using MapEditorReborn.API.Features.Objects;
+using MapEditorReborn.API.Features;
+using ManyTweaks;
+using Exiled.Events.Handlers;
+using Player = Exiled.API.Features.Player;
+using Item = Exiled.API.Features.Items.Item;
+using System.Web;
+using RemoteAdmin.Communication;
 
 public class EventHandlers : Plugin<Config>
 {
@@ -26,13 +31,27 @@ public class EventHandlers : Plugin<Config>
     public static System.Random random = new System.Random();
 
     public static List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
+    
+    public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
 
 
-    public static Vector3 SpawnPoint = new Vector3(240.1f, 977, 95.8f);
+    public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
+
+    public List<ItemType> AmmoTypes { get; private set; } = new List<ItemType>()
+        {
+            ItemType.Ammo44cal,
+            ItemType.Ammo9x19,
+            ItemType.Ammo762x39,
+            ItemType.Ammo556x45,
+            ItemType.Ammo762x39,
+            ItemType.Ammo12gauge,
+
+        };
+    
     public void OnHurting(HurtingEventArgs ev)
     {
 
-        if (ManyTweaks.Singleton.Config.No207Dmg)
+        if (Plugin.Instance.Config.No207Dmg)
         {
             if (ev.Handler.Type == DamageType.Scp207)
             {
@@ -41,7 +60,6 @@ public class EventHandlers : Plugin<Config>
             }
         }
     }
-
 
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
@@ -65,9 +83,9 @@ public class EventHandlers : Plugin<Config>
     }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
     {
-        if (ManyTweaks.Singleton.Config.AntiLag)
+        if (Plugin.Instance.Config.AntiLag)
         {
-            Timing.RunCoroutine(UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
+            Timing.RunCoroutine(ManyTweaks.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
         }
     }
     public void OnRoundStart()
@@ -120,22 +138,22 @@ public class EventHandlers : Plugin<Config>
         foreach (var player in Player.List)
         {
 
-            if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ScpSpawner) <= 3.4)
+            if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScpSpawner) <= 3.4)
             {
                 SCPPlayers.Add(player);
                 Log.Info($"SCP1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ClassDSpawner) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ClassDSpawner) <= 3.4)
             {
                 ClassDPlayers.Add(player);
                 Log.Info($"ClassD1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.ScientistSpawner) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScientistSpawner) <= 3.4)
             {
                 ScientistPlayers.Add(player);
                 Log.Info($"Scientist1: {player}");
             }
-            else if (Vector3.Distance(player.Position, SpawnPoint + ManyTweaks.Singleton.Config.GuardSpawner) <= 3.4)
+            else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.GuardSpawner) <= 3.4)
             {
                 GuardPlayers.Add(player);
                 Log.Info($"Guard1: {player}");
@@ -337,18 +355,8 @@ public class EventHandlers : Plugin<Config>
     }
     public void WaitingForPlayers()
     {
-
-        List<string> lines = new List<string> { "<color=orange>Funni Text</color>" };
-        foreach (var line in lines)
-        {
-            SyncUnit mtfUnit = new SyncUnit
-            {
-                SpawnableTeam = (byte)SpawnableTeamType.NineTailedFox,
-                UnitName = line
-            };
-            RespawnManager.Singleton.NamingManager.AllUnitNames.Add(mtfUnit);
-        }
-        lobby = ObjectSpawner.SpawnSchematic("Lobby", SpawnPoint, Quaternion.identity);
+        int Lobbynum = Random.Range(1, Plugin.Instance.Config.LobbySchematicList.Count);
+        lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematicList[Lobbynum], SpawnPoint,Quaternion.identity);
 
         #region Ugly Code
         var GameObject1 = new GameObject("Spawner1");
@@ -356,28 +364,28 @@ public class EventHandlers : Plugin<Config>
         Collider1.isTrigger = true;
         Collider1.radius = 3.4f;
         GameObject1.AddComponent<ScpSpawner>();
-        GameObject1.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ScpSpawner;
+        GameObject1.transform.position = EventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner;
 
         var GameObject2 = new GameObject("Spawner2");
         var Collider2 = GameObject2.AddComponent<SphereCollider>();
         Collider2.isTrigger = true;
         Collider2.radius = 3.4f;
         GameObject2.AddComponent<ClassDSpawner>();
-        GameObject2.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ClassDSpawner;
+        GameObject2.transform.position = EventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner;
 
         var GameObject3 = new GameObject("Spawner3");
         var Collider3 = GameObject3.AddComponent<SphereCollider>();
         Collider3.isTrigger = true;
         Collider3.radius = 3.4f;
         GameObject3.AddComponent<ScientistSpawner>();
-        GameObject3.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.ScientistSpawner;
+        GameObject3.transform.position = EventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner;
 
         var GameObject4 = new GameObject("Spawner4");
         var Collider4 = GameObject4.AddComponent<SphereCollider>();
         Collider4.isTrigger = true;
         Collider4.radius = 3.4f;
         GameObject4.AddComponent<GuardSpawner>();
-        GameObject4.transform.position = EventHandlers.SpawnPoint + ManyTweaks.Singleton.Config.GuardSpawner;
+        GameObject4.transform.position = EventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner;
 
 
         #endregion
@@ -392,9 +400,7 @@ public class EventHandlers : Plugin<Config>
 
     public void VerifiedPlayer(VerifiedEventArgs ev)
     {
-
-
-        if (!ManyTweaks.Singleton.Config.GlobalVoiceChat)
+        if (!Plugin.Instance.Config.GlobalVoiceChat)
         {
             MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
         }
@@ -406,7 +412,6 @@ public class EventHandlers : Plugin<Config>
                                         GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
                 ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
                 Player player = ev.Player;
-                player.ClearInventory();
             });
 
             Timing.CallDelayed(1.5f, () =>
@@ -422,8 +427,14 @@ public class EventHandlers : Plugin<Config>
     {
         if (!Round.IsStarted)
         {
-            ev.Player.Position = SpawnPoint + Vector3.up;
-            ev.Player.AddItem(ItemType.Coin);
+
+    ev.Player.Position = SpawnPoint + Vector3.up;
+            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
+            ev.Player.ClearInventory();
+            foreach (ItemType item in Plugin.Instance.Config.LobbyItems)
+            {
+                ev.Player.AddItem(item);
+            }
         }
     }
     public void OnDied(DiedEventArgs ev)
@@ -433,12 +444,46 @@ public class EventHandlers : Plugin<Config>
             if (!Round.IsStarted)
             {
                 Player player = ev.Target;
-                ev.Target.SetRole(RoleType.Tutorial);
+                ev.Target.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
                 ev.Target.Position = SpawnPoint + Vector3.up;
             }
-        }); 
+        });
 
 
     }
+    public void OnThrow(ThrowingItemEventArgs ev)
+    {
+        if (Plugin.Instance.Config.AllowDroppingItem == false)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
+    }
+    public void OnDrop(DroppingItemEventArgs ev)
+    {
+        if (Plugin.Instance.Config.AllowDroppingItem == false)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
+    }
+    public void OnAmmoDrop(DroppingAmmoEventArgs ev)
+    {
+        if (Plugin.Instance.Config.AllowDroppingItem == false)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
+    }
+
 }
 

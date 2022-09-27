@@ -1,29 +1,26 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="GrenadeLauncher.cs" company="Galaxy119 and iopietro">
-// Copyright (c) Galaxy119 and iopietro. All rights reserved.
-// Licensed under the CC BY-SA 3.0 license.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿/*
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
+using Exiled.API.Features.Items;
+using Exiled.API.Features.Spawn;
+using Exiled.CustomItems.API.Features;
+using Exiled.Events.EventArgs;
+using InventorySystem.Items.Firearms.BasicMessages;
+using InventorySystem.Items.ThrowableProjectiles;
+using MEC;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using UnityEngine;
+using CollisionHandler = Exiled.API.Features.Components.CollisionHandler;
 
-namespace CustomItems.Items
+
+
+
+namespace ManyTweaks.Items
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Linq;
-    using Exiled.API.Enums;
-    using Exiled.API.Features;
-    using Exiled.API.Features.Attributes;
-    using Exiled.API.Features.Items;
-    using Exiled.API.Features.Spawn;
-    using Exiled.CustomItems.API;
-    using Exiled.CustomItems.API.Features;
-    using Exiled.Events.EventArgs;
-    using InventorySystem.Items.Firearms.Attachments;
-    using InventorySystem.Items.Firearms.BasicMessages;
-    using InventorySystem.Items.ThrowableProjectiles;
-    using MEC;
-    using UnityEngine;
-    using CollisionHandler = Exiled.API.Features.Components.CollisionHandler;
+
 
     /// <inheritdoc />
     [CustomItem(ItemType.GunLogicer)]
@@ -156,3 +153,4 @@ namespace CustomItems.Items
         }
     }
 }
+*/

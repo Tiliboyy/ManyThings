@@ -1,19 +1,18 @@
 ﻿
+/*
+using Exiled.API.Enums;
+using Exiled.API.Features.Attributes;
+using Exiled.API.Features.Spawn;
+using Exiled.CustomItems.API.Features;
+using Exiled.Events.EventArgs;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Player = Exiled.Events.Handlers.Player;
 
-namespace CustomItems.Items
+
+
+namespace ManyTweaks.Items
 {
-    using CustomPlayerEffects;
-    using Exiled.API.Enums;
-    using Exiled.API.Extensions;
-    using Exiled.API.Features.Attributes;
-    using Exiled.API.Features.Spawn;
-    using Exiled.CustomItems.API.Features;
-    using Exiled.Events.EventArgs;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using UnityEngine;
-    using Player = Exiled.Events.Handlers.Player;
 
     /// <inheritdoc />
     [CustomItem(ItemType.Painkillers)]
@@ -68,7 +67,8 @@ namespace CustomItems.Items
             {
                 return;
             }
-            ev.Player.SetRole(RoleType.Scp0492,SpawnReason.ForceClass, true);
+            ev.Player.SetRole(RoleType.Scp0492, SpawnReason.ForceClass, true);
         }
     }
 }
+*/
