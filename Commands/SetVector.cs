@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Player = Exiled.API.Features.Player;
 
-namespace ManyTweaks.Commands
+namespace ManyThings.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SetVector : ICommand
@@ -21,7 +21,7 @@ namespace ManyTweaks.Commands
             float x;
             float y;
             float z;
-            if (sender.CheckPermission("ManyTweaks.Vector"))
+            if (sender.CheckPermission("ManyThings.Vector"))
             {
                 if (arguments.Count < 3)
                 {

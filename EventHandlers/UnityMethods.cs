@@ -6,7 +6,7 @@ using MEC;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ManyTweaks.UnityMethods
+namespace ManyThings.UnityMethods
 
 {
     class UnityMethods

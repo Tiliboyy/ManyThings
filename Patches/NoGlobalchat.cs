@@ -1,7 +1,7 @@
 ﻿using GameCore;
 using HarmonyLib;
 
-namespace ManyTweaks.Patches
+namespace ManyThings.Patches
 {
     [HarmonyPatch(typeof(RoundStart), nameof(RoundStart.NetworkTimer), MethodType.Setter)]
     internal static class NetworkTimerPatch

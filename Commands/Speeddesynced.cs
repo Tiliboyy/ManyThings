@@ -5,7 +5,7 @@ using Exiled.Permissions.Extensions;
 using System;
 using Player = Exiled.API.Features.Player;
 
-namespace ManyTweaks.Commands
+namespace ManyThings.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SpeedDeSynced : ICommand
@@ -28,7 +28,7 @@ namespace ManyTweaks.Commands
             float.TryParse(arguments.Array[2], out speednumother);
 
 
-            if (sender.CheckPermission("ManyTweaks.Speed"))
+            if (sender.CheckPermission("ManyThings.Speed"))
             {
                 if (arguments.Count != 1)
                 {

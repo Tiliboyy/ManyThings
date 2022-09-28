@@ -1,3 +1,4 @@
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Interfaces;
 using Scp914;
@@ -18,22 +19,20 @@ public class Config : IConfig
     [Description("Enables Debug mode")]
     public bool IsDebug { get; set; } = false;
 
-    public string ConfigFolder { get; set; } = Path.Combine(Paths.Configs, "CustomItems");
-
-    public string ConfigFile { get; set; } = "global.yml";
-
     [Description("Disables 207 Damage")]
     public bool No207Dmg { get; set; } = false;
 
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
+    [Description("Adds a countdown for the Alpha Warhead")]
+
+    public bool NukeCountdown { get; set; } = true;
+
     public int NukeHintVertPos { get; set; } = 32;
 
 
     [Description("Lobby Stuff")]
-
-
     public bool DisplayWaitMessage { get; set; } = true;
 
     [Description("Enables Localchat")]
@@ -42,8 +41,8 @@ public class Config : IConfig
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int HintVertPos { get; set; } = 25;
 
-    
     public bool UseHints { get; set; } = true;
+
 
     [Description("Allows players to drop items in the lobby")]
     
@@ -65,17 +64,22 @@ public class Config : IConfig
         {
         
             ItemType.Coin,
-            ItemType.Medkit,
-
+            ItemType.Flashlight,
         };
     [Description("The Roles that players can spawn as in the lobby")]
 
     public List<RoleType> RolesToChoose { get; private set; } = new List<RoleType>()
         {
             RoleType.Tutorial,
-            RoleType.ChaosMarauder,
-            RoleType.NtfCaptain,
-            RoleType.ChaosConscript,
+        };
+    [Description("List of ammo given to a player while in lobby:")]
+    public Dictionary<AmmoType, ushort> Ammo { get; private set; } = new Dictionary<AmmoType, ushort>()
+        {
+            { AmmoType.Nato556, 0 },
+            { AmmoType.Nato762, 0 },
+            { AmmoType.Nato9, 0 },
+            { AmmoType.Ammo12Gauge, 0 },
+            { AmmoType.Ammo44Cal, 0 },
         };
     [Description("Coordinates of where the lobby spawns")]
 

@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Player = Exiled.API.Features.Player;
 
-namespace ManyTweaks.Commands
+namespace ManyThings.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SetRotation : ICommand
@@ -22,7 +22,7 @@ namespace ManyTweaks.Commands
             float y;
             float z;
 
-            if (sender.CheckPermission("ManyTweaks.Tools"))
+            if (sender.CheckPermission("ManyThings.Tools"))
             {
                 if (arguments.Count < 3)
                 {

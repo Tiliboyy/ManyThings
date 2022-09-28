@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ManyTweaks.LobbySpawner
+namespace ManyThings.LobbySpawner
 {
     public class ClassDSpawner : MonoBehaviour
     {

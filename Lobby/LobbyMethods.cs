@@ -3,7 +3,7 @@ using MEC;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ManyTweaks
+namespace ManyThings
 {
     public static class LobbyMethods
     {

@@ -4,27 +4,20 @@ using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
 using GameCore;
-using ManyTweaks.LobbySpawner;
-using Exiled.API.Interfaces;
+using ManyThings;
+using ManyThings.LobbySpawner;
+using MapEditorReborn.API.Features;
+using MapEditorReborn.API.Features.Objects;
 using MEC;
-using Respawning;
-using Respawning.NamingRules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Log = Exiled.API.Features.Log;
-using MapEditorReborn.API.Features.Objects;
-using MapEditorReborn.API.Features;
-using ManyTweaks;
-using Exiled.Events.Handlers;
-using Player = Exiled.API.Features.Player;
 using Item = Exiled.API.Features.Items.Item;
-using System.Web;
-using RemoteAdmin.Communication;
-using Warhead = Exiled.API.Features.Warhead;
-using System;
+using Log = Exiled.API.Features.Log;
+using Player = Exiled.API.Features.Player;
 using Random = UnityEngine.Random;
-using static System.Net.Mime.MediaTypeNames;
+using Warhead = Exiled.API.Features.Warhead;
 
 public class EventHandlers : Plugin<Config>
 {
@@ -35,7 +28,7 @@ public class EventHandlers : Plugin<Config>
     public static System.Random random = new System.Random();
 
     public static List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
-    
+
     public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
 
 
@@ -51,23 +44,10 @@ public class EventHandlers : Plugin<Config>
             ItemType.Ammo12gauge,
 
         };
-    
-    public void OnHurting(HurtingEventArgs ev)
-    {
-
-        if (Plugin.Instance.Config.No207Dmg)
-        {
-            if (ev.Handler.Type == DamageType.Scp207)
-            {
-                ev.Amount = 0f;
-                ev.IsAllowed = false;
-            }
-        }
-    }
 
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
-        
+
         const int maxAmnt = 100;
         int amnt = 0;
         while (player.Role != RoleType.Spectator)
@@ -94,7 +74,6 @@ public class EventHandlers : Plugin<Config>
         while (Warhead.IsInProgress)
         {
             yield return Timing.WaitForSeconds(1f);
-
             if (!Warhead.IsDetonated)
             {
                 foreach (Player player in Player.List)
@@ -107,18 +86,9 @@ public class EventHandlers : Plugin<Config>
                             text += "\n";
                         }
                         player.ShowHint(text, 1f);
-
-
-                    }
-                    else
-                    {
-                        player.ShowHint($"{Math.Round(Warhead.DetonationTimer)} Sekunen bis zur Detonation.", 1);
-
-
                     }
                 }
             }
-
         }
     }
 
@@ -131,7 +101,7 @@ public class EventHandlers : Plugin<Config>
     {
         if (Plugin.Instance.Config.AntiLag)
         {
-            Timing.RunCoroutine(ManyTweaks.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
+            Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
         }
     }
     public void OnRoundStart()
@@ -404,7 +374,7 @@ public class EventHandlers : Plugin<Config>
         int Lobbynum;
         if (Plugin.Instance.Config.LobbySchematicList.Count == 0)
         {
-             Lobbynum = 0;
+            Lobbynum = 0;
         }
         else
         {
@@ -455,19 +425,22 @@ public class EventHandlers : Plugin<Config>
 
     public void VerifiedPlayer(VerifiedEventArgs ev)
     {
-        if (!Plugin.Instance.Config.GlobalVoiceChat)
-        {
-            MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
-        }
+
         if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
         {
-            Timing.CallDelayed(0.5f, () =>
+            if (!Plugin.Instance.Config.GlobalVoiceChat)
             {
-                if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
-                                        GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
-                ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
-                Player player = ev.Player;
-            });
+                MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
+            }
+
+
+            Timing.CallDelayed(0.5f, () =>
+                {
+                    if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
+                                            GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
+                    ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
+                    Player player = ev.Player;
+                });
 
             Timing.CallDelayed(1.5f, () =>
             {
@@ -480,16 +453,26 @@ public class EventHandlers : Plugin<Config>
     }
     public void OnSpawned(SpawnedEventArgs ev)
     {
+        if (!Round.IsLobby)
+        {
+            return;
+        }
+
         if (!Round.IsStarted)
         {
 
-    ev.Player.Position = SpawnPoint + Vector3.up;
-            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
+            ev.Player.Position = SpawnPoint + Vector3.up;
+            foreach (var ammo in Config.Ammo)
+            {
+                ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
+            }
             ev.Player.ClearInventory();
+            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
             foreach (ItemType item in Plugin.Instance.Config.LobbyItems)
             {
                 ev.Player.AddItem(item);
             }
+
         }
     }
     public void OnDied(DiedEventArgs ev)
@@ -500,7 +483,6 @@ public class EventHandlers : Plugin<Config>
             {
                 Player player = ev.Target;
                 ev.Target.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
-                ev.Target.Position = SpawnPoint + Vector3.up;
             }
         });
 

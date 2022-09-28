@@ -4,7 +4,7 @@ using Exiled.Permissions.Extensions;
 using System;
 using Player = Exiled.API.Features.Player;
 
-namespace ManyTweaks.Commands
+namespace ManyThings.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class GetVector : ICommand
@@ -18,7 +18,7 @@ namespace ManyTweaks.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            if (sender.CheckPermission("ManyTweaks.Vector"))
+            if (sender.CheckPermission("ManyThings.Vector"))
             {
                 var Vector = player.Position - EventHandlers.SpawnPoint;
                 if (Plugin.Instance.Config.IsDebug)

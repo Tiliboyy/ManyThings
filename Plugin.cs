@@ -2,15 +2,15 @@ using Exiled.API.Features;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs;
 using HarmonyLib;
-using ManyTweaks;
+using ManyThings;
 using System;
 using Player = Exiled.Events.Handlers.Player;
 
 public class Plugin : Plugin<Config, Translation>
 {
     public override string Author => "Tiliboyy";
-    public override string Prefix => "ManyTweaks";
-    public override Version Version => new Version(3, 0, 0);
+    public override string Prefix => "ManyThings";
+    public override Version Version => new Version(1, 0, 0);
     public override Version RequiredExiledVersion => new Version(5, 0, 0, 0);
 
     public EventHandlers EventHandler;
@@ -23,11 +23,9 @@ public class Plugin : Plugin<Config, Translation>
         {
             Plugin.Instance = this;
 
-            new Harmony("ManyTweaks.patches").PatchAll();
+            new Harmony("ManyThings.patches").PatchAll();
 
             EventHandler = new EventHandlers();
-
-            Player.Hurting += this.EventHandler.OnHurting;
 
             Player.Verified += EventHandler.VerifiedPlayer;
 
@@ -47,9 +45,7 @@ public class Plugin : Plugin<Config, Translation>
 
             Exiled.Events.Handlers.Warhead.Starting += EventHandler.OnNukeEnabled;
 
-
-            
-            Log.Info($"ManyTweaks v{Version} by Tiliboyy has been loaded!");
+            Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
         }
         catch (Exception e)
         {
@@ -61,13 +57,11 @@ public class Plugin : Plugin<Config, Translation>
 
     public override void OnDisabled()
     {
-        new Harmony("ManyTweaks.patches").UnpatchAll();
+        new Harmony("ManyThings.patches").UnpatchAll();
         Plugin.Instance = null;
 
         EventHandler = null;
         
-        Player.Hurting -= this.EventHandler.OnHurting;
-
         Exiled.Events.Handlers.Player.Verified -= EventHandler.VerifiedPlayer;
 
         Exiled.Events.Handlers.Server.WaitingForPlayers -= this.EventHandler.WaitingForPlayers;
