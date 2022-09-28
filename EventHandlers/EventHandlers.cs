@@ -24,6 +24,7 @@ using RemoteAdmin.Communication;
 using Warhead = Exiled.API.Features.Warhead;
 using System;
 using Random = UnityEngine.Random;
+using static System.Net.Mime.MediaTypeNames;
 
 public class EventHandlers : Plugin<Config>
 {
@@ -66,6 +67,7 @@ public class EventHandlers : Plugin<Config>
 
     public static IEnumerator<float> DoRocket(Player player, float speed)
     {
+        
         const int maxAmnt = 100;
         int amnt = 0;
         while (player.Role != RoleType.Spectator)
@@ -84,26 +86,45 @@ public class EventHandlers : Plugin<Config>
             yield return Timing.WaitForOneFrame;
         }
     }
+
     public static IEnumerator<float> NukeCountdown()
     {
+
         yield return Timing.WaitForSeconds(1f);
         while (Warhead.IsInProgress)
         {
-            foreach (Player player in Player.List)
+            yield return Timing.WaitForSeconds(1f);
+
+            if (!Warhead.IsDetonated)
             {
-                
-                double timer = Math.Round(Warhead.DetonationTimer);
-                player.ShowHint($"{timer} Sekunen bis zur Detonation.", 1);
-                yield return Timing.WaitForSeconds(1f);
+                foreach (Player player in Player.List)
+                {
+                    if (Plugin.Instance.Config.NukeHintVertPos != 0 && Plugin.Instance.Config.NukeHintVertPos > 0)
+                    {
+                        string text = $"<color=#ff0509>{Math.Round(Warhead.DetonationTimer)} Sekunen bis zur Detonation.</color>";
+                        for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
+                        {
+                            text += "\n";
+                        }
+                        player.ShowHint(text, 1f);
+
+
+                    }
+                    else
+                    {
+                        player.ShowHint($"{Math.Round(Warhead.DetonationTimer)} Sekunen bis zur Detonation.", 1);
+
+
+                    }
+                }
             }
+
         }
     }
 
     public void OnNukeEnabled(StartingEventArgs ev)
     {
-        Timing.WaitForSeconds(3f);
         Timing.RunCoroutine(NukeCountdown());
-        Log.Info("Nuke has been enabled.");
 
     }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
@@ -380,8 +401,17 @@ public class EventHandlers : Plugin<Config>
     }
     public void WaitingForPlayers()
     {
-        int Lobbynum = Random.Range(1, Plugin.Instance.Config.LobbySchematicList.Count);
-        lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematicList[Lobbynum], SpawnPoint,Quaternion.identity);
+        int Lobbynum;
+        if (Plugin.Instance.Config.LobbySchematicList.Count == 0)
+        {
+             Lobbynum = 0;
+        }
+        else
+        {
+            Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematicList.Count);
+        }
+        lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematicList[Lobbynum], SpawnPoint, Quaternion.identity);
+
 
         #region Ugly Code
         var GameObject1 = new GameObject("Spawner1");

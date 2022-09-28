@@ -28,16 +28,21 @@ public class Config : IConfig
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
-    [Description("Enables Localchat")]
-    public bool GlobalVoiceChat { get; set; } = false;
+    public int NukeHintVertPos { get; set; } = 32;
+
+
     [Description("Lobby Stuff")]
 
 
     public bool DisplayWaitMessage { get; set; } = true;
 
+    [Description("Enables Localchat")]
+    public bool GlobalVoiceChat { get; set; } = false;
+
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int HintVertPos { get; set; } = 25;
 
+    
     public bool UseHints { get; set; } = true;
 
     [Description("Allows players to drop items in the lobby")]

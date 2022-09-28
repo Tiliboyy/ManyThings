@@ -21,9 +21,9 @@ public class Plugin : Plugin<Config, Translation>
     {
         try
         {
-            new Harmony("ManyTweaks.patches").PatchAll();
             Plugin.Instance = this;
 
+            new Harmony("ManyTweaks.patches").PatchAll();
 
             EventHandler = new EventHandlers();
 
@@ -47,8 +47,8 @@ public class Plugin : Plugin<Config, Translation>
 
             Exiled.Events.Handlers.Warhead.Starting += EventHandler.OnNukeEnabled;
 
-            //CustomItem.RegisterItems();
 
+            
             Log.Info($"ManyTweaks v{Version} by Tiliboyy has been loaded!");
         }
         catch (Exception e)
@@ -66,7 +66,6 @@ public class Plugin : Plugin<Config, Translation>
 
         EventHandler = null;
         
-
         Player.Hurting -= this.EventHandler.OnHurting;
 
         Exiled.Events.Handlers.Player.Verified -= EventHandler.VerifiedPlayer;
