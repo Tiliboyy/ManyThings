@@ -21,6 +21,9 @@ using Player = Exiled.API.Features.Player;
 using Item = Exiled.API.Features.Items.Item;
 using System.Web;
 using RemoteAdmin.Communication;
+using Warhead = Exiled.API.Features.Warhead;
+using System;
+using Random = UnityEngine.Random;
 
 public class EventHandlers : Plugin<Config>
 {
@@ -80,6 +83,28 @@ public class EventHandlers : Plugin<Config>
 
             yield return Timing.WaitForOneFrame;
         }
+    }
+    public static IEnumerator<float> NukeCountdown()
+    {
+        yield return Timing.WaitForSeconds(1f);
+        while (Warhead.IsInProgress)
+        {
+            foreach (Player player in Player.List)
+            {
+                
+                double timer = Math.Round(Warhead.DetonationTimer);
+                player.ShowHint($"{timer} Sekunen bis zur Detonation.", 1);
+                yield return Timing.WaitForSeconds(1f);
+            }
+        }
+    }
+
+    public void OnNukeEnabled(StartingEventArgs ev)
+    {
+        Timing.WaitForSeconds(3f);
+        Timing.RunCoroutine(NukeCountdown());
+        Log.Info("Nuke has been enabled.");
+
     }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
     {

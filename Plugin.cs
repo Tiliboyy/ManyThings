@@ -1,5 +1,6 @@
 using Exiled.API.Features;
 using Exiled.CustomItems.API.Features;
+using Exiled.Events.EventArgs;
 using HarmonyLib;
 using ManyTweaks;
 using System;
@@ -44,6 +45,8 @@ public class Plugin : Plugin<Config, Translation>
 
             Player.ThrowingItem += EventHandler.OnThrow;
 
+            Exiled.Events.Handlers.Warhead.Starting += EventHandler.OnNukeEnabled;
+
             //CustomItem.RegisterItems();
 
             Log.Info($"ManyTweaks v{Version} by Tiliboyy has been loaded!");
@@ -81,6 +84,9 @@ public class Plugin : Plugin<Config, Translation>
         Player.DroppingItem -= EventHandler.OnDrop;
 
         Player.ThrowingItem -= EventHandler.OnThrow;
+
+        Exiled.Events.Handlers.Warhead.Starting -= EventHandler.OnNukeEnabled;
+
 
     }
 }
