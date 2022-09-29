@@ -34,38 +34,7 @@ public class EventHandlers : Plugin<Config>
 
     public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
 
-    public List<ItemType> AmmoTypes { get; private set; } = new List<ItemType>()
-        {
-            ItemType.Ammo44cal,
-            ItemType.Ammo9x19,
-            ItemType.Ammo762x39,
-            ItemType.Ammo556x45,
-            ItemType.Ammo762x39,
-            ItemType.Ammo12gauge,
 
-        };
-
-    public static IEnumerator<float> DoRocket(Player player, float speed)
-    {
-
-        const int maxAmnt = 100;
-        int amnt = 0;
-        while (player.Role != RoleType.Spectator)
-        {
-            player.Position += Vector3.up * speed;
-            amnt++;
-            if (amnt >= maxAmnt)
-            {
-                player.IsGodModeEnabled = false;
-                ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
-                grenade.FuseTime = 10f;
-                grenade.SpawnActive(player.Position, player);
-                player.Kill("Death.");
-            }
-
-            yield return Timing.WaitForOneFrame;
-        }
-    }
 
     public static IEnumerator<float> NukeCountdown()
     {
@@ -92,10 +61,22 @@ public class EventHandlers : Plugin<Config>
         }
     }
 
+    public void OnRoundEnd(RoundEndedEventArgs ev)
+    {
+        if (Config.AutoFFToggle)
+        {
+            Log.Info("Round Ended");
+            Server.FriendlyFire = true;
+            Log.Info(Server.FriendlyFire);
+        }
+
+    }
     public void OnNukeEnabled(StartingEventArgs ev)
     {
-        Timing.RunCoroutine(NukeCountdown());
-
+        if (Config.NukeCountdown)
+        {
+            coroutines.Add(Timing.RunCoroutine(NukeCountdown()));
+        }
     }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
     {
@@ -107,7 +88,7 @@ public class EventHandlers : Plugin<Config>
     public void OnRoundStart()
     {
 
-        if (lobby != null)
+            if (lobby != null)
         {
             lobby.Destroy();
         }
@@ -177,11 +158,10 @@ public class EventHandlers : Plugin<Config>
             player.Role.Type = RoleType.None;
         }
 
-        // ---------------------------------------------------------------------------------------\\
-        // ClassD
+
         if (ClassDsToSpawn != 0)
         {
-            if (ClassDPlayers.Count <= ClassDsToSpawn) // Less people (or equal) voted than what is required in the game.
+            if (ClassDPlayers.Count <= ClassDsToSpawn)
             {
                 foreach (Player ply in ClassDPlayers)
                 {
@@ -190,7 +170,7 @@ public class EventHandlers : Plugin<Config>
                     BulkList.Remove(ply);
                 }
             }
-            else // More people voted than what is required, time to play the game of chance.
+            else
             {
                 for (int x = 0; x < ClassDsToSpawn; x++)
                 {
@@ -203,11 +183,10 @@ public class EventHandlers : Plugin<Config>
             }
         }
 
-        // ---------------------------------------------------------------------------------------\\
-        // Scientists
+
         if (ScientistsToSpawn != 0)
         {
-            if (ScientistPlayers.Count <= ScientistsToSpawn) // Less people (or equal) voted than what is required in the game.
+            if (ScientistPlayers.Count <= ScientistsToSpawn)
             {
                 foreach (Player ply in ScientistPlayers)
                 {
@@ -216,24 +195,23 @@ public class EventHandlers : Plugin<Config>
                     BulkList.Remove(ply);
                 }
             }
-            else // More people voted than what is required, time to play the game of chance.
+            else
             {
                 for (int x = 0; x < ScientistsToSpawn; x++)
                 {
                     Player Ply = ScientistPlayers[random.Next(ScientistPlayers.Count)];
                     PlayersToSpawnAsScientist.Add(Ply);
-                    ScientistPlayers.Remove(Ply); // Removing winner from the list
-                    BulkList.Remove(Ply); // Removing the winners from the bulk list
+                    ScientistPlayers.Remove(Ply);
+                    BulkList.Remove(Ply);
                 }
                 ScientistsToSpawn = 0;
             }
         }
 
-        // ---------------------------------------------------------------------------------------\\
-        // Guards
+
         if (GuardsToSpawn != 0)
         {
-            if (GuardPlayers.Count <= GuardsToSpawn) // Less people (or equal) voted than what is required in the game.
+            if (GuardPlayers.Count <= GuardsToSpawn) 
             {
                 foreach (Player ply in GuardPlayers)
                 {
@@ -242,24 +220,22 @@ public class EventHandlers : Plugin<Config>
                     BulkList.Remove(ply);
                 }
             }
-            else // More people voted than what is required, time to play the game of chance.
+            else 
             {
                 for (int x = 0; x < GuardsToSpawn; x++)
                 {
                     Player Ply = GuardPlayers[random.Next(GuardPlayers.Count)];
                     PlayersToSpawnAsGuard.Add(Ply);
-                    GuardPlayers.Remove(Ply); // Removing winner from the list
-                    BulkList.Remove(Ply); // Removing the winners from the bulk list
+                    GuardPlayers.Remove(Ply); 
+                    BulkList.Remove(Ply);
                 }
                 GuardsToSpawn = 0;
             }
         }
 
-        // ---------------------------------------------------------------------------------------\\
-        // SCPs
         if (SCPsToSpawn != 0)
         {
-            if (SCPPlayers.Count <= SCPsToSpawn) // Less people (or equal) voted than what is required in the game.
+            if (SCPPlayers.Count <= SCPsToSpawn)
             {
                 foreach (Player ply in SCPPlayers)
                 {
@@ -268,31 +244,25 @@ public class EventHandlers : Plugin<Config>
                     BulkList.Remove(ply);
                 }
             }
-            else // More people voted than what is required, time to play the game of chance.
+            else
             {
                 for (int x = 0; x < SCPsToSpawn; x++)
                 {
                     Player Ply = SCPPlayers[random.Next(SCPPlayers.Count)];
                     SCPPlayers.Remove(Ply);
-                    PlayersToSpawnAsSCP.Add(Ply); // Removing winner from the list
-                    BulkList.Remove(Ply); // Removing the winners from the bulk list
+                    PlayersToSpawnAsSCP.Add(Ply); 
+                    BulkList.Remove(Ply); 
                 }
                 SCPsToSpawn = 0;
             }
         }
-        // ---------------------------------------------------------------------------------------\\
-        // ---------------------------------------------------------------------------------------\\
-        // ---------------------------------------------------------------------------------------\\
-        // ---------------------------------------------------------------------------------------\\
-
-        // At this point we need to check for any blanks and fill them in via the bulk list guys
         if (ClassDsToSpawn != 0)
         {
             for (int x = 0; x < ClassDsToSpawn; x++)
             {
                 Player Ply = BulkList[random.Next(BulkList.Count)];
                 PlayersToSpawnAsClassD.Add(Ply);
-                BulkList.Remove(Ply); // Removing the winners from the bulk list
+                BulkList.Remove(Ply); 
             }
         }
         if (SCPsToSpawn != 0)
@@ -301,7 +271,7 @@ public class EventHandlers : Plugin<Config>
             {
                 Player Ply = BulkList[random.Next(BulkList.Count)];
                 PlayersToSpawnAsSCP.Add(Ply);
-                BulkList.Remove(Ply); // Removing the winners from the bulk list
+                BulkList.Remove(Ply); 
             }
         }
         if (ScientistsToSpawn != 0)
@@ -310,7 +280,7 @@ public class EventHandlers : Plugin<Config>
             {
                 Player Ply = BulkList[random.Next(BulkList.Count)];
                 PlayersToSpawnAsScientist.Add(Ply);
-                BulkList.Remove(Ply); // Removing the winners from the bulk list
+                BulkList.Remove(Ply);
             }
         }
         if (GuardsToSpawn != 0)
@@ -319,13 +289,10 @@ public class EventHandlers : Plugin<Config>
             {
                 Player Ply = BulkList[random.Next(BulkList.Count)];
                 PlayersToSpawnAsGuard.Add(Ply);
-                BulkList.Remove(Ply); // Removing the winners from the bulk list
+                BulkList.Remove(Ply);
             }
         }
 
-        // ---------------------------------------------------------------------------------------\\
-
-        // Okay we have the list! Time to spawn everyone in, we'll leave SCP for last as it has a bit of logic.
         foreach (Player ply in PlayersToSpawnAsClassD)
         {
             Timing.CallDelayed(0.1f, () =>
@@ -348,9 +315,6 @@ public class EventHandlers : Plugin<Config>
             });
         }
 
-        // ---------------------------------------------------------------------------------------\\
-
-        // SCP Logic, preventing SCP-079 from spawning if there isn't at least 2 other SCPs
         List<RoleType> Roles = new List<RoleType>
                 { RoleType.Scp049, RoleType.Scp096, RoleType.Scp106, RoleType.Scp173, RoleType.Scp93953, RoleType.Scp93989 };
 
@@ -368,8 +332,15 @@ public class EventHandlers : Plugin<Config>
             });
         }
 
-    }
-    public void WaitingForPlayers()
+        if (Config.AutoFFToggle)
+        {
+            Log.Info("Round Started");
+            Server.FriendlyFire = true;
+            Log.Info(Server.FriendlyFire);
+        }
+
+        }
+        public void WaitingForPlayers()
     {
         int Lobbynum;
         if (Plugin.Instance.Config.LobbySchematicList.Count == 0)
@@ -450,8 +421,9 @@ public class EventHandlers : Plugin<Config>
 
 
         }
-    }
-    public void OnSpawned(SpawnedEventArgs ev)
+    
+
+    }public void OnSpawned(SpawnedEventArgs ev)
     {
         if (!Round.IsLobby)
         {
@@ -460,14 +432,14 @@ public class EventHandlers : Plugin<Config>
 
         if (!Round.IsStarted)
         {
-
+            ev.Player.ClearInventory();
+            ev.Player.Ammo.Clear();
             ev.Player.Position = SpawnPoint + Vector3.up;
+            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
             foreach (var ammo in Config.Ammo)
             {
                 ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
             }
-            ev.Player.ClearInventory();
-            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
             foreach (ItemType item in Plugin.Instance.Config.LobbyItems)
             {
                 ev.Player.AddItem(item);
@@ -509,6 +481,26 @@ public class EventHandlers : Plugin<Config>
             }
         }
 
+    }
+    public static IEnumerator<float> DoRocket(Player player, float speed)
+    {
+        const int maxAmnt = 100;
+        int amnt = 0;
+        while (player.Role != RoleType.Spectator)
+        {
+            player.Position += Vector3.up * speed;
+            amnt++;
+            if (amnt >= maxAmnt)
+            {
+                player.IsGodModeEnabled = false;
+                ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE);
+                grenade.FuseTime = 10f;
+                grenade.SpawnActive(player.Position, player);
+                player.Kill("Death.");
+            }
+
+            yield return Timing.WaitForOneFrame;
+        }
     }
 
 

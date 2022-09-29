@@ -1,4 +1,5 @@
 using Exiled.API.Features;
+using Exiled.CustomItems;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs;
 using HarmonyLib;
@@ -27,6 +28,8 @@ public class Plugin : Plugin<Config, Translation>
 
             EventHandler = new EventHandlers();
 
+            Exiled.Events.Handlers.Server.RoundEnded += EventHandler.OnRoundEnd;
+            
             Player.Verified += EventHandler.VerifiedPlayer;
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += this.EventHandler.WaitingForPlayers;
@@ -47,10 +50,10 @@ public class Plugin : Plugin<Config, Translation>
 
             Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
         }
-        catch (Exception e)
+        catch (Exception error)
         {
             
-                Log.Error($"Error while loading plugin: {e}");
+                Log.Error($"Error while loading plugin: {error}");
         }
     }
 
@@ -58,10 +61,14 @@ public class Plugin : Plugin<Config, Translation>
     public override void OnDisabled()
     {
         new Harmony("ManyThings.patches").UnpatchAll();
+        
         Plugin.Instance = null;
 
         EventHandler = null;
-        
+
+        Exiled.Events.Handlers.Server.RoundEnded -= EventHandler.OnRoundEnd;
+
+
         Exiled.Events.Handlers.Player.Verified -= EventHandler.VerifiedPlayer;
 
         Exiled.Events.Handlers.Server.WaitingForPlayers -= this.EventHandler.WaitingForPlayers;

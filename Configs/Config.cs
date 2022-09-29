@@ -25,8 +25,11 @@ public class Config : IConfig
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
-    [Description("Adds a countdown for the Alpha Warhead")]
 
+    [Description("Mein Versuch AutoFFtoggle zu machen")]
+    public bool AutoFFToggle { get; set; } = true;
+    
+    [Description("Adds a countdown for the Alpha Warhead")]
     public bool NukeCountdown { get; set; } = true;
 
     public int NukeHintVertPos { get; set; } = 32;
@@ -35,7 +38,7 @@ public class Config : IConfig
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;
 
-    [Description("Enables Localchat")]
+    [Description("Enables global voice chat")]
     public bool GlobalVoiceChat { get; set; } = false;
 
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
@@ -70,7 +73,7 @@ public class Config : IConfig
 
     public List<RoleType> RolesToChoose { get; private set; } = new List<RoleType>()
         {
-            RoleType.Tutorial,
+            RoleType.ChaosMarauder,
         };
     [Description("List of ammo given to a player while in lobby:")]
     public Dictionary<AmmoType, ushort> Ammo { get; private set; } = new Dictionary<AmmoType, ushort>()
