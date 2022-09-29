@@ -462,16 +462,18 @@ public class EventHandlers : Plugin<Config>
         {
 
             ev.Player.Position = SpawnPoint + Vector3.up;
+            ev.Player.ClearInventory();
+            ev.Player.Ammo.Clear();
+            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
             foreach (var ammo in Config.Ammo)
             {
                 ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
             }
-            ev.Player.ClearInventory();
-            ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
             foreach (ItemType item in Plugin.Instance.Config.LobbyItems)
             {
                 ev.Player.AddItem(item);
             }
+
 
         }
     }
