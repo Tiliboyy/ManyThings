@@ -445,6 +445,7 @@ public class EventHandlers : Plugin<Config>
                 ev.Player.AddItem(item);
             }
 
+
         }
     }
     public void OnDied(DiedEventArgs ev)

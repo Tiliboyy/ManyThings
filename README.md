@@ -1,1 +1,1 @@
-# ManyTweaks
+# ManyThings
