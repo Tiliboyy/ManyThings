@@ -1,5 +1,4 @@
 ﻿using CommandSystem;
-using CustomPlayerEffects;
 using Exiled.API.Extensions;
 using Exiled.Permissions.Extensions;
 using System;

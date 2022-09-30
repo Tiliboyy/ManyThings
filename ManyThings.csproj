@@ -140,12 +140,13 @@
     <Compile Include="Commands\SetVector.cs" />
     <Compile Include="Commands\SpeedSynced.cs" />
     <Compile Include="Commands\SpeedDeSynced.cs" />
+    <Compile Include="Lobby\LobbyEventHandlers.cs" />
     <Compile Include="Lobby\LobbySpawner.cs" />
     <Compile Include="Lobby\LobbyMethods.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="EventHandlers\EventHandlers.cs" />
-    <Compile Include="Patches\NoGlobalchat.cs" />
+    <Compile Include="Patches\Patches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lobby\SerializedVector3.cs" />
     <Compile Include="EventHandlers\UnityMethods.cs" />

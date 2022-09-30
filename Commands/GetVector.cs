@@ -1,6 +1,7 @@
 ﻿using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using ManyThings.Lobby;
 using System;
 using Player = Exiled.API.Features.Player;
 
@@ -20,7 +21,7 @@ namespace ManyThings.Commands
             Player player = Player.Get(sender);
             if (sender.CheckPermission("ManyThings.Vector"))
             {
-                var Vector = player.Position - EventHandlers.SpawnPoint;
+                var Vector = player.Position - LobbyEventHandlers.SpawnPoint;
                 if (Plugin.Instance.Config.IsDebug)
                 {
                     Log.Info(Vector);

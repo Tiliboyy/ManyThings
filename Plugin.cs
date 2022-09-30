@@ -1,9 +1,7 @@
 using Exiled.API.Features;
-using Exiled.CustomItems;
-using Exiled.CustomItems.API.Features;
-using Exiled.Events.EventArgs;
 using HarmonyLib;
 using ManyThings;
+using ManyThings.Lobby;
 using System;
 using Player = Exiled.Events.Handlers.Player;
 
@@ -14,78 +12,85 @@ public class Plugin : Plugin<Config, Translation>
     public override Version Version => new Version(1, 0, 0);
     public override Version RequiredExiledVersion => new Version(5, 0, 0, 0);
 
+    public LobbyEventHandlers LobbyEventHandlers;
+
     public EventHandlers EventHandler;
     public static Plugin Instance;
 
 
     public override void OnEnabled()
     {
-        try
-        {
-            Plugin.Instance = this;
 
-            new Harmony("ManyThings.patches").PatchAll();
+        Plugin.Instance = this;
 
-            EventHandler = new EventHandlers();
+        new Harmony("ManyThings.patches").PatchAll();
 
-            Exiled.Events.Handlers.Server.RoundEnded += EventHandler.OnRoundEnd;
-            
-            Player.Verified += EventHandler.VerifiedPlayer;
+        EventHandler = new EventHandlers();
 
-            Exiled.Events.Handlers.Server.WaitingForPlayers += this.EventHandler.WaitingForPlayers;
+        LobbyEventHandlers = new LobbyEventHandlers();
 
-            Exiled.Events.Handlers.Server.RoundStarted += this.EventHandler.OnRoundStart;
+        Exiled.Events.Handlers.Server.RoundEnded += EventHandler.OnRoundEnd;
 
-            Player.DroppingAmmo += this.EventHandler.OnDroppingAmmo;
+        Player.Verified += LobbyEventHandlers.VerifiedPlayer;
 
-            Player.Died += EventHandler.OnDied;
+        Exiled.Events.Handlers.Server.WaitingForPlayers += this.LobbyEventHandlers.WaitingForPlayers;
 
-            Player.Spawned += EventHandler.OnSpawned;
+        Exiled.Events.Handlers.Server.RoundStarted += this.LobbyEventHandlers.OnRoundStart;
 
-            Player.DroppingItem += EventHandler.OnDrop;
+        Exiled.Events.Handlers.Server.RoundStarted += this.EventHandler.OnRoundStart;
 
-            Player.ThrowingItem += EventHandler.OnThrow;
+        Player.SpawningRagdoll += EventHandler.RagdollSpawning;
 
-            Exiled.Events.Handlers.Warhead.Starting += EventHandler.OnNukeEnabled;
 
-            Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
-        }
-        catch (Exception error)
-        {
-            
-                Log.Error($"Error while loading plugin: {error}");
-        }
+        Player.DroppingAmmo += this.EventHandler.OnDroppingAmmo;
+
+        Player.Died += LobbyEventHandlers.OnDied;
+
+        Player.Spawned += LobbyEventHandlers.OnSpawned;
+
+        Player.DroppingItem += LobbyEventHandlers.OnDrop;
+
+        Player.ThrowingItem += LobbyEventHandlers.OnThrow;
+
+        Exiled.Events.Handlers.Warhead.Starting += EventHandler.OnNukeEnabled;
+
+        Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
+
     }
 
 
     public override void OnDisabled()
     {
         new Harmony("ManyThings.patches").UnpatchAll();
-        
+
         Plugin.Instance = null;
 
         EventHandler = null;
 
+        LobbyEventHandlers = null;
+
         Exiled.Events.Handlers.Server.RoundEnded -= EventHandler.OnRoundEnd;
 
+        Exiled.Events.Handlers.Player.Verified -= LobbyEventHandlers.VerifiedPlayer;
 
-        Exiled.Events.Handlers.Player.Verified -= EventHandler.VerifiedPlayer;
+        Exiled.Events.Handlers.Server.WaitingForPlayers -= this.LobbyEventHandlers.WaitingForPlayers;
 
-        Exiled.Events.Handlers.Server.WaitingForPlayers -= this.EventHandler.WaitingForPlayers;
-
-        Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
+        Exiled.Events.Handlers.Server.RoundStarted -= this.LobbyEventHandlers.OnRoundStart;
 
         Player.DroppingAmmo -= this.EventHandler.OnDroppingAmmo;
 
-        Player.Died -= EventHandler.OnDied;
+        Player.Died -= LobbyEventHandlers.OnDied;
 
-        Player.Spawned -= EventHandler.OnSpawned;
-        
-        Player.DroppingItem -= EventHandler.OnDrop;
+        Player.Spawned -= LobbyEventHandlers.OnSpawned;
 
-        Player.ThrowingItem -= EventHandler.OnThrow;
+        Player.DroppingItem -= LobbyEventHandlers.OnDrop;
+
+        Player.ThrowingItem -= LobbyEventHandlers.OnThrow;
 
         Exiled.Events.Handlers.Warhead.Starting -= EventHandler.OnNukeEnabled;
+
+        Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
+
 
 
     }

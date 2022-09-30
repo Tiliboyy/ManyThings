@@ -37,7 +37,7 @@ namespace ManyThings.Commands
 
 
 
-                    
+
                 }
 
                 player.Rotation = new Vector3(x, y, z);

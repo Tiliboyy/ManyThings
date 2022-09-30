@@ -1,7 +1,6 @@
 ﻿using CommandSystem;
 using CustomPlayerEffects;
 using Exiled.Permissions.Extensions;
-using MEC;
 using System;
 using Player = Exiled.API.Features.Player;
 

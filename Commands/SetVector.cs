@@ -1,5 +1,6 @@
 ﻿using CommandSystem;
 using Exiled.Permissions.Extensions;
+using ManyThings.Lobby;
 using System;
 using UnityEngine;
 using Player = Exiled.API.Features.Player;
@@ -36,7 +37,7 @@ namespace ManyThings.Commands
 
                 }
 
-                player.Position = EventHandlers.SpawnPoint + new Vector3(x, y, z);
+                player.Position = LobbyEventHandlers.SpawnPoint + new Vector3(x, y, z);
                 response = "Teleported!";
 
                 return true;

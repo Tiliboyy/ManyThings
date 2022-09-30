@@ -1,15 +1,8 @@
 using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.API.Interfaces;
-using Scp914;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using UnityEngine;
-
-
-
-
 public class Config : IConfig
 {
 
@@ -19,16 +12,13 @@ public class Config : IConfig
     [Description("Enables Debug mode")]
     public bool IsDebug { get; set; } = false;
 
-    [Description("Disables 207 Damage")]
-    public bool No207Dmg { get; set; } = false;
-
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
 
-    [Description("Mein Versuch AutoFFtoggle zu machen")]
-    public bool AutoFFToggle { get; set; } = true;
-    
+    [Description("Mein Versuch AutoFFtoggle zu machen(Geht noch nicht)")]
+    public bool AutoFFToggle { get; set; } = false;
+
     [Description("Adds a countdown for the Alpha Warhead")]
     public bool NukeCountdown { get; set; } = true;
 
@@ -48,24 +38,29 @@ public class Config : IConfig
 
 
     [Description("Allows players to drop items in the lobby")]
-    
+
     public bool AllowDroppingItem { get; set; } = false;
 
     [Description("A List of Schematics that are randomly chosen from")]
 
-
-    public List<string> LobbySchematicList { get; private set; } = new List<string>()
+    public List<string> LobbySchematics { get; private set; } = new List<string>()
         {
-            "Lobby Blau",
-            "Lobby Lila",
-            "Lobby Red",
+        "Lobby Black",
+        "Lobby Blau",
+        "Lobby Discord",
+        "Lobby Lila",
+        "Lobby Red",
+        "Lobby Spotify",
+
+
 
         };
+
     [Description("The items a player gets in the Lobby")]
 
     public List<ItemType> LobbyItems { get; private set; } = new List<ItemType>()
         {
-        
+
             ItemType.Coin,
             ItemType.Flashlight,
         };
