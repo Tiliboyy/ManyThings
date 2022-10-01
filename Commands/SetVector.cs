@@ -22,7 +22,7 @@ namespace ManyThings.Commands
             float x;
             float y;
             float z;
-            if (sender.CheckPermission("ManyThings.Vector"))
+            if (sender.CheckPermission("ManyThings.Tools"))
             {
                 if (arguments.Count < 3)
                 {

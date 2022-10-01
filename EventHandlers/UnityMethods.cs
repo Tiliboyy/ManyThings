@@ -20,25 +20,30 @@ namespace ManyThings.UnityMethods
 
         public static IEnumerator<float> NukeCountdown()
         {
-
-            yield return Timing.WaitForSeconds(1f);
-            while (Warhead.IsInProgress)
+            for (; ; )
             {
                 yield return Timing.WaitForSeconds(1f);
-                if (!Warhead.IsDetonated)
+                if (Warhead.IsInProgress)
                 {
-                    foreach (Player player in Player.List)
+                    yield return Timing.WaitForSeconds(1f);
+                    if (!Warhead.IsDetonated)
                     {
-                        if (Plugin.Instance.Config.NukeHintVertPos != 0 && Plugin.Instance.Config.NukeHintVertPos > 0)
+                        foreach (Player player in Player.List)
                         {
-                            double Count = Math.Round(Warhead.DetonationTimer);
-                            string text = Plugin.Instance.Translation.NukeCountdown.Replace("%sekunden%", Count.ToString());
-                            for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
+                            if (Plugin.Instance.Config.NukeHintVertPos != 0 && Plugin.Instance.Config.NukeHintVertPos > 0)
                             {
-                                text += "\n";
+                                double Count = Math.Round(Warhead.DetonationTimer);
+                                string text = Plugin.Instance.Translation.NukeCountdown.Replace("%sekunden%", Count.ToString());
+                                for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
+                                {
+                                    text += "\n";
+                                }
+                                player.ShowHint(text, 1f);
                             }
-                            player.ShowHint(text, 1f);
                         }
+                    }else
+                    {
+                        yield break;
                     }
                 }
             }
@@ -511,11 +516,11 @@ namespace ManyThings.UnityMethods
         }
         public static IEnumerator<float> AntiSprintBug(SpawnedEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.2f);
+            yield return Timing.WaitForSeconds(0.1f);
             Player player = ev.Player;
             if (ev.Player == null) yield break;
             player.Scale = new Vector3(-1f, 1f, 1f);
-            yield return  Timing.WaitForSeconds(0.2f);
+            yield return  Timing.WaitForSeconds(0.1f);
             player.Scale = new Vector3(1f, 1f, 1f);
         }
     }

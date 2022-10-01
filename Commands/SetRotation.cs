@@ -34,10 +34,6 @@ namespace ManyThings.Commands
                     float.TryParse(arguments.Array[1], out x);
                     float.TryParse(arguments.Array[1], out y);
                     float.TryParse(arguments.Array[1], out z);
-
-
-
-
                 }
 
                 player.Rotation = new Vector3(x, y, z);

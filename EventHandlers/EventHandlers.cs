@@ -14,7 +14,10 @@ public class EventHandlers : Plugin<Config>
 
     public void OnRoundStart()
     {
-
+        if (Plugin.Instance.Config.NukeCountdown)
+        {
+            coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.NukeCountdown()));
+        }
         if (Plugin.Instance.Config.AutoFFToggle)
         {
             Server.FriendlyFire = false;
@@ -27,13 +30,6 @@ public class EventHandlers : Plugin<Config>
         if (Plugin.Instance.Config.AutoFFToggle)
         {
             Server.FriendlyFire = true;
-        }
-    }
-    public void OnNukeEnabled(StartingEventArgs ev)
-    {
-        if (Plugin.Instance.Config.NukeCountdown)
-        {
-            coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.NukeCountdown()));
         }
     }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
@@ -54,5 +50,6 @@ public class EventHandlers : Plugin<Config>
             Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.AntiSprintBug(ev));
         }
     }
+    
 }
 

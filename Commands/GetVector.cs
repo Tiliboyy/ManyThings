@@ -19,7 +19,7 @@ namespace ManyThings.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            if (sender.CheckPermission("ManyThings.Vector"))
+            if (sender.CheckPermission("ManyThings.Tools"))
             {
                 var Vector = player.Position - LobbyEventHandlers.SpawnPoint;
                 if (Plugin.Instance.Config.IsDebug)
