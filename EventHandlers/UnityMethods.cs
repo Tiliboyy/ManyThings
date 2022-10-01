@@ -504,7 +504,14 @@ namespace ManyThings.UnityMethods
             }
         }
 
+        public static IEnumerator<float> AntiSprintBug(SpawnedEventArgs ev)
+        {
+            yield return  Timing.WaitForSeconds(0.5f);
+            ev.Player.Scale.Set(0.9f, 0.9f, 0.9f);
+            yield return Timing.WaitForSeconds(0.2f);
+            ev.Player.Scale.Set(1, 1, 1);
 
+        }
 
 
     }

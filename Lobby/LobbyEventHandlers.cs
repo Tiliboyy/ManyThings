@@ -383,6 +383,10 @@ namespace ManyThings.Lobby
 
 
             }
+            if (Config.AntiSprintBug)
+            {
+                Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.AntiSprintBug(ev));
+            }
         }
         public void OnDied(DiedEventArgs ev)
         {

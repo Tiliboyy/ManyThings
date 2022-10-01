@@ -1,3 +1,4 @@
+using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ public class Config : IConfig
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
+    [Description("Falls der sprint bug passiert kann man das versuchen")]
+    public bool AntiSprintBug { get; set; } = false;
 
     [Description("Mein Versuch AutoFFtoggle zu machen(Geht noch nicht)")]
     public bool AutoFFToggle { get; set; } = false;
@@ -28,7 +31,7 @@ public class Config : IConfig
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;
 
-    [Description("Enables global voice chat")]
+    [Description("Enables global voice chat in the lobby")]
     public bool GlobalVoiceChat { get; set; } = false;
 
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
@@ -45,14 +48,12 @@ public class Config : IConfig
 
     public List<string> LobbySchematics { get; private set; } = new List<string>()
         {
-        "Lobby Black",
-        "Lobby Blau",
-        "Lobby Discord",
-        "Lobby Lila",
-        "Lobby Red",
-        "Lobby Spotify",
-
-
+            "Lobby Blau",
+            "Lobby Discord",
+            "Lobby Lila",
+            "Lobby PornHub",
+            "Lobby Red",
+            "Lobby Spotify",
 
         };
 
