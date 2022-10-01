@@ -47,6 +47,7 @@
     <PlatformTarget>ARM64</PlatformTarget>
     <LangVersion>10</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -140,6 +141,7 @@
     <Compile Include="Commands\SetVector.cs" />
     <Compile Include="Commands\SpeedSynced.cs" />
     <Compile Include="Commands\SpeedDeSynced.cs" />
+    <Compile Include="Lists.cs" />
     <Compile Include="Lobby\LobbyEventHandlers.cs" />
     <Compile Include="Lobby\LobbySpawner.cs" />
     <Compile Include="Lobby\LobbyMethods.cs" />

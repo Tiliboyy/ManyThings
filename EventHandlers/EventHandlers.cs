@@ -1,5 +1,6 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
+using ManyThings.Lists;
 using MEC;
 using System.Collections.Generic;
 using Log = Exiled.API.Features.Log;
@@ -15,28 +16,23 @@ public class EventHandlers : Plugin<Config>
     public void OnRoundStart()
     {
 
-        if (Config.AutoFFToggle)
+        if (Plugin.Instance.Config.AutoFFToggle)
         {
-            Log.Info("Round Started");
-            Server.FriendlyFire = true;
-            Log.Info(Server.FriendlyFire);
+            Server.FriendlyFire = false;
         }
     }
 
     public void OnRoundEnd(RoundEndedEventArgs ev)
     {
-        if (Config.AutoFFToggle)
-        {
-            Log.Info("Round Ended");
-            foreach (Player player in Player.List)
-            {
 
-            }
+        if (Plugin.Instance.Config.AutoFFToggle)
+        {
+            Server.FriendlyFire = true;
         }
     }
     public void OnNukeEnabled(StartingEventArgs ev)
     {
-        if (Config.NukeCountdown)
+        if (Plugin.Instance.Config.NukeCountdown)
         {
             coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.NukeCountdown()));
         }

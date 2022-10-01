@@ -19,13 +19,15 @@ public class Config : IConfig
     [Description("Might fix the sprint bug (not tested)")]
     public bool AntiSprintBug { get; set; } = false;
 
-    [Description("Not implemented yet")]
+    [Description("Auto Frienly Fire on Round End")]
     public bool AutoFFToggle { get; set; } = false;
 
     [Description("Adds a countdown for the Alpha Warhead")]
     public bool NukeCountdown { get; set; } = false;
     
     public int NukeHintVertPos { get; set; } = 32;
+
+    
 
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;

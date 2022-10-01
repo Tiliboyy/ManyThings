@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Map = Exiled.API.Features.Map;
 using Player = Exiled.API.Features.Player;
+using Server = Exiled.API.Features.Server;
 using Warhead = Exiled.API.Features.Warhead;
 
 namespace ManyThings.UnityMethods

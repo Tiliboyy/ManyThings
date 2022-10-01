@@ -285,10 +285,9 @@ namespace ManyThings.Lobby
             }
             else
             {
-                Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count);
+                Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count - 1);
             }
             lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematics[Lobbynum], SpawnPoint, Quaternion.identity);
-
             #region Ugly Code
             var GameObject1 = new GameObject("Spawner1");
             var Collider1 = GameObject1.AddComponent<SphereCollider>();
