@@ -53,14 +53,12 @@ public class Config : IConfig
             "Lobby PornHub",
             "Lobby Red",
             "Lobby Spotify",
-
         };
 
     [Description("The items a player gets in the Lobby")]
 
     public List<ItemType> LobbyItems { get; private set; } = new List<ItemType>()
         {
-
             ItemType.Coin,
             ItemType.Flashlight,
         };

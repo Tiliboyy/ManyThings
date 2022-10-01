@@ -80,22 +80,22 @@ namespace ManyThings.Lobby
                 if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScpSpawner) <= 3.4)
                 {
                     SCPPlayers.Add(player);
-                    Log.Info($"SCP1: {player}");
+                    Log.Debug($"SCP1: {player}", Plugin.Instance.Config.IsDebug);
                 }
                 else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ClassDSpawner) <= 3.4)
                 {
                     ClassDPlayers.Add(player);
-                    Log.Info($"ClassD1: {player}");
+                    Log.Debug($"ClassD1: {player}", Plugin.Instance.Config.IsDebug);
                 }
                 else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScientistSpawner) <= 3.4)
                 {
                     ScientistPlayers.Add(player);
-                    Log.Info($"Scientist1: {player}");
+                    Log.Debug($"Scientist1: {player}", Plugin.Instance.Config.IsDebug);
                 }
                 else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.GuardSpawner) <= 3.4)
                 {
                     GuardPlayers.Add(player);
-                    Log.Info($"Guard1: {player}");
+                    Log.Debug($"Guard1: {player}", Plugin.Instance.Config.IsDebug);
                 }
                 player.Role.Type = RoleType.None;
             }
@@ -288,6 +288,10 @@ namespace ManyThings.Lobby
                 Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count - 1);
             }
             lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematics[Lobbynum], SpawnPoint, Quaternion.identity);
+            Log.Debug($"Lobby: {lobby}", Plugin.Instance.Config.IsDebug);
+            Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
+            Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
+            Log.Debug("Lobby0: " + Plugin.Instance.Config.LobbySchematics[0], Plugin.Instance.Config.IsDebug);
             #region Ugly Code
             var GameObject1 = new GameObject("Spawner1");
             var Collider1 = GameObject1.AddComponent<SphereCollider>();
