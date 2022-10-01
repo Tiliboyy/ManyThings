@@ -511,11 +511,11 @@ namespace ManyThings.UnityMethods
         }
         public static IEnumerator<float> AntiSprintBug(SpawnedEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(0.2f);
             Player player = ev.Player;
             if (ev.Player == null) yield break;
             player.Scale = new Vector3(-1f, 1f, 1f);
-            yield return  Timing.WaitForSeconds(0.5f);
+            yield return  Timing.WaitForSeconds(0.2f);
             player.Scale = new Vector3(1f, 1f, 1f);
         }
     }
