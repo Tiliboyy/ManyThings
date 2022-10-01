@@ -47,6 +47,9 @@ public class Plugin : Plugin<Config, Translation>
         Player.Died += LobbyEventHandlers.OnDied;
 
         Player.Spawned += LobbyEventHandlers.OnSpawned;
+        
+        Player.Spawned += EventHandler.OnSpawned;
+
 
         Player.DroppingItem += LobbyEventHandlers.OnDrop;
 
@@ -82,6 +85,7 @@ public class Plugin : Plugin<Config, Translation>
         Player.Died -= LobbyEventHandlers.OnDied;
 
         Player.Spawned -= LobbyEventHandlers.OnSpawned;
+        Player.Spawned -= EventHandler.OnSpawned;
 
         Player.DroppingItem -= LobbyEventHandlers.OnDrop;
 

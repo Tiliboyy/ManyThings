@@ -361,11 +361,6 @@ namespace ManyThings.Lobby
         }
         public void OnSpawned(SpawnedEventArgs ev)
         {
-            if (!Round.IsLobby)
-            {
-                return;
-            }
-
             if (!Round.IsStarted)
             {
                 ev.Player.ClearInventory();
@@ -383,10 +378,7 @@ namespace ManyThings.Lobby
 
 
             }
-            if (Config.AntiSprintBug)
-            {
-                Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.AntiSprintBug(ev));
-            }
+
         }
         public void OnDied(DiedEventArgs ev)
         {

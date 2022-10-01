@@ -52,5 +52,12 @@ public class EventHandlers : Plugin<Config>
     {
         Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
     }
+    public void OnSpawned(SpawnedEventArgs ev)
+    {
+        if (Plugin.Instance.Config.AntiSprintBug)
+        {
+            Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.AntiSprintBug(ev));
+        }
+    }
 }
 

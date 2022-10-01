@@ -16,17 +16,16 @@ public class Config : IConfig
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
-    [Description("Falls der sprint bug passiert kann man das versuchen")]
+    [Description("Might fix the sprint bug (not tested)")]
     public bool AntiSprintBug { get; set; } = false;
 
-    [Description("Mein Versuch AutoFFtoggle zu machen(Geht noch nicht)")]
+    [Description("Not implemented yet")]
     public bool AutoFFToggle { get; set; } = false;
 
     [Description("Adds a countdown for the Alpha Warhead")]
-    public bool NukeCountdown { get; set; } = true;
-
+    public bool NukeCountdown { get; set; } = false;
+    
     public int NukeHintVertPos { get; set; } = 32;
-
 
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;
@@ -70,7 +69,12 @@ public class Config : IConfig
     public List<RoleType> RolesToChoose { get; private set; } = new List<RoleType>()
         {
             RoleType.ChaosMarauder,
-        };
+            RoleType.Scientist,
+            RoleType.NtfCaptain,
+            RoleType.Tutorial,
+            RoleType.FacilityGuard,
+            RoleType.ClassD,
+    };
     [Description("List of ammo given to a player while in lobby:")]
     public Dictionary<AmmoType, ushort> Ammo { get; private set; } = new Dictionary<AmmoType, ushort>()
         {

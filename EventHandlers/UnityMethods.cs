@@ -1,11 +1,15 @@
 ﻿using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
+using Exiled.Events.Handlers;
 using InventorySystem.Items.Firearms.Ammo;
 using MEC;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Map = Exiled.API.Features.Map;
+using Player = Exiled.API.Features.Player;
+using Warhead = Exiled.API.Features.Warhead;
 
 namespace ManyThings.UnityMethods
 
@@ -503,16 +507,14 @@ namespace ManyThings.UnityMethods
                 }
             }
         }
-
         public static IEnumerator<float> AntiSprintBug(SpawnedEventArgs ev)
         {
+            yield return Timing.WaitForSeconds(0.5f);
+            Player player = ev.Player;
+            if (ev.Player == null) yield break;
+            player.Scale = new Vector3(-1f, 1f, 1f);
             yield return  Timing.WaitForSeconds(0.5f);
-            ev.Player.Scale.Set(0.9f, 0.9f, 0.9f);
-            yield return Timing.WaitForSeconds(0.2f);
-            ev.Player.Scale.Set(1, 1, 1);
-
+            player.Scale = new Vector3(1f, 1f, 1f);
         }
-
-
     }
 }
