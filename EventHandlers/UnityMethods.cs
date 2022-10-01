@@ -31,7 +31,8 @@ namespace ManyThings.UnityMethods
                     {
                         if (Plugin.Instance.Config.NukeHintVertPos != 0 && Plugin.Instance.Config.NukeHintVertPos > 0)
                         {
-                            string text = $"<color=#ff0509>{Math.Round(Warhead.DetonationTimer)} Sekunen bis zur Detonation.</color>";
+                            double Count = Math.Round(Warhead.DetonationTimer);
+                            string text = Plugin.Instance.Translation.NukeCountdown.Replace("%sekunden%", Count.ToString());
                             for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
                             {
                                 text += "\n";

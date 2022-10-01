@@ -6,6 +6,10 @@ namespace ManyThings
     public class Translation : ITranslation
     {
 
+
+        public string NukeCountdown { get; set; } = "<color=#ff0509>%sekunden% Sekunen bis zur Detonation.</color>";
+
+
         [Description("Lobby")]
 
         public string TopMessage { get; set; } = "<size=40><color=yellow><b>Die Runde startet bald, {seconds}</b></color></size>";

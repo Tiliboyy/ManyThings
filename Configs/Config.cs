@@ -24,10 +24,8 @@ public class Config : IConfig
 
     [Description("Adds a countdown for the Alpha Warhead")]
     public bool NukeCountdown { get; set; } = false;
-    
+    [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int NukeHintVertPos { get; set; } = 32;
-
-    
 
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;
@@ -88,7 +86,7 @@ public class Config : IConfig
         };
     [Description("Coordinates of where the lobby spawns")]
 
-    public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 977, 95.8f);
+    public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 1500, 95.8f);
     [Description("The Rotation of the Player when they spawn")]
 
     public SerializedVector3.SerializedVector3 SpawnRotation { get; set; } = new Vector3(0, 0, 0);
