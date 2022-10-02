@@ -1,4 +1,5 @@
-﻿using Exiled.API.Extensions;
+﻿using Discord;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using GameCore;
@@ -33,6 +34,11 @@ namespace ManyThings.Lobby
             if (lobby != null)
             {
                 lobby.Destroy();
+            }
+            foreach (Player player in Player.List)
+            {
+                player.ClearInventory();
+                player.Role.Type = RoleType.Spectator;
             }
 
 
@@ -331,7 +337,6 @@ namespace ManyThings.Lobby
             }
             LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
         }
-
         public void VerifiedPlayer(VerifiedEventArgs ev)
         {
 
@@ -343,20 +348,12 @@ namespace ManyThings.Lobby
                 }
 
 
-                Timing.CallDelayed(0.5f, () =>
+                Timing.CallDelayed(Plugin.Instance.Config.SpawnDelay, () =>
                 {
-                    if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
-                                            GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
+
                     ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
                     Player player = ev.Player;
                 });
-
-                Timing.CallDelayed(1.5f, () =>
-                {
-                    if (Round.IsStarted || (GameCore.RoundStart.singleton.NetworkTimer <= 1 &&
-                                            GameCore.RoundStart.singleton.NetworkTimer != -2)) return;
-                });
-
 
             }
 
@@ -385,14 +382,18 @@ namespace ManyThings.Lobby
         }
         public void OnDied(DiedEventArgs ev)
         {
-            Timing.CallDelayed(2f, () =>
+            if (!Round.IsStarted)
             {
-                if (!Round.IsStarted)
+                Timing.CallDelayed(2f, () =>
                 {
-                    Player player = ev.Target;
-                    ev.Target.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
-                }
-            });
+                    if (!Round.IsStarted)
+                    {
+                        Player player = ev.Target;
+                        ev.Target.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
+                    }
+                });
+            }
+
 
 
         }
@@ -418,5 +419,13 @@ namespace ManyThings.Lobby
             }
 
         }
+        public void OnPlacingBlood(PlacingBloodEventArgs ev)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
     }
 }

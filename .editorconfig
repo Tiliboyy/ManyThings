@@ -69,6 +69,9 @@ csharp_style_expression_bodied_local_functions = false:silent
 # IDE0066: Switch-Anweisung in Ausdruck konvertieren
 dotnet_diagnostic.IDE0066.severity = none
 
+# IDE0051: Nicht verwendete private Member entfernen
+dotnet_diagnostic.IDE0051.severity = none
+
 [*.vb]
 #### Benennungsstile ####
 

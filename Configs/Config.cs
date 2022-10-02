@@ -32,7 +32,9 @@ public class Config : IConfig
 
     [Description("Enables global voice chat in the lobby")]
     public bool GlobalVoiceChat { get; set; } = false;
-
+    [Description("The delay it takes to spawn the player in the lobby")]
+    public float SpawnDelay { get; set; } = 0.5f;
+    
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int HintVertPos { get; set; } = 25;
 

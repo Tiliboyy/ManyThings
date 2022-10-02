@@ -18,13 +18,7 @@ namespace ManyThings.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
 
-
-            Player player = Player.Get(sender);
-            float speednumself;
-            float speednumother;
-
-            float.TryParse(arguments.Array[1], out speednumself);
-            float.TryParse(arguments.Array[2], out speednumother);
+            float.TryParse(arguments.Array[2], out float speednumother);
 
 
             if (sender.CheckPermission("ManyThings.Speed"))

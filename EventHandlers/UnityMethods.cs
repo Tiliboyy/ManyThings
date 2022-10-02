@@ -1,7 +1,6 @@
 ﻿using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
-using Exiled.Events.Handlers;
 using InventorySystem.Items.Firearms.Ammo;
 using MEC;
 using System;
@@ -9,8 +8,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Map = Exiled.API.Features.Map;
 using Player = Exiled.API.Features.Player;
-using Server = Exiled.API.Features.Server;
 using Warhead = Exiled.API.Features.Warhead;
+
 
 namespace ManyThings.UnityMethods
 
@@ -41,7 +40,8 @@ namespace ManyThings.UnityMethods
                                 player.ShowHint(text, 1f);
                             }
                         }
-                    }else
+                    }
+                    else
                     {
                         yield break;
                     }
@@ -520,7 +520,7 @@ namespace ManyThings.UnityMethods
             Player player = ev.Player;
             if (ev.Player == null) yield break;
             player.Scale = new Vector3(-1f, 1f, 1f);
-            yield return  Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForSeconds(0.1f);
             player.Scale = new Vector3(1f, 1f, 1f);
         }
     }
