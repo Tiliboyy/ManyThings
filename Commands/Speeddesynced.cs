@@ -29,33 +29,6 @@ namespace ManyThings.Commands
 
             if (sender.CheckPermission("ManyThings.Speed"))
             {
-                if (arguments.Count != 1)
-                {
-                    if (arguments.Count != 2)
-                    {
-                        response = $"<color=yellow>Usage: {Command} <Speed> </color>";
-                        return false;
-                    }
-                }
-
-                if (arguments.Count == 1)
-                {
-                    if (speednumself == 0)
-                    {
-                        player.ChangeWalkingSpeed(1.05f, false);
-                        player.ChangeRunningSpeed(1.25f, false);
-
-                    }
-                    else
-                    {
-                        player.ChangeWalkingSpeed(speednumself, false);
-                        player.ChangeRunningSpeed(speednumself, false);
-                        response = "Added Speed!";
-                        return true;
-                    }
-
-                }
-                else
                 if (arguments.Count != 2)
                 {
                     response = $"<color=yellow>Usage: {Command} <PlayerID> <Speed> </color>";
