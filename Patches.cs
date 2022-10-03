@@ -4,6 +4,7 @@ using PlayableScps;
 using System.Collections.Generic;
 using UnityEngine;
 using ManyThings;
+using Exiled.API.Features;
 
 namespace ManyThings.Patches
 {
@@ -13,7 +14,10 @@ namespace ManyThings.Patches
     {
         private static bool Prefix(RoundStart __instance, ref short value)
         {
-
+            if (Round.IsStarted)
+            {
+                return true;
+            }
             __instance.Timer = value;
             return false;
         }

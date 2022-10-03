@@ -345,6 +345,7 @@ namespace ManyThings.Lobby
                 if (!Plugin.Instance.Config.GlobalVoiceChat)
                 {
                     MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
+                    Log.Debug("Executed FakeSyncVar", Plugin.Instance.Config.IsDebug);
                 }
 
 
