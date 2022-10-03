@@ -8,7 +8,6 @@ using Exiled.API.Features;
 
 namespace ManyThings.Patches
 {
-    //Disables global chat in the lobby
     [HarmonyPatch(typeof(RoundStart), nameof(RoundStart.NetworkTimer), MethodType.Setter)]
     internal static class NetworkTimerPatch
     {
