@@ -1,5 +1,4 @@
-﻿using Discord;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using GameCore;
@@ -7,12 +6,24 @@ using ManyThings.LobbySpawner;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
+using Mirror.LiteNetLib4Mirror;
+using Mirror;
+using RemoteAdmin;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using Log = Exiled.API.Features.Log;
 using Player = Exiled.API.Features.Player;
 using Random = UnityEngine.Random;
+using Exiled.API.Features.Items;
+using Exiled.API.Features.Spawn;
+using HarmonyLib;
+using NPCs;
+using NPCs.API;
+using Assets._Scripts.Dissonance;
+using System.Xml.Linq;
+
 namespace ManyThings.Lobby
 {
     public class LobbyEventHandlers : Plugin<Config>
@@ -26,11 +37,21 @@ namespace ManyThings.Lobby
 
         public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
 
+        public static Vector3 ClassDPoint = Plugin.Instance.Config.ClassDSpawner;
+        public static Vector3 GuardPoint = Plugin.Instance.Config.GuardSpawner;
+        public static Vector3 SCPPoint = Plugin.Instance.Config.ScpSpawner;
+        public static Vector3 ScientistPoint = Plugin.Instance.Config.ScientistSpawner;
+
+        Npc npc = new(RoleType.ClassD, "classD", ClassDPoint);
 
         public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
+
         public void OnRoundStart()
         {
-
+            if (LobbyTimer.IsRunning)
+            {
+                Timing.KillCoroutines(LobbyTimer);
+            }
             if (lobby != null)
             {
                 lobby.Destroy();
@@ -294,6 +315,7 @@ namespace ManyThings.Lobby
                 Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count - 1);
             }
             lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematics[Lobbynum], SpawnPoint, Quaternion.identity);
+ 
             Log.Debug($"Lobby: {lobby}", Plugin.Instance.Config.IsDebug);
             Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
             Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
@@ -331,11 +353,10 @@ namespace ManyThings.Lobby
             #endregion
 
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-            if (LobbyTimer.IsRunning)
-            {
-                Timing.KillCoroutines(LobbyTimer);
-            }
+
             LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
+
+            
         }
         public void VerifiedPlayer(VerifiedEventArgs ev)
         {

@@ -71,13 +71,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\Documents\Assembly\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\Documents\Assembly\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-publicized">
-      <HintPath>..\..\..\Documents\Assembly\Assembly-CSharp-publicized.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\Assembly-CSharp-publicized.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EXILED.5.2.2\lib\net472\CommandSystem.Core.dll</HintPath>
@@ -109,18 +109,26 @@
     <Reference Include="Exiled.Updater, Version=3.1.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>packages\EXILED.5.2.2\lib\net472\Exiled.Updater.dll</HintPath>
     </Reference>
-    <Reference Include="MapEditorReborn, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Documents\Assembly\MapEditorReborn.dll</HintPath>
+    <Reference Include="MapEditorReborn">
+      <HintPath>..\..\..\Documents\assambys\MapEditorReborn.dll</HintPath>
     </Reference>
-    <Reference Include="Mirror_Publicized">
-      <HintPath>..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
+    <Reference Include="mirror-publicized">
+      <HintPath>..\..\..\Documents\assambys\mirror-publicized.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Documents\Assembly\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Mono.Posix">
+      <HintPath>..\..\..\Documents\assambys\Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="NCalc">
+      <HintPath>..\..\..\Documents\assambys\NCalc.dll</HintPath>
     </Reference>
     <Reference Include="NorthwoodLib, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EXILED.5.2.2\lib\net472\NorthwoodLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPCs">
+      <HintPath>..\..\..\Desktop\NPCs.dll</HintPath>
+    </Reference>
+    <Reference Include="SemVer">
+      <HintPath>..\..\..\Documents\assambys\SemVer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -132,16 +140,22 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Documents\Assembly\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\..\Documents\assambys\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\..\Documents\assambys\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\Documents\Assembly\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\..\Documents\Assembly\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="YamlDotNet">
-      <HintPath>..\..\..\Documents\Assembly\YamlDotNet.dll</HintPath>
+      <HintPath>..\..\..\Documents\assambys\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

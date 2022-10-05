@@ -9,7 +9,7 @@ public class EventHandlers : Plugin<Config>
 {
 
 
-    public static List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
+    public static List<CoroutineHandle> coroutines = new();
 
 
     public void OnRoundStart()
@@ -24,7 +24,7 @@ public class EventHandlers : Plugin<Config>
         }
     }
 
-    public void OnRoundEnd(RoundEndedEventArgs ev)
+    public void OnRoundEnd(EndingRoundEventArgs ev)
     {
 
         if (Plugin.Instance.Config.AutoFFToggle)

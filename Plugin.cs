@@ -22,7 +22,7 @@ public class Plugin : Plugin<Config, Translation>
         new Harmony("ManyThings.patches").PatchAll();
         EventHandler = new EventHandlers();
         LobbyEventHandlers = new LobbyEventHandlers();
-        Exiled.Events.Handlers.Server.RoundEnded += EventHandler.OnRoundEnd;
+        Exiled.Events.Handlers.Server.EndingRound += EventHandler.OnRoundEnd;
         Player.Verified += LobbyEventHandlers.VerifiedPlayer;
         Exiled.Events.Handlers.Server.WaitingForPlayers += this.LobbyEventHandlers.WaitingForPlayers;
         Exiled.Events.Handlers.Server.RoundStarted += this.LobbyEventHandlers.OnRoundStart;
@@ -45,7 +45,7 @@ public class Plugin : Plugin<Config, Translation>
         Plugin.Instance = null;
         EventHandler = null;
         LobbyEventHandlers = null;
-        Exiled.Events.Handlers.Server.RoundEnded -= EventHandler.OnRoundEnd;
+        Exiled.Events.Handlers.Server.EndingRound -= EventHandler.OnRoundEnd;
         Exiled.Events.Handlers.Player.Verified -= LobbyEventHandlers.VerifiedPlayer;
         Exiled.Events.Handlers.Server.WaitingForPlayers -= this.LobbyEventHandlers.WaitingForPlayers;
         Exiled.Events.Handlers.Server.RoundStarted -= this.LobbyEventHandlers.OnRoundStart;
