@@ -3,6 +3,9 @@ using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs;
 using InventorySystem.Items.Firearms.Ammo;
 using MEC;
+using Mirror.LiteNetLib4Mirror;
+using Mirror;
+using RemoteAdmin;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -522,6 +525,25 @@ namespace ManyThings.UnityMethods
             player.Scale = new Vector3(-1f, 1f, 1f);
             yield return Timing.WaitForSeconds(0.1f);
             player.Scale = new Vector3(1f, 1f, 1f);
+        }
+
+        public static void SpawnTempDummy(Player Ply, Vector3 position, Quaternion rotation, RoleType role, float x, float y, float z)
+        {
+            GameObject obj = UnityEngine.Object.Instantiate(
+            LiteNetLib4MirrorNetworkManager.singleton.playerPrefab);
+            CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
+            if (ccm == null)
+                Log.Error("CCM is null, this can cause problems!");
+            ccm.CurClass = role;
+            ccm.GodMode = true;
+            //ccm.OldRefreshPlyModel(PlayerManager.localPlayer);
+            obj.GetComponent<NicknameSync>().Network_myNickSync = "Dummy";
+            obj.GetComponent<QueryProcessor>().PlayerId = 9999;
+            obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
+            obj.transform.localScale = new Vector3(x, y, z);
+            obj.transform.position = position;
+            obj.transform.rotation = rotation;
+            NetworkServer.Spawn(obj);
         }
     }
 }

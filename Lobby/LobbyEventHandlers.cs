@@ -19,8 +19,6 @@ using Random = UnityEngine.Random;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Spawn;
 using HarmonyLib;
-using NPCs;
-using NPCs.API;
 using Assets._Scripts.Dissonance;
 using System.Xml.Linq;
 
@@ -37,12 +35,12 @@ namespace ManyThings.Lobby
 
         public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
 
+        private List<GameObject> Dummies = new List<GameObject> { };
+
         public static Vector3 ClassDPoint = Plugin.Instance.Config.ClassDSpawner;
         public static Vector3 GuardPoint = Plugin.Instance.Config.GuardSpawner;
         public static Vector3 SCPPoint = Plugin.Instance.Config.ScpSpawner;
         public static Vector3 ScientistPoint = Plugin.Instance.Config.ScientistSpawner;
-
-        Npc npc = new(RoleType.ClassD, "classD", ClassDPoint);
 
         public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
 
@@ -304,6 +302,44 @@ namespace ManyThings.Lobby
         }
         public void WaitingForPlayers()
         {
+            if (Round.IsStarted)
+                return;
+            Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
+            {
+                { RoleType.ClassD, "a" },
+                { RoleType.Scp173, "a" },
+                { RoleType.Scientist, "a" },
+                { RoleType.FacilityGuard, "a" },
+            };
+            Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
+            {
+                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Vector3.up, Quaternion.Euler(0,129.25f , 0) ) },
+                { RoleType.Scp173, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Vector3.up, Quaternion.Euler(0, 100.64f, 0f) ) },
+                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Vector3.up, Quaternion.Euler(0f, 12f, 0f) ) },
+                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Vector3.up, Quaternion.Euler(0, 340f, 0) ) },
+            };
+            foreach (var Role in dummiesToSpawn)
+            {
+                GameObject obj = UnityEngine.Object.Instantiate(LiteNetLib4MirrorNetworkManager.singleton.playerPrefab);
+                CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
+                if (ccm == null)
+                    Log.Error("CCM is null, this can cause problems!");
+                ccm.CurClass = Role.Key;
+                ccm.GodMode = true;
+                //ccm.OldRefreshPlyModel(PlayerManager.localPlayer);
+                obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
+                obj.GetComponent<QueryProcessor>().PlayerId = 9999;
+                obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
+                obj.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
+
+                obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
+                obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
+
+                NetworkServer.Spawn(obj);
+                Dummies.Add(obj);
+                Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position}");
+                Log.Debug(Dummies.Count.ToString());
+            }
             int Lobbynum;
             if (Plugin.Instance.Config.LobbySchematics.Count == 0)
             {
