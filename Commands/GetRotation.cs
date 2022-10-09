@@ -22,9 +22,8 @@ namespace ManyThings.Commands
 
             if (sender.CheckPermission("ManyThings.Tools"))
             {
-                GameObject obj = player.GameObject;
-                response = obj.transform.rotation.ToString();
-                Log.Debug(obj.transform.rotation.ToString(), Plugin.Instance.Config.IsDebug);
+                response = player.CameraTransform.rotation.eulerAngles.ToString();
+                Log.Debug(player.CameraTransform.rotation.eulerAngles.ToString(), Plugin.Instance.Config.IsDebug);
                 return true;
             }
             response = "You do not have the required Permissions for that!";

@@ -20,13 +20,16 @@ using Exiled.API.Features.Spawn;
 using HarmonyLib;
 using Assets._Scripts.Dissonance;
 using System.Xml.Linq;
+using Exiled.CustomRoles;
+using Exiled.API.Features.Roles;
+using CommandSystem.Commands.RemoteAdmin;
 
 namespace ManyThings.Lobby
 {
     public class LobbyEventHandlers : Plugin<Config>
     {
 
-        public static CoroutineHandle LobbyTimer2;
+        public static CoroutineHandle LobbyTimer;
         public SchematicObject lobby;
         public static System.Random random = new System.Random();
         public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
@@ -39,9 +42,9 @@ namespace ManyThings.Lobby
 
         public void OnRoundStart()
         {
-            if (LobbyTimer2.IsRunning)
+            if (LobbyTimer.IsRunning)
             {
-                Timing.KillCoroutines(LobbyTimer2);
+                Timing.KillCoroutines(LobbyTimer);
             }
             if (lobby != null)
             {
@@ -297,7 +300,6 @@ namespace ManyThings.Lobby
         {
             if (Round.IsStarted)
                 return;
-            Log.Info("sex1");
             Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
             {
                 { RoleType.ClassD, "" },
@@ -307,17 +309,15 @@ namespace ManyThings.Lobby
             };
             Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
             {
-                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0,129.25f , 0) ) },
-                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0, 100.64f, 0f) ) },
-                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0f, 12f, 0f) ) },
-                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0, 340f, 0) ) },
+                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner +Config.SpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
+                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Config.SpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
+                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Config.SpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
+                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Config.SpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
             };
 
             foreach (var Role in dummiesToSpawn)
             {
-                Log.Info("sex2");
-
-                GameObject obj = UnityEngine.Object.Instantiate(LiteNetLib4MirrorNetworkManager.singleton.playerPrefab);
+                GameObject obj = UnityEngine.Object.Instantiate(NetworkManager.singleton.playerPrefab);
                 CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
                 if (ccm == null)
                     Log.Error("CCM is null, this can cause problems!");
@@ -325,18 +325,15 @@ namespace ManyThings.Lobby
                 ccm.GodMode = true;
                 obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
                 obj.GetComponent<QueryProcessor>().PlayerId = 9999;
+                obj.GetComponent<QueryProcessor>()._ipAddress = "127.0.0.WAN";
+                obj.GetComponent<PlayerMovementSync>().NetworkGrounded = true;
                 obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
-                obj.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
+                obj.transform.localScale = new Vector3(Config.Npcsize.X, Config.Npcsize.Y, Config.Npcsize.Z);
                 obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
                 obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
-                Log.Info("sex3");
-
                 NetworkServer.Spawn(obj);
-                Log.Info("sex4");
-
                 Dummies.Add(obj);
                 Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position}");
-
             }
             int Lobbynum;
             if (Plugin.Instance.Config.LobbySchematics.Count == 0)
@@ -353,10 +350,9 @@ namespace ManyThings.Lobby
             Log.Debug($"Lobby: {lobby}", Plugin.Instance.Config.IsDebug);
             Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
             Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
-            Log.Debug("Lobby0: " + Plugin.Instance.Config.LobbySchematics[0], Plugin.Instance.Config.IsDebug);
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
 
-            LobbyTimer2 = Timing.RunCoroutine(LobbyMethods.LobbyTimer2());
+            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
             
         }

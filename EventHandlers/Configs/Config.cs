@@ -92,7 +92,17 @@ public class Config : IConfig
 
     public SerializedVector3.SerializedVector3 SpawnRotation { get; set; } = new Vector3(0, 0, 0);
 
+    [Description("The size of the NPC's")]
+    
+    public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(8.39999962f, 0, 5f);
+
+    public SerializedVector3.SerializedVector3 SpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
+
+
+
     [Description("Coordinates of where the spawners are from the spawnpoint of the lobby (use .getvector to get coordinates)")]
+
+
 
     public SerializedVector3.SerializedVector3 ClassDSpawner { get; set; } = new Vector3(-8.39999962f, 0, 5.0999999f);
 
