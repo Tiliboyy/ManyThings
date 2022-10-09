@@ -1,4 +1,5 @@
 ﻿using CommandSystem;
+using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 using UnityEngine;
@@ -18,17 +19,13 @@ namespace ManyThings.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            float x;
-            float y;
-            float z;
 
             if (sender.CheckPermission("ManyThings.Tools"))
             {
-
-
-                response = player.Rotation.ToString();
+                GameObject obj = player.GameObject;
+                response = obj.transform.rotation.ToString();
+                Log.Debug(obj.transform.rotation.ToString(), Plugin.Instance.Config.IsDebug);
                 return true;
-
             }
             response = "You do not have the required Permissions for that!";
             return false;

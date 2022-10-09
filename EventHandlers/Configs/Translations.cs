@@ -33,7 +33,9 @@ namespace ManyThings
         public string Scpmessage { get; set; } = "Du hast <color=#ff0509>SCP</color> gewählt!";
         public string Classdmessge { get; set; } = "Du hast <color=#ff7d05>Klasse-D</color> gewählt!";
         public string Guardmessage { get; set; } = "Du hast <color=#898889>Sicherheitspersonal</color> gewählt!";
-        public string ScientistMessage { get; set; } = "Du hast <color=#ffee00>Wissenschaftler</color> gewählt!";
+        public string Scientistmessage { get; set; } = "Du hast <color=#ffee00>Wissenschaftler</color> gewählt!";
+        public string Randommessage { get; set; } = "Du hast <color=#e702f7>keine</color> Rolle gewählt!";
+
 
 
 

@@ -27,7 +27,6 @@ namespace ManyThings.UnityMethods
                 yield return Timing.WaitForSeconds(1f);
                 if (Warhead.IsInProgress)
                 {
-                    yield return Timing.WaitForSeconds(1f);
                     if (!Warhead.IsDetonated)
                     {
                         foreach (Player player in Player.List)
@@ -525,25 +524,6 @@ namespace ManyThings.UnityMethods
             player.Scale = new Vector3(-1f, 1f, 1f);
             yield return Timing.WaitForSeconds(0.1f);
             player.Scale = new Vector3(1f, 1f, 1f);
-        }
-
-        public static void SpawnTempDummy(Player Ply, Vector3 position, Quaternion rotation, RoleType role, float x, float y, float z)
-        {
-            GameObject obj = UnityEngine.Object.Instantiate(
-            LiteNetLib4MirrorNetworkManager.singleton.playerPrefab);
-            CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
-            if (ccm == null)
-                Log.Error("CCM is null, this can cause problems!");
-            ccm.CurClass = role;
-            ccm.GodMode = true;
-            //ccm.OldRefreshPlyModel(PlayerManager.localPlayer);
-            obj.GetComponent<NicknameSync>().Network_myNickSync = "Dummy";
-            obj.GetComponent<QueryProcessor>().PlayerId = 9999;
-            obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
-            obj.transform.localScale = new Vector3(x, y, z);
-            obj.transform.position = position;
-            obj.transform.rotation = rotation;
-            NetworkServer.Spawn(obj);
         }
     }
 }

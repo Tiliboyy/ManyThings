@@ -22,7 +22,6 @@ namespace ManyThings.Patches
             {
                 return true;
             }
-            Log.Debug("Executed Patch fake sync var", Plugin.Instance.Config.IsDebug);
             __instance.Timer = value;
             return false;
         }

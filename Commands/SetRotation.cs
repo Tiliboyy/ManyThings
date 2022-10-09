@@ -20,23 +20,21 @@ namespace ManyThings.Commands
             Player player = Player.Get(sender);
             float x;
             float y;
-            float z;
 
             if (sender.CheckPermission("ManyThings.Tools"))
             {
                 if (arguments.Count < 3)
                 {
-                    response = $"<color=yellow>Usage: {Command} <X> <Y> <Z> </color>";
+                    response = $"<color=yellow>Usage: {Command} <X> <Y> </color>";
                     return false;
                 }
                 else
                 {
                     float.TryParse(arguments.Array[1], out x);
                     float.TryParse(arguments.Array[1], out y);
-                    float.TryParse(arguments.Array[1], out z);
                 }
 
-                player.Rotation = new Vector3(x, y, z);
+                player.Rotation = new Vector2(x, y);
                 response = "Rotated!";
 
                 return true;

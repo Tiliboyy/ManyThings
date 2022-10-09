@@ -24,7 +24,7 @@ namespace ManyThings.Commands
                 var Vector = player.Position - LobbyEventHandlers.SpawnPoint;
                 if (Plugin.Instance.Config.IsDebug)
                 {
-                    Log.Info(Vector);
+                    Log.Debug(Vector, Plugin.Instance.Config.IsDebug);
                 }
                 response = ($"X: {Vector.x} Y: {Vector.y} Z: {Vector.z}");
                 return true;

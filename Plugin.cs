@@ -18,24 +18,32 @@ public class Plugin : Plugin<Config, Translation>
 
     public override void OnEnabled()
     {
-        Plugin.Instance = this;
-        new Harmony("ManyThings.patches").PatchAll();
-        EventHandler = new EventHandlers();
-        LobbyEventHandlers = new LobbyEventHandlers();
-        Exiled.Events.Handlers.Server.EndingRound += EventHandler.OnRoundEnd;
-        Player.Verified += LobbyEventHandlers.VerifiedPlayer;
-        Exiled.Events.Handlers.Server.WaitingForPlayers += this.LobbyEventHandlers.WaitingForPlayers;
-        Exiled.Events.Handlers.Server.RoundStarted += this.LobbyEventHandlers.OnRoundStart;
-        Exiled.Events.Handlers.Server.RoundStarted += this.EventHandler.OnRoundStart;
-        Player.SpawningRagdoll += EventHandler.RagdollSpawning;
-        Player.DroppingAmmo += this.EventHandler.OnDroppingAmmo;
-        Player.Died += LobbyEventHandlers.OnDied;
-        Player.Spawned += LobbyEventHandlers.OnSpawned;
-        Player.Spawned += EventHandler.OnSpawned;
-        Player.DroppingItem += LobbyEventHandlers.OnDrop;
-        Player.ThrowingItem += LobbyEventHandlers.OnThrow;
-        MapEvent.PlacingBlood += LobbyEventHandlers.OnPlacingBlood;
-        Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
+        try
+        {
+            Plugin.Instance = this;
+            new Harmony("ManyThings.patches").PatchAll();
+            EventHandler = new EventHandlers();
+            LobbyEventHandlers = new LobbyEventHandlers();
+            Exiled.Events.Handlers.Server.EndingRound += EventHandler.OnRoundEnd;
+            Player.Verified += LobbyEventHandlers.VerifiedPlayer;
+            Exiled.Events.Handlers.Server.WaitingForPlayers += this.LobbyEventHandlers.WaitingForPlayers;
+            Exiled.Events.Handlers.Server.RoundStarted += this.LobbyEventHandlers.OnRoundStart;
+            Exiled.Events.Handlers.Server.RoundStarted += this.EventHandler.OnRoundStart;
+            Player.SpawningRagdoll += EventHandler.RagdollSpawning;
+            Player.DroppingAmmo += this.EventHandler.OnDroppingAmmo;
+            Player.Died += LobbyEventHandlers.OnDied;
+            Player.Spawned += LobbyEventHandlers.OnSpawned;
+            Player.Spawned += EventHandler.OnSpawned;
+            Player.DroppingItem += LobbyEventHandlers.OnDrop;
+            Player.ThrowingItem += LobbyEventHandlers.OnThrow;
+            MapEvent.PlacingBlood += LobbyEventHandlers.OnPlacingBlood;
+            Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
+        }
+        catch (Exception e)
+        {
+            Log.Error(e);
+        }
+
     }
 
 

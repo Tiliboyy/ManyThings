@@ -2,7 +2,6 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using GameCore;
-using ManyThings.LobbySpawner;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
@@ -27,28 +26,22 @@ namespace ManyThings.Lobby
     public class LobbyEventHandlers : Plugin<Config>
     {
 
-        public static CoroutineHandle LobbyTimer;
-
+        public static CoroutineHandle LobbyTimer2;
         public SchematicObject lobby;
-
         public static System.Random random = new System.Random();
-
         public static Vector3 SpawnRotation = Plugin.Instance.Config.SpawnRotation;
-
-        private List<GameObject> Dummies = new List<GameObject> { };
-
+        public static List<GameObject> Dummies = new List<GameObject> { };
         public static Vector3 ClassDPoint = Plugin.Instance.Config.ClassDSpawner;
         public static Vector3 GuardPoint = Plugin.Instance.Config.GuardSpawner;
         public static Vector3 SCPPoint = Plugin.Instance.Config.ScpSpawner;
         public static Vector3 ScientistPoint = Plugin.Instance.Config.ScientistSpawner;
-
         public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
 
         public void OnRoundStart()
         {
-            if (LobbyTimer.IsRunning)
+            if (LobbyTimer2.IsRunning)
             {
-                Timing.KillCoroutines(LobbyTimer);
+                Timing.KillCoroutines(LobbyTimer2);
             }
             if (lobby != null)
             {
@@ -304,41 +297,46 @@ namespace ManyThings.Lobby
         {
             if (Round.IsStarted)
                 return;
+            Log.Info("sex1");
             Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
             {
-                { RoleType.ClassD, "a" },
-                { RoleType.Scp173, "a" },
-                { RoleType.Scientist, "a" },
-                { RoleType.FacilityGuard, "a" },
+                { RoleType.ClassD, "" },
+                { RoleType.Tutorial, "" },
+                { RoleType.Scientist, "" },
+                { RoleType.FacilityGuard, "" },
             };
             Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
             {
-                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Vector3.up, Quaternion.Euler(0,129.25f , 0) ) },
-                { RoleType.Scp173, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Vector3.up, Quaternion.Euler(0, 100.64f, 0f) ) },
-                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Vector3.up, Quaternion.Euler(0f, 12f, 0f) ) },
-                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Vector3.up, Quaternion.Euler(0, 340f, 0) ) },
+                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0,129.25f , 0) ) },
+                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0, 100.64f, 0f) ) },
+                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0f, 12f, 0f) ) },
+                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + new Vector3(0, 2.3f, 0), Quaternion.Euler(0, 340f, 0) ) },
             };
+
             foreach (var Role in dummiesToSpawn)
             {
+                Log.Info("sex2");
+
                 GameObject obj = UnityEngine.Object.Instantiate(LiteNetLib4MirrorNetworkManager.singleton.playerPrefab);
                 CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
                 if (ccm == null)
                     Log.Error("CCM is null, this can cause problems!");
                 ccm.CurClass = Role.Key;
                 ccm.GodMode = true;
-                //ccm.OldRefreshPlyModel(PlayerManager.localPlayer);
                 obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
                 obj.GetComponent<QueryProcessor>().PlayerId = 9999;
                 obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
                 obj.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
-
                 obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
                 obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
+                Log.Info("sex3");
 
                 NetworkServer.Spawn(obj);
+                Log.Info("sex4");
+
                 Dummies.Add(obj);
                 Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position}");
-                Log.Debug(Dummies.Count.ToString());
+
             }
             int Lobbynum;
             if (Plugin.Instance.Config.LobbySchematics.Count == 0)
@@ -356,41 +354,9 @@ namespace ManyThings.Lobby
             Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
             Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
             Log.Debug("Lobby0: " + Plugin.Instance.Config.LobbySchematics[0], Plugin.Instance.Config.IsDebug);
-            #region Ugly Code
-            var GameObject1 = new GameObject("Spawner1");
-            var Collider1 = GameObject1.AddComponent<SphereCollider>();
-            Collider1.isTrigger = true;
-            Collider1.radius = 3.4f;
-            GameObject1.AddComponent<ScpSpawner>();
-            GameObject1.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner;
-
-            var GameObject2 = new GameObject("Spawner2");
-            var Collider2 = GameObject2.AddComponent<SphereCollider>();
-            Collider2.isTrigger = true;
-            Collider2.radius = 3.4f;
-            GameObject2.AddComponent<ClassDSpawner>();
-            GameObject2.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner;
-
-            var GameObject3 = new GameObject("Spawner3");
-            var Collider3 = GameObject3.AddComponent<SphereCollider>();
-            Collider3.isTrigger = true;
-            Collider3.radius = 3.4f;
-            GameObject3.AddComponent<ScientistSpawner>();
-            GameObject3.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner;
-
-            var GameObject4 = new GameObject("Spawner4");
-            var Collider4 = GameObject4.AddComponent<SphereCollider>();
-            Collider4.isTrigger = true;
-            Collider4.radius = 3.4f;
-            GameObject4.AddComponent<GuardSpawner>();
-            GameObject4.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner;
-
-
-            #endregion
-
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
 
-            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
+            LobbyTimer2 = Timing.RunCoroutine(LobbyMethods.LobbyTimer2());
 
             
         }
@@ -402,7 +368,6 @@ namespace ManyThings.Lobby
                 if (!Plugin.Instance.Config.GlobalVoiceChat)
                 {
                     MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
-                    Log.Debug("Executed FakeSyncVar", Plugin.Instance.Config.IsDebug);
                 }
 
 
