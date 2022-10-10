@@ -1,7 +1,6 @@
 using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
-using ManyThings.Lobby;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -94,7 +93,7 @@ public class Config : IConfig
 
     [Description("The size of the NPC's")]
     
-    public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(8.39999962f, 0, 5f);
+    public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(2.3f, 2.3f, 2.3f);
 
     public SerializedVector3.SerializedVector3 SpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
 

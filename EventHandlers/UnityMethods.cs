@@ -11,10 +11,10 @@ using Player = Exiled.API.Features.Player;
 using Warhead = Exiled.API.Features.Warhead;
 
 
-namespace ManyThings.UnityMethods
+namespace ManyThings
 
 {
-    class UnityMethods
+    public static class UnityMethods
     {
 
         public static IEnumerator<float> NukeCountdown()

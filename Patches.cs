@@ -7,7 +7,7 @@ using ManyThings;
 using Exiled.API.Features;
 using Log = Exiled.API.Features.Log;
 
-namespace ManyThings.Patches
+namespace ManyThings
 {
     [HarmonyPatch(typeof(RoundStart), nameof(RoundStart.NetworkTimer), MethodType.Setter)]
     internal static class NetworkTimerPatch

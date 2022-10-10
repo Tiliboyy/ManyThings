@@ -13,22 +13,6 @@ namespace ManyThings
 {
     public static class LobbyMethods
     {
-        public static void SendFakeUnitName(Player target, string name, SpawnableTeamType spawnableTeamType = SpawnableTeamType.NineTailedFox)
-        {
-            Log.Debug($"{nameof(SendFakeUnitName)}: Sending {target.Nickname} a fake unit name: {name}", Plugin.Instance.Config.IsDebug);
-            MirrorExtensions.SendFakeSyncObject(target, RespawnManager.Singleton.NamingManager.netIdentity, typeof(UnitNamingManager), writer =>
-            {
-                writer.WriteUInt64(1ul);
-                writer.WriteUInt32(1);
-                writer.WriteByte((byte)SyncList<SyncUnit>.Operation.OP_ADD);
-                writer.WriteByte((byte)spawnableTeamType);
-                writer.WriteString(name);
-            });
-            target.SendFakeSyncVar(Server.Host.ReferenceHub.networkIdentity, typeof(CharacterClassManager), nameof(CharacterClassManager.NetworkCurClass), (sbyte)RoleType.NtfCaptain);
-            target.UnitName = target.Role.ToString();
-            target.SendFakeSyncVar(Server.Host.ReferenceHub.networkIdentity, typeof(CharacterClassManager), nameof(CharacterClassManager.NetworkCurClass), (sbyte)RoleType.NtfCaptain);
-        }
-        
         public static IEnumerator<float> LobbyTimer()
         {
             StringBuilder message = new StringBuilder();

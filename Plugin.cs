@@ -1,7 +1,6 @@
 using Exiled.API.Features;
 using HarmonyLib;
 using ManyThings;
-using ManyThings.Lobby;
 using System;
 using Player = Exiled.Events.Handlers.Player;
 using MapEvent = Exiled.Events.Handlers.Map;

@@ -15,7 +15,7 @@ using Player = Exiled.API.Features.Player;
 using Random = UnityEngine.Random;
 
 
-namespace ManyThings.Lobby
+namespace ManyThings
 {
     public class LobbyEventHandlers : Plugin<Config>
     {
@@ -300,10 +300,10 @@ namespace ManyThings.Lobby
             };
             Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
             {
-                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner +Config.SpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
-                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Config.SpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
-                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Config.SpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
-                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Config.SpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
+                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
+                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
+                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
+                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
             };
 
             foreach (var Role in dummiesToSpawn)
@@ -319,7 +319,7 @@ namespace ManyThings.Lobby
                 obj.GetComponent<QueryProcessor>()._ipAddress = "127.0.0.WAN";
                 obj.GetComponent<PlayerMovementSync>().NetworkGrounded = true;
                 obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
-                obj.transform.localScale = new Vector3(Config.Npcsize.X, Config.Npcsize.Y, Config.Npcsize.Z);
+                obj.transform.localScale = new Vector3(Plugin.Instance.Config.Npcsize.X, Plugin.Instance.Config.Npcsize.Y, Plugin.Instance.Config.Npcsize.Z);
                 obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
                 obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
                 NetworkServer.Spawn(obj);
@@ -361,7 +361,7 @@ namespace ManyThings.Lobby
                 Timing.CallDelayed(Plugin.Instance.Config.SpawnDelay, () =>
                 {
 
-                    ev.Player.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
+                    ev.Player.Role.Type = Plugin.Instance.Config.RolesToChoose[Random.Range(0, Plugin.Instance.Config.RolesToChoose.Count)];
                     Player player = ev.Player;
                 });
 
@@ -377,7 +377,7 @@ namespace ManyThings.Lobby
                 ev.Player.Ammo.Clear();
                 ev.Player.Position = SpawnPoint + Vector3.up;
                 ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
-                foreach (var ammo in Config.Ammo)
+                foreach (var ammo in Plugin.Instance.Config.Ammo)
                 {
                     ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
                 }
@@ -399,7 +399,7 @@ namespace ManyThings.Lobby
                     if (!Round.IsStarted)
                     {
                         Player player = ev.Target;
-                        ev.Target.Role.Type = Config.RolesToChoose[Random.Range(0, Config.RolesToChoose.Count)];
+                        ev.Target.Role.Type = Plugin.Instance.Config.RolesToChoose[Random.Range(0, Plugin.Instance.Config.RolesToChoose.Count)];
                     }
                 });
             }

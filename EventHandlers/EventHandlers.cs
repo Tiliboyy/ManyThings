@@ -1,7 +1,6 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using Exiled.Events.Handlers;
-using ManyThings.Lobby;
 using MEC;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +19,7 @@ public class EventHandlers : Plugin<Config>
     {
         if (Plugin.Instance.Config.NukeCountdown)
         {
-            coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.NukeCountdown()));
+            coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.NukeCountdown()));
         }
         if (Plugin.Instance.Config.AutoFFToggle)
         {
@@ -41,18 +40,18 @@ public class EventHandlers : Plugin<Config>
     {
         if (Plugin.Instance.Config.AntiLag)
         {
-            Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
+            Timing.RunCoroutine(ManyThings.UnityMethods.DensifyAmmoBoxes(ev));
         }
     }
     public void RagdollSpawning(SpawningRagdollEventArgs ev)
     {
-        Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.DensifyAmmoBoxes(ev));
+        Timing.RunCoroutine(ManyThings.UnityMethods.DensifyAmmoBoxes(ev));
     }
     public void OnSpawned(SpawnedEventArgs ev)
     {
         if (Plugin.Instance.Config.AntiSprintBug)
         {
-            Timing.RunCoroutine(ManyThings.UnityMethods.UnityMethods.AntiSprintBug(ev));
+            Timing.RunCoroutine(ManyThings.UnityMethods.AntiSprintBug(ev));
         }
     }
     
