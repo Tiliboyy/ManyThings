@@ -4,7 +4,7 @@ using Exiled.Permissions.Extensions;
 using System;
 using Player = Exiled.API.Features.Player;
 
-namespace ManyThings.Commands
+namespace ManyThings
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class SpeedDeSynced : ICommand

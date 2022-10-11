@@ -87,29 +87,34 @@ public class Config : IConfig
     [Description("Coordinates of where the lobby spawns")]
 
     public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 1500, 95.8f);
+    
     [Description("The Rotation of the Player when they spawn")]
 
     public SerializedVector3.SerializedVector3 SpawnRotation { get; set; } = new Vector3(0, 0, 0);
+    [Description("The size of the Spawn Pad")]
+
+    public int SpawnPadSize { get; set; } = 4;
 
     [Description("The size of the NPC's")]
     
     public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(2.3f, 2.3f, 2.3f);
+    [Description("The offset of the NPC's)")]
 
     public SerializedVector3.SerializedVector3 SpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
 
 
 
-    [Description("Coordinates of where the spawners are from the spawnpoint of the lobby (use .getvector to get coordinates)")]
+    [Description("Coordinates of where the spawners are from the spawnpoint of the lobby (use getvector command to get coordinates)")]
 
 
 
-    public SerializedVector3.SerializedVector3 ClassDSpawner { get; set; } = new Vector3(-8.39999962f, 0, 5.0999999f);
+    public SerializedVector3.SerializedVector3 ClassDSpawner { get; set; } = new Vector3(-8.5f, 0, 5f);
 
-    public SerializedVector3.SerializedVector3 GuardSpawner { get; set; } = new Vector3(4.9000001f, 0, 15.1999998f);
+    public SerializedVector3.SerializedVector3 GuardSpawner { get; set; } = new Vector3(5f, 0, 15f);
 
-    public SerializedVector3.SerializedVector3 ScientistSpawner { get; set; } = new Vector3(-5.0999999f, 0, 15f);
+    public SerializedVector3.SerializedVector3 ScientistSpawner { get; set; } = new Vector3(-5f, 0, 15f);
 
-    public SerializedVector3.SerializedVector3 ScpSpawner { get; set; } = new Vector3(8.39999962f, 0, 5f);
+    public SerializedVector3.SerializedVector3 ScpSpawner { get; set; } = new Vector3(8.5f, 0, 5f);
 
 
 }

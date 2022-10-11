@@ -28,16 +28,14 @@ namespace ManyThings
                     {
                         foreach (Player player in Player.List)
                         {
-                            if (Plugin.Instance.Config.NukeHintVertPos != 0 && Plugin.Instance.Config.NukeHintVertPos > 0)
+                            double Count = Math.Round(Warhead.DetonationTimer);
+                            string text = Plugin.Instance.Translation.NukeCountdown.Replace("%sekunden%", Count.ToString());
+                            for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
                             {
-                                double Count = Math.Round(Warhead.DetonationTimer);
-                                string text = Plugin.Instance.Translation.NukeCountdown.Replace("%sekunden%", Count.ToString());
-                                for (int i = 0; i < Plugin.Instance.Config.NukeHintVertPos; i++)
-                                {
-                                    text += "\n";
-                                }
-                                player.ShowHint(text, 1f);
+                                text += "\n";
                             }
+                            player.ShowHint(text, 1f);
+
                         }
                     }
                     else

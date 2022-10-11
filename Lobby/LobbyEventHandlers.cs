@@ -89,25 +89,25 @@ namespace ManyThings
             foreach (var player in Player.List)
             {
 
-                if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScpSpawner) <= 3.4)
+                if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScpSpawner) <= Plugin.Instance.Config.SpawnPadSize)
                 {
                     SCPPlayers.Add(player);
-                    Log.Debug($"SCP1: {player}", Plugin.Instance.Config.IsDebug);
+                    Log.Debug($"SCP: {player}", Plugin.Instance.Config.IsDebug);
                 }
-                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ClassDSpawner) <= 3.4)
+                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ClassDSpawner) <= Plugin.Instance.Config.SpawnPadSize)
                 {
                     ClassDPlayers.Add(player);
-                    Log.Debug($"ClassD1: {player}", Plugin.Instance.Config.IsDebug);
+                    Log.Debug($"ClassD: {player}", Plugin.Instance.Config.IsDebug);
                 }
-                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScientistSpawner) <= 3.4)
+                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.ScientistSpawner) <= Plugin.Instance.Config.SpawnPadSize)
                 {
                     ScientistPlayers.Add(player);
-                    Log.Debug($"Scientist1: {player}", Plugin.Instance.Config.IsDebug);
+                    Log.Debug($"Scientist: {player}", Plugin.Instance.Config.IsDebug);
                 }
-                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.GuardSpawner) <= 3.4)
+                else if (Vector3.Distance(player.Position, SpawnPoint + Plugin.Instance.Config.GuardSpawner) <= Plugin.Instance.Config.SpawnPadSize)
                 {
                     GuardPlayers.Add(player);
-                    Log.Debug($"Guard1: {player}", Plugin.Instance.Config.IsDebug);
+                    Log.Debug($"Guard: {player}", Plugin.Instance.Config.IsDebug);
                 }
                 player.Role.Type = RoleType.None;
             }
@@ -329,7 +329,7 @@ namespace ManyThings
             int Lobbynum;
             if (Plugin.Instance.Config.LobbySchematics.Count == 0)
             {
-                Log.Warn("No Lobby in Config");
+                Log.Warn("No Lobby in config players will spawn at spawnpoint");
                 Lobbynum = 0;
             }
             else

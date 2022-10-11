@@ -7,7 +7,7 @@ namespace ManyThings
     {
 
 
-        public string NukeCountdown { get; set; } = "<color=#ff0509>%sekunden% Sekunen bis zur Detonation.</color>";
+        public string NukeCountdown { get; set; } = "<b><color=#ff0509>%sekunden% Sekunen bis zur Detonation.</color></b>";
 
 
         [Description("Lobby")]
