@@ -3,7 +3,7 @@
 Manythings is a Plugin i made for Daylight Gaming it has a few Small features and a custom spawner lobby.
 
 
-### Features
+### Features list
 Custom Lobby
 Custom Spawner
 Anti Lag
