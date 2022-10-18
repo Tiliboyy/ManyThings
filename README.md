@@ -4,11 +4,11 @@ Manythings is a Plugin i made for Daylight Gaming it has a few Small features an
 
 
 ## Features
-Custom Lobby.
-Custom Spawner.
-Anti Lag
-Nuke Countdown
-A few fun commands
+Custom Lobby<br />
+Custom Spawner<br />
+Anti Lag<br />
+Nuke Countdown<br />
+A few fun commands<br />
 
 ### Installation
 Just put it into your Exiled plugin folder
