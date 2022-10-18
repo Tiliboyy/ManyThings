@@ -1,6 +1,6 @@
 # ManyThings
 
-Manythings is a Plugin i made for Daylight Gaming it has a few Small features and a custom spawner lobby.
+Manythings is a Plugin i made for Daylight Gaming it has a few small features and a Custom Spawner Lobby.
 
 
 ## Features
