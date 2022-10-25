@@ -1,13 +1,17 @@
-﻿using Exiled.API.Extensions;
+﻿using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs;
+using Exiled.Events.Patches.Fixes;
 using GameCore;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
 using Mirror;
 using RemoteAdmin;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
 using UnityEngine;
 using Log = Exiled.API.Features.Log;
@@ -31,8 +35,89 @@ namespace ManyThings
         public static Vector3 ScientistPoint = Plugin.Instance.Config.ScientistSpawner;
         public static Vector3 SpawnPoint = Plugin.Instance.Config.SpawnPoint;
 
+
+        public void WaitingForPlayers()
+        {
+            if (Round.IsStarted)
+                return;
+
+            /*
+            Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
+            {
+                { RoleType.ClassD, "test1" },
+                { RoleType.Tutorial, "test2" },
+                { RoleType.Scientist, "test3" },
+                { RoleType.FacilityGuard, "test4" },
+            };
+            Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
+            {
+                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
+                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
+                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
+                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
+            };
+            //Spawn the NPC's
+            int i = 0;
+            foreach (var Role in dummiesToSpawn)
+            {
+                GameObject obj = UnityEngine.Object.Instantiate(NetworkManager.singleton.playerPrefab);
+                CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
+                if (ccm == null)
+                    Log.Error("CCM is null, this can cause problems!");
+                ccm.CurClass = Role.Key;
+                ccm.GodMode = true;
+                obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
+                obj.GetComponent<QueryProcessor>().PlayerId = 9999 + i;
+                obj.GetComponent<PlayerMovementSync>().NetworkGrounded = true;
+                obj.transform.localScale = new Vector3(Plugin.Instance.Config.Npcsize.X, Plugin.Instance.Config.Npcsize.Y, Plugin.Instance.Config.Npcsize.Z);
+                obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
+                obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
+                NetworkServer.Spawn(obj);
+                Dummies.Add(obj);
+                Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position} with id: {obj.GetComponent<QueryProcessor>().PlayerId}", Plugin.Instance.Config.IsDebug);
+                i++;
+            }
+            */
+            int Lobbynum;
+            if (Plugin.Instance.Config.LobbySchematics.Count == 0)
+            {
+                Log.Warn("No Lobby in config players will spawn at spawnpoint");
+                Lobbynum = 0;
+            }
+            else
+            {
+                Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count - 1);
+            }
+            lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematics[Lobbynum], SpawnPoint, Quaternion.identity);
+ 
+            Log.Debug($"Lobby: {lobby.name}", Plugin.Instance.Config.IsDebug);
+            Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
+            Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
+            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
+
+            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
+
+            
+        }
+
         public void OnRoundStart()
         {
+            /*
+            foreach (var obj in Dummies)
+            {
+                if (obj != null)
+                {
+                    UnityEngine.Object.Destroy(obj);
+                    Log.Debug($"Dummy {obj} is at {((GameObject)obj).transform.position}", Plugin.Instance.Config.IsDebug);
+                }
+                else
+                {
+                    Log.Debug($"Dummy {obj.name} is null", Plugin.Instance.Config.IsDebug);
+                }
+            }
+            */
+            foreach (Player player1 in Player.List)
+
             if (LobbyTimer.IsRunning)
             {
                 Timing.KillCoroutines(LobbyTimer);
@@ -46,6 +131,7 @@ namespace ManyThings
                 player.ClearInventory();
                 player.Role.Type = RoleType.Spectator;
             }
+            
 
 
             List<Player> BulkList = Player.List.ToList();
@@ -287,86 +373,26 @@ namespace ManyThings
             }
 
         }
-        public void WaitingForPlayers()
-        {
-            if (Round.IsStarted)
-                return;
-            Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
-            {
-                { RoleType.ClassD, "" },
-                { RoleType.Tutorial, "" },
-                { RoleType.Scientist, "" },
-                { RoleType.FacilityGuard, "" },
-            };
-            Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
-            {
-                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
-                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
-                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
-                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Plugin.Instance.Config.SpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
-            };
+        
 
-            foreach (var Role in dummiesToSpawn)
-            {
-                GameObject obj = UnityEngine.Object.Instantiate(NetworkManager.singleton.playerPrefab);
-                CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
-                if (ccm == null)
-                    Log.Error("CCM is null, this can cause problems!");
-                ccm.CurClass = Role.Key;
-                ccm.GodMode = true;
-                obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
-                obj.GetComponent<QueryProcessor>().PlayerId = 9999;
-                obj.GetComponent<QueryProcessor>()._ipAddress = "127.0.0.WAN";
-                obj.GetComponent<PlayerMovementSync>().NetworkGrounded = true;
-                obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
-                obj.transform.localScale = new Vector3(Plugin.Instance.Config.Npcsize.X, Plugin.Instance.Config.Npcsize.Y, Plugin.Instance.Config.Npcsize.Z);
-                obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
-                obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
-                NetworkServer.Spawn(obj);
-                Dummies.Add(obj);
-                Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position}");
-            }
-            int Lobbynum;
-            if (Plugin.Instance.Config.LobbySchematics.Count == 0)
-            {
-                Log.Warn("No Lobby in config players will spawn at spawnpoint");
-                Lobbynum = 0;
-            }
-            else
-            {
-                Lobbynum = Random.Range(0, Plugin.Instance.Config.LobbySchematics.Count - 1);
-            }
-            lobby = ObjectSpawner.SpawnSchematic(Plugin.Instance.Config.LobbySchematics[Lobbynum], SpawnPoint, Quaternion.identity);
- 
-            Log.Debug($"Lobby: {lobby}", Plugin.Instance.Config.IsDebug);
-            Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
-            Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
-            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
+        
 
-            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
-
-            
-        }
         public void VerifiedPlayer(VerifiedEventArgs ev)
         {
 
-            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
+            Timing.CallDelayed(Plugin.Instance.Config.SpawnDelay, () =>
             {
-                if (!Plugin.Instance.Config.GlobalVoiceChat)
+                if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
                 {
-                    MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
-                }
-
-
-                Timing.CallDelayed(Plugin.Instance.Config.SpawnDelay, () =>
-                {
-
+                    if (!Plugin.Instance.Config.GlobalVoiceChat)
+                    {
+                        MirrorExtensions.SendFakeSyncVar(ev.Player, RoundStart.singleton.netIdentity, typeof(RoundStart), "NetworkTimer", -1);
+                    }
                     ev.Player.Role.Type = Plugin.Instance.Config.RolesToChoose[Random.Range(0, Plugin.Instance.Config.RolesToChoose.Count)];
                     Player player = ev.Player;
-                });
 
-            }
-
+                }
+            });
 
         }
         public void OnSpawned(SpawnedEventArgs ev)
@@ -377,15 +403,19 @@ namespace ManyThings
                 ev.Player.Ammo.Clear();
                 ev.Player.Position = SpawnPoint + Vector3.up;
                 ev.Player.Rotation = new Vector3(SpawnRotation.x, SpawnRotation.y, SpawnRotation.z);
-                foreach (var ammo in Plugin.Instance.Config.Ammo)
-                {
-                    ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
-                }
-                foreach (ItemType item in Plugin.Instance.Config.LobbyItems)
-                {
-                    ev.Player.AddItem(item);
-                }
 
+
+
+
+                Timing.CallDelayed(0.3f, () =>
+                {
+                    Exiled.CustomItems.API.Extensions.ResetInventory(ev.Player, Plugin.Instance.Config.LobbyItems);
+
+                    foreach (var ammo in Config.Ammo)
+                    {
+                        ev.Player.Ammo[ammo.Key.GetItemType()] = ammo.Value;
+                    }
+                });
 
             }
 
@@ -403,10 +433,24 @@ namespace ManyThings
                     }
                 });
             }
-
-
-
         }
+        public void RagdollSpawning(SpawningRagdollEventArgs ev)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+                    
+            }
+        }
+
+        public static void OnDying(DyingEventArgs ev)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.Target.ClearInventory();
+            }
+        }
+
         public void OnThrow(ThrowingItemEventArgs ev)
         {
             if (Plugin.Instance.Config.AllowDroppingItem == false)

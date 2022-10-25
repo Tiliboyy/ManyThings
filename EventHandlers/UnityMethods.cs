@@ -16,7 +16,6 @@ namespace ManyThings
 {
     public static class UnityMethods
     {
-
         public static IEnumerator<float> NukeCountdown()
         {
             for (; ; )
@@ -45,7 +44,32 @@ namespace ManyThings
                 }
             }
         }
-        public static IEnumerator<float> DensifyAmmoBoxes(DroppingAmmoEventArgs ev)
+        public static IEnumerator<float> HandCoroutine(Player player, float time,bool everyone)
+        {
+            for (int i = 0; i < time; i++)
+            {
+                if (everyone) 
+                {
+                    foreach (Player player1 in Player.List)
+                    {
+                        player1.EnableEffect(Exiled.API.Enums.EffectType.SeveredHands);
+                        yield return Timing.WaitForSeconds(0.05f);
+                        player1.DisableEffect(Exiled.API.Enums.EffectType.SeveredHands);
+                        yield return Timing.WaitForSeconds(0.05f);
+                    }
+                }
+                else
+                {
+                    player.EnableEffect(Exiled.API.Enums.EffectType.SeveredHands);
+                    yield return Timing.WaitForSeconds(0.05f);
+                    player.DisableEffect(Exiled.API.Enums.EffectType.SeveredHands);
+                    yield return Timing.WaitForSeconds(0.05f);
+                }
+
+            }
+
+        }
+    public static IEnumerator<float> DensifyAmmoBoxes(DroppingAmmoEventArgs ev)
         {
             yield return Timing.WaitForSeconds(0.2f);
 

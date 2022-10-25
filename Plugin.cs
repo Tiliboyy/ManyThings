@@ -4,12 +4,14 @@ using ManyThings;
 using System;
 using Player = Exiled.Events.Handlers.Player;
 using MapEvent = Exiled.Events.Handlers.Map;
+using Exiled.CustomItems.API.Features;
+using MEC;
 
 public class Plugin : Plugin<Config, Translation>
 {
     public override string Author => "Tiliboyy";
     public override string Prefix => "ManyThings";
-    public override Version Version => new Version(1, 2, 1);
+    public override Version Version => new Version(2, 0, 0);
     public override Version RequiredExiledVersion => new Version(5, 0, 0, 0);
     public LobbyEventHandlers LobbyEventHandlers;
     public EventHandlers EventHandler;
@@ -36,7 +38,12 @@ public class Plugin : Plugin<Config, Translation>
             Player.DroppingItem += LobbyEventHandlers.OnDrop;
             Player.ThrowingItem += LobbyEventHandlers.OnThrow;
             MapEvent.PlacingBlood += LobbyEventHandlers.OnPlacingBlood;
+            Player.SpawningRagdoll += LobbyEventHandlers.RagdollSpawning;
+            Player.Dying += LobbyEventHandlers.OnDying;
+
             Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
+            Timing.WaitForSeconds(5f);
+            CustomItem.RegisterItems();
         }
         catch (Exception e)
         {
@@ -53,17 +60,20 @@ public class Plugin : Plugin<Config, Translation>
         EventHandler = null;
         LobbyEventHandlers = null;
         Exiled.Events.Handlers.Server.EndingRound -= EventHandler.OnRoundEnd;
-        Exiled.Events.Handlers.Player.Verified -= LobbyEventHandlers.VerifiedPlayer;
+        Player.Verified -= LobbyEventHandlers.VerifiedPlayer;
         Exiled.Events.Handlers.Server.WaitingForPlayers -= this.LobbyEventHandlers.WaitingForPlayers;
         Exiled.Events.Handlers.Server.RoundStarted -= this.LobbyEventHandlers.OnRoundStart;
+        Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
+        Player.SpawningRagdoll -= EventHandler.RagdollSpawning;
         Player.DroppingAmmo -= this.EventHandler.OnDroppingAmmo;
         Player.Died -= LobbyEventHandlers.OnDied;
         Player.Spawned -= LobbyEventHandlers.OnSpawned;
         Player.Spawned -= EventHandler.OnSpawned;
         Player.DroppingItem -= LobbyEventHandlers.OnDrop;
         Player.ThrowingItem -= LobbyEventHandlers.OnThrow;
-        Exiled.Events.Handlers.Server.RoundStarted -= this.EventHandler.OnRoundStart;
         MapEvent.PlacingBlood -= LobbyEventHandlers.OnPlacingBlood;
+        Timing.WaitForSeconds(5f);
+        CustomItem.RegisterItems();
 
     }
 }

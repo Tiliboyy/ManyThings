@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Extensions;
 using Exiled.API.Features;
 using MEC;
+using GameCore;
 using Respawning.NamingRules;
 using Respawning;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using UnityEngine;
 using System.Text;
 using Exiled.Events.Handlers;
 using Player = Exiled.API.Features.Player;
+using Log = Exiled.API.Features.Log;
 
 namespace ManyThings
 {
@@ -54,41 +56,41 @@ namespace ManyThings
                 }
                 foreach (Player ply in Player.List)
                 {
-                    ply.ShowHint(message.ToString(), 1f);
+                    
+                    ply.ShowHint(message.ToString());
 
                     if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ScpSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
                     {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scpmessage}</i>");
-                        Log.Debug($"SCP: {ply}", Plugin.Instance.Config.IsDebug);
-
+                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scpmessage}</i>", shouldClearPrevious: true);
+                        Log.Debug($"SCP: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
                     }
                     else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ClassDSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
                     {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Classdmessge}</i>");
-                        Log.Debug($"ClassD: {ply}", Plugin.Instance.Config.IsDebug);
+                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Classdmessge}</i>", shouldClearPrevious: true);
+                        Log.Debug($"ClassD: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
 
                     }
                     else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ScientistSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
                     {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scientistmessage}</i>");
-                        Log.Debug($"Scientist: {ply}", Plugin.Instance.Config.IsDebug);
+                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scientistmessage}</i>", shouldClearPrevious: true);
+                        Log.Debug($"Scientist: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
 
                     }
                     else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.GuardSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
                     {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Guardmessage}</i>");
-                        Log.Debug($"Guard: {ply}", Plugin.Instance.Config.IsDebug);
+                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Guardmessage}</i>", shouldClearPrevious: true);
+                        Log.Debug($"Guard: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
 
                     }
                     else
                     {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Randommessage}</i>");
-                        Log.Debug($"Random: {ply}", Plugin.Instance.Config.IsDebug);
+                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Randommessage}</i>", shouldClearPrevious: true);
+                        Log.Debug($"Random: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
 
                     }
                 }
                 x++;
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(0.5f);
             }
         }
     }

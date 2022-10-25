@@ -14,6 +14,7 @@ public class EventHandlers : Plugin<Config>
 
     public static List<CoroutineHandle> coroutines = new();
 
+    public static System.Random random = new System.Random();
 
     public void OnRoundStart()
     {
@@ -25,7 +26,10 @@ public class EventHandlers : Plugin<Config>
         {
             Server.FriendlyFire = false;
         }
-
+        foreach (Player player in Player.List) 
+        {
+            player.ClearBroadcasts();
+        }
     }
 
     public void OnRoundEnd(EndingRoundEventArgs ev)

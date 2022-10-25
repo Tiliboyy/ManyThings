@@ -31,7 +31,7 @@ namespace ManyThings
                 else
                 {
                     float.TryParse(arguments.Array[1], out x);
-                    float.TryParse(arguments.Array[1], out y);
+                    float.TryParse(arguments.Array[2], out y);
                 }
 
                 player.Rotation = new Vector2(x, y);

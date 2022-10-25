@@ -50,19 +50,14 @@ public class Config : IConfig
     public List<string> LobbySchematics { get; private set; } = new List<string>()
         {
             "Lobby Blau",
-            "Lobby Discord",
-            "Lobby Lila",
-            "Lobby PornHub",
-            "Lobby Red",
-            "Lobby Spotify",
         };
 
     [Description("The items a player gets in the Lobby")]
 
-    public List<ItemType> LobbyItems { get; private set; } = new List<ItemType>()
+    public List<string> LobbyItems { get; private set; } = new List<string>()
         {
-            ItemType.Coin,
-            ItemType.Flashlight,
+            "Coin",
+            "Flashlight",
         };
     [Description("The Roles that players can spawn as in the lobby")]
 
@@ -86,13 +81,14 @@ public class Config : IConfig
         };
     [Description("Coordinates of where the lobby spawns")]
 
-    public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 1500, 95.8f);
+    public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 1000, 95.8f);
     
     [Description("The Rotation of the Player when they spawn")]
 
     public SerializedVector3.SerializedVector3 SpawnRotation { get; set; } = new Vector3(0, 0, 0);
     [Description("The size of the Spawn Pad")]
 
+    
     public int SpawnPadSize { get; set; } = 4;
 
     [Description("The size of the NPC's")]
@@ -100,7 +96,7 @@ public class Config : IConfig
     public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(2.3f, 2.3f, 2.3f);
     [Description("The offset of the NPC's)")]
 
-    public SerializedVector3.SerializedVector3 SpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
+    public SerializedVector3.SerializedVector3 NPCSpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
 
 
 
