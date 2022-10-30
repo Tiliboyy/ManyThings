@@ -288,7 +288,6 @@ namespace ManyThings
             {
                 if (SCPPlayers.Count <= SCPsToSpawn)
                 {
-                    Log.Info("Check 1");
 
                     foreach (Player ply in SCPPlayers)
                     {
@@ -299,7 +298,6 @@ namespace ManyThings
                 }
                 else
                 {
-                    Log.Info("Check 2");
                     for (int x = 0; x < SCPsToSpawn; x++)
                     {
                         Player Ply = SCPPlayers[random.Next(SCPPlayers.Count)];
@@ -310,7 +308,6 @@ namespace ManyThings
                     SCPsToSpawn = 0;
                 }
             }
-            Log.Info("Check 3");
 
             if (ClassDsToSpawn != 0)
             {
@@ -321,11 +318,9 @@ namespace ManyThings
                     BulkList.Remove(Ply);
                 }
             }
-            Log.Info("Check 4");
 
             if (SCPsToSpawn != 0)
             {
-                Log.Info("Check 5");
 
                 for (int x = 0; x < SCPsToSpawn; x++)
                 {
@@ -337,7 +332,6 @@ namespace ManyThings
                     }
                 }
             }
-            Log.Info("Check 6");
 
             if (ScientistsToSpawn != 0)
             {
@@ -347,7 +341,6 @@ namespace ManyThings
                     PlayersToSpawnAsScientist.Add(Ply);
                     BulkList.Remove(Ply);
                 }
-                Log.Info("Check 7");
 
             }
             if (GuardsToSpawn != 0)
@@ -359,7 +352,6 @@ namespace ManyThings
                     BulkList.Remove(Ply);
                 }
             }
-            Log.Info("Check 9");
 
             foreach (Player ply in PlayersToSpawnAsClassD)
             {
@@ -382,7 +374,6 @@ namespace ManyThings
                     ply.Role.Type = RoleType.FacilityGuard;
                 });
             }
-            Log.Info("Check 11");
 
             List<RoleType> Roles = new List<RoleType>
                 { RoleType.Scp049, RoleType.Scp096, RoleType.Scp106, RoleType.Scp173, RoleType.Scp93953, RoleType.Scp93989 };
@@ -394,7 +385,6 @@ namespace ManyThings
             {
                 RoleType role = Roles[random.Next(Roles.Count)];
                 Roles.Remove(role);
-                Log.Info("Check 12");
 
                 Timing.CallDelayed(0.1f, () =>
                 {

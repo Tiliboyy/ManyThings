@@ -20,7 +20,6 @@ namespace ManyThings
             Player player = Player.Get(sender);
             if (sender.CheckPermission("ManyThings.Tools"))
             {
-                Log.Info(Server.PlayerCount);
                 var Vector = player.Position - LobbyEventHandlers.SpawnPoint;
                 if (Plugin.Instance.Config.IsDebug)
                 {
