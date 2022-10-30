@@ -20,7 +20,7 @@ namespace ManyThings
             float.TryParse(arguments.Array[2], out float speednumother);
 
 
-            if (sender.CheckPermission("ManyThings.Speed"))
+            if (sender.CheckPermission("ManyThings.Fun"))
             {
                 if (arguments.Count != 2)
                 {

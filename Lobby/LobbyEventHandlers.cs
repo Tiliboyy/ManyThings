@@ -38,7 +38,7 @@ namespace ManyThings
 
         public void WaitingForPlayers()
         {
-            if (Round.IsStarted)
+            if (Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
                 return;
 
             /*
@@ -116,7 +116,28 @@ namespace ManyThings
                 }
             }
             */
-            foreach (Player player1 in Player.List)
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.WaitingForPlayers;
+            Exiled.Events.Handlers.Server.RoundStarted -= this.OnRoundStart;
+            Exiled.Events.Handlers.Player.Died -= this.OnDied;
+            Exiled.Events.Handlers.Player.Spawned -= this.OnSpawned;
+            Exiled.Events.Handlers.Player.DroppingItem -= this.OnDrop;
+            Exiled.Events.Handlers.Player.ThrowingItem -= this.OnThrow;
+
+            List<Player> BulkList = Player.List.ToList();
+            List<Player> SCPPlayers = new List<Player> { };
+            List<Player> ScientistPlayers = new List<Player> { };
+            List<Player> GuardPlayers = new List<Player> { };
+            List<Player> ClassDPlayers = new List<Player> { };
+
+            List<Player> PlayersToSpawnAsSCP = new List<Player> { };
+            List<Player> PlayersToSpawnAsScientist = new List<Player> { };
+            List<Player> PlayersToSpawnAsGuard = new List<Player> { };
+            List<Player> PlayersToSpawnAsClassD = new List<Player> { };
+    
+            int SCPsToSpawn = 0;
+            int ClassDsToSpawn = 0;
+            int ScientistsToSpawn = 0;
+            int GuardsToSpawn = 0;
 
             if (LobbyTimer.IsRunning)
             {
@@ -130,29 +151,19 @@ namespace ManyThings
             {
                 player.ClearInventory();
                 player.Role.Type = RoleType.Spectator;
+                if (player.IsOverwatchEnabled)
+                {
+                    BulkList.Remove(player);
+                    Log.Debug($"Removed {player.Nickname} from the bulk list because they are overwatching", Plugin.Instance.Config.IsDebug);
+                }
             }
-            
+
+            Log.Debug($"BulkList Count: {BulkList.Count}", Plugin.Instance.Config.IsDebug);
 
 
-            List<Player> BulkList = Player.List.ToList();
-            List<Player> SCPPlayers = new List<Player> { };
-            List<Player> ScientistPlayers = new List<Player> { };
-            List<Player> GuardPlayers = new List<Player> { };
-            List<Player> ClassDPlayers = new List<Player> { };
-
-            List<Player> PlayersToSpawnAsSCP = new List<Player> { };
-            List<Player> PlayersToSpawnAsScientist = new List<Player> { };
-            List<Player> PlayersToSpawnAsGuard = new List<Player> { };
-            List<Player> PlayersToSpawnAsClassD = new List<Player> { };
-
-            int SCPsToSpawn = 0;
-            int ClassDsToSpawn = 0;
-            int ScientistsToSpawn = 0;
-            int GuardsToSpawn = 0;
 
             List<char> SpawnSequence = new List<char>
                 { '4', '0', '1', '4', '3', '1', '4', '0', '3', '1', '4', '4', '1', '4', '0', '4', '1', '3', '4', '0', '3', '1', '4', '4', '1', '4', '0', '4', '1', '3', '0', '4', '4', '1', '0', '1', '4', '3', '3', '1' };
-
             for (int x = 0; x < Player.List.ToList().Count; x++)
             {
                 switch (SpawnSequence[x])
@@ -195,7 +206,7 @@ namespace ManyThings
                     GuardPlayers.Add(player);
                     Log.Debug($"Guard: {player}", Plugin.Instance.Config.IsDebug);
                 }
-                player.Role.Type = RoleType.None;
+                player.Role.Type = RoleType.Spectator;
             }
 
 
@@ -272,11 +283,13 @@ namespace ManyThings
                     GuardsToSpawn = 0;
                 }
             }
-
+            Log.Debug($"SCP: {SCPsToSpawn} ClassD: {ClassDsToSpawn} Scientist: {ScientistsToSpawn} Guard: {GuardsToSpawn}", Plugin.Instance.Config.IsDebug);
             if (SCPsToSpawn != 0)
             {
                 if (SCPPlayers.Count <= SCPsToSpawn)
                 {
+                    Log.Info("Check 1");
+
                     foreach (Player ply in SCPPlayers)
                     {
                         PlayersToSpawnAsSCP.Add(ply);
@@ -286,6 +299,7 @@ namespace ManyThings
                 }
                 else
                 {
+                    Log.Info("Check 2");
                     for (int x = 0; x < SCPsToSpawn; x++)
                     {
                         Player Ply = SCPPlayers[random.Next(SCPPlayers.Count)];
@@ -296,6 +310,8 @@ namespace ManyThings
                     SCPsToSpawn = 0;
                 }
             }
+            Log.Info("Check 3");
+
             if (ClassDsToSpawn != 0)
             {
                 for (int x = 0; x < ClassDsToSpawn; x++)
@@ -305,15 +321,24 @@ namespace ManyThings
                     BulkList.Remove(Ply);
                 }
             }
+            Log.Info("Check 4");
+
             if (SCPsToSpawn != 0)
             {
+                Log.Info("Check 5");
+
                 for (int x = 0; x < SCPsToSpawn; x++)
                 {
-                    Player Ply = BulkList[random.Next(BulkList.Count)];
-                    PlayersToSpawnAsSCP.Add(Ply);
-                    BulkList.Remove(Ply);
+                    if(BulkList.Count != 0)
+                    {
+                        Player Ply = BulkList[random.Next(BulkList.Count)];
+                        PlayersToSpawnAsSCP.Add(Ply);
+                        BulkList.Remove(Ply);
+                    }
                 }
             }
+            Log.Info("Check 6");
+
             if (ScientistsToSpawn != 0)
             {
                 for (int x = 0; x < ScientistsToSpawn; x++)
@@ -322,6 +347,8 @@ namespace ManyThings
                     PlayersToSpawnAsScientist.Add(Ply);
                     BulkList.Remove(Ply);
                 }
+                Log.Info("Check 7");
+
             }
             if (GuardsToSpawn != 0)
             {
@@ -332,6 +359,7 @@ namespace ManyThings
                     BulkList.Remove(Ply);
                 }
             }
+            Log.Info("Check 9");
 
             foreach (Player ply in PlayersToSpawnAsClassD)
             {
@@ -354,17 +382,19 @@ namespace ManyThings
                     ply.Role.Type = RoleType.FacilityGuard;
                 });
             }
+            Log.Info("Check 11");
 
             List<RoleType> Roles = new List<RoleType>
                 { RoleType.Scp049, RoleType.Scp096, RoleType.Scp106, RoleType.Scp173, RoleType.Scp93953, RoleType.Scp93989 };
 
             if (PlayersToSpawnAsSCP.Count > 2)
                 Roles.Add(RoleType.Scp079);
-
+            Log.Debug($"SCP: {PlayersToSpawnAsSCP.Count}", Plugin.Instance.Config.IsDebug);
             foreach (Player ply in PlayersToSpawnAsSCP)
             {
                 RoleType role = Roles[random.Next(Roles.Count)];
                 Roles.Remove(role);
+                Log.Info("Check 12");
 
                 Timing.CallDelayed(0.1f, () =>
                 {
@@ -397,7 +427,7 @@ namespace ManyThings
         }
         public void OnSpawned(SpawnedEventArgs ev)
         {
-            if (!Round.IsStarted)
+            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 ev.Player.ClearInventory();
                 ev.Player.Ammo.Clear();
@@ -422,21 +452,24 @@ namespace ManyThings
         }
         public void OnDied(DiedEventArgs ev)
         {
-            if (!Round.IsStarted)
+            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 Timing.CallDelayed(2f, () =>
                 {
                     if (!Round.IsStarted)
                     {
                         Player player = ev.Target;
-                        ev.Target.Role.Type = Plugin.Instance.Config.RolesToChoose[Random.Range(0, Plugin.Instance.Config.RolesToChoose.Count)];
+                        if (player.IsOverwatchEnabled) 
+                        {
+                            ev.Target.Role.Type = Plugin.Instance.Config.RolesToChoose[Random.Range(0, Plugin.Instance.Config.RolesToChoose.Count)];
+                        }
                     }
                 });
             }
         }
         public void RagdollSpawning(SpawningRagdollEventArgs ev)
         {
-            if (!Round.IsStarted)
+            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 ev.IsAllowed = false;
                     
@@ -445,7 +478,7 @@ namespace ManyThings
 
         public static void OnDying(DyingEventArgs ev)
         {
-            if (!Round.IsStarted)
+            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 ev.Target.ClearInventory();
             }
@@ -455,7 +488,7 @@ namespace ManyThings
         {
             if (Plugin.Instance.Config.AllowDroppingItem == false)
             {
-                if (!Round.IsStarted)
+                if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
                 {
                     ev.IsAllowed = false;
                 }
@@ -466,7 +499,7 @@ namespace ManyThings
         {
             if (Plugin.Instance.Config.AllowDroppingItem == false)
             {
-                if (!Round.IsStarted)
+                if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
                 {
                     ev.IsAllowed = false;
                 }
@@ -475,7 +508,7 @@ namespace ManyThings
         }
         public void OnPlacingBlood(PlacingBloodEventArgs ev)
         {
-            if (!Round.IsStarted)
+            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 ev.IsAllowed = false;
             }

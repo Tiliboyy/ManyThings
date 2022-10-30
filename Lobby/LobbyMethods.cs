@@ -22,7 +22,7 @@ namespace ManyThings
             StringBuilder message = new StringBuilder();
             int x = 0;
 
-            while (!Round.IsStarted)   
+            while (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))   
             {
                 message.Clear();
 

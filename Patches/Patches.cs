@@ -14,7 +14,7 @@ namespace ManyThings
     {
         private static bool Prefix(RoundStart __instance, ref short value)
         {
-            if (Round.IsStarted)
+            if (Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
             {
                 return true;
             }
