@@ -39,8 +39,8 @@ namespace ManyThings
 
         public void WaitingForPlayers()
         {
-            if (Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
-                return;
+            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
+            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
             /*
             Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
@@ -94,9 +94,7 @@ namespace ManyThings
             Log.Debug($"Lobby: {lobby.name}", Plugin.Instance.Config.IsDebug);
             Log.Debug($"Lobbynum: {Lobbynum}", Plugin.Instance.Config.IsDebug);
             Log.Debug("LobbyCount: " + Plugin.Instance.Config.LobbySchematics.Count, Plugin.Instance.Config.IsDebug);
-            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
 
-            LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
             var GameObject1 = new GameObject("Spawner1");
             var Collider1 = GameObject1.AddComponent<SphereCollider>();
@@ -143,12 +141,6 @@ namespace ManyThings
                 }
             }
             */
-            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.WaitingForPlayers;
-            Exiled.Events.Handlers.Server.RoundStarted -= this.OnRoundStart;
-            Exiled.Events.Handlers.Player.Died -= this.OnDied;
-            Exiled.Events.Handlers.Player.Spawned -= this.OnSpawned;
-            Exiled.Events.Handlers.Player.DroppingItem -= this.OnDrop;
-            Exiled.Events.Handlers.Player.ThrowingItem -= this.OnThrow;
 
             List<Player> BulkList = Player.List.ToList();
             List<Player> SCPPlayers = new List<Player> { };
@@ -429,7 +421,7 @@ namespace ManyThings
 
             Timing.CallDelayed(Plugin.Instance.Config.SpawnDelay, () =>
             {
-                if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
+                if (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2)
                 {
                     if (!Plugin.Instance.Config.GlobalVoiceChat)
                     {
@@ -444,7 +436,7 @@ namespace ManyThings
         }
         public void OnSpawned(SpawnedEventArgs ev)
         {
-            if (!Round.IsStarted && (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2))
+            if (GameCore.RoundStart.singleton.NetworkTimer > 1 || GameCore.RoundStart.singleton.NetworkTimer == -2)
             {
                 ev.Player.ClearInventory();
                 ev.Player.Ammo.Clear();

@@ -54,11 +54,15 @@ namespace ManyThings
                 {
                     message.Append("\n");
                 }
+                foreach (Player ply in Player.List)
+                {
+                    ply.ShowHint(message.ToString());
+                }
+
                 /*
                 foreach (Player ply in Player.List)
                 {
                     
-                    ply.ShowHint(message.ToString());
 
                     if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ScpSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
                     {
