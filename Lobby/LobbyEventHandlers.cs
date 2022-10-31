@@ -4,6 +4,7 @@ using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using Exiled.Events.Patches.Fixes;
 using GameCore;
+using ManyThings.LobbySpawner;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
@@ -97,7 +98,33 @@ namespace ManyThings
 
             LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
 
-            
+            var GameObject1 = new GameObject("Spawner1");
+            var Collider1 = GameObject1.AddComponent<SphereCollider>();
+            Collider1.isTrigger = true;
+            Collider1.radius = Plugin.Instance.Config.SpawnPadSize;
+            GameObject1.AddComponent<ScpSpawner>();
+            GameObject1.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner;
+
+            var GameObject2 = new GameObject("Spawner2");
+            var Collider2 = GameObject2.AddComponent<SphereCollider>();
+            Collider2.isTrigger = true;
+            Collider2.radius = Plugin.Instance.Config.SpawnPadSize;
+            GameObject2.AddComponent<ClassDSpawner>();
+            GameObject2.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner;
+
+            var GameObject3 = new GameObject("Spawner3");
+            var Collider3 = GameObject3.AddComponent<SphereCollider>();
+            Collider3.isTrigger = true;
+            Collider3.radius = Plugin.Instance.Config.SpawnPadSize;
+            GameObject3.AddComponent<ScientistSpawner>();
+            GameObject3.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner;
+
+            var GameObject4 = new GameObject("Spawner4");
+            var Collider4 = GameObject4.AddComponent<SphereCollider>();
+            Collider4.isTrigger = true;
+            Collider4.radius = Plugin.Instance.Config.SpawnPadSize;
+            GameObject4.AddComponent<GuardSpawner>();
+            GameObject4.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner;
         }
 
         public void OnRoundStart()

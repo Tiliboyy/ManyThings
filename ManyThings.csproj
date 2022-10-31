@@ -110,8 +110,9 @@
     <Reference Include="MapEditorReborn">
       <HintPath>..\..\..\Documents\Assembly\MapEditorReborn.dll</HintPath>
     </Reference>
-    <Reference Include="Mirror_Publicized">
-      <HintPath>..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
+    <Reference Include="mirror-publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Documents\assambys\mirror-publicized.dll</HintPath>
     </Reference>
     <Reference Include="NorthwoodLib, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EXILED.5.2.2\lib\net472\NorthwoodLib.dll</HintPath>
@@ -153,6 +154,7 @@
     <Compile Include="Commands\SpeedDeSynced.cs" />
     <Compile Include="Lobby\LobbyEventHandlers.cs" />
     <Compile Include="Lobby\LobbyMethods.cs" />
+    <Compile Include="Lobby\LobbyObjects.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="EventHandlers\EventHandlers.cs" />

@@ -54,6 +54,7 @@ namespace ManyThings
                 {
                     message.Append("\n");
                 }
+                /*
                 foreach (Player ply in Player.List)
                 {
                     
@@ -89,6 +90,7 @@ namespace ManyThings
 
                     }
                 }
+                */
                 x++;
                 yield return Timing.WaitForSeconds(0.5f);
             }
