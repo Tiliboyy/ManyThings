@@ -110,9 +110,8 @@
     <Reference Include="MapEditorReborn">
       <HintPath>..\..\..\Documents\Assembly\MapEditorReborn.dll</HintPath>
     </Reference>
-    <Reference Include="mirror-publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Documents\assambys\mirror-publicized.dll</HintPath>
+    <Reference Include="Mirror_Publicized">
+      <HintPath>..\..\..\Documents\Assembly\Mirror_Publicized.dll</HintPath>
     </Reference>
     <Reference Include="NorthwoodLib, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EXILED.5.2.2\lib\net472\NorthwoodLib.dll</HintPath>
