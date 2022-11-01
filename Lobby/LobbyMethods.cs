@@ -58,43 +58,6 @@ namespace ManyThings
                 {
                     ply.ShowHint(message.ToString());
                 }
-
-                /*
-                foreach (Player ply in Player.List)
-                {
-                    
-
-                    if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ScpSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
-                    {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scpmessage}</i>", shouldClearPrevious: true);
-                        Log.Debug($"SCP: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
-                    }
-                    else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ClassDSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
-                    {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Classdmessge}</i>", shouldClearPrevious: true);
-                        Log.Debug($"ClassD: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
-
-                    }
-                    else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.ScientistSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
-                    {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Scientistmessage}</i>", shouldClearPrevious: true);
-                        Log.Debug($"Scientist: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
-
-                    }
-                    else if (Vector3.Distance(ply.Position, Plugin.Instance.Config.GuardSpawner + SpawnPoint) <= Plugin.Instance.Config.SpawnPadSize)
-                    {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Guardmessage}</i>", shouldClearPrevious: true);
-                        Log.Debug($"Guard: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
-
-                    }
-                    else
-                    {
-                        ply.Broadcast(1, $"<i>{Plugin.Instance.Translation.Randommessage}</i>", shouldClearPrevious: true);
-                        Log.Debug($"Random: {ply.Nickname}", Plugin.Instance.Config.IsDebug);
-
-                    }
-                }
-                */
                 x++;
                 yield return Timing.WaitForSeconds(0.5f);
             }

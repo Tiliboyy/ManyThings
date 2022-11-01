@@ -41,44 +41,6 @@ namespace ManyThings
         {
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             LobbyTimer = Timing.RunCoroutine(LobbyMethods.LobbyTimer());
-
-            /*
-            Dictionary<RoleType, string> dummiesToSpawn = new Dictionary<RoleType, string>
-            {
-                { RoleType.ClassD, "test1" },
-                { RoleType.Tutorial, "test2" },
-                { RoleType.Scientist, "test3" },
-                { RoleType.FacilityGuard, "test4" },
-            };
-            Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>> dummySpawnPointsAndRotations = new Dictionary<RoleType, KeyValuePair<Vector3, Quaternion>>
-            {
-                { RoleType.Scientist, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScientistSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(2.9f, 168.4f, 0) ) },
-                { RoleType.Tutorial, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ScpSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(5.2f, 206.5f, 0) ) },
-                { RoleType.FacilityGuard, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(0.8f, 192.5f, 0) ) },
-                { RoleType.ClassD, new KeyValuePair<Vector3, Quaternion>(LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.ClassDSpawner + Plugin.Instance.Config.NPCSpawnPadOffeset, Quaternion.Euler(2.6f, 153.8f, 0) ) },
-            };
-            //Spawn the NPC's
-            int i = 0;
-            foreach (var Role in dummiesToSpawn)
-            {
-                GameObject obj = UnityEngine.Object.Instantiate(NetworkManager.singleton.playerPrefab);
-                CharacterClassManager ccm = obj.GetComponent<CharacterClassManager>();
-                if (ccm == null)
-                    Log.Error("CCM is null, this can cause problems!");
-                ccm.CurClass = Role.Key;
-                ccm.GodMode = true;
-                obj.GetComponent<NicknameSync>().Network_myNickSync = Role.Value;
-                obj.GetComponent<QueryProcessor>().PlayerId = 9999 + i;
-                obj.GetComponent<PlayerMovementSync>().NetworkGrounded = true;
-                obj.transform.localScale = new Vector3(Plugin.Instance.Config.Npcsize.X, Plugin.Instance.Config.Npcsize.Y, Plugin.Instance.Config.Npcsize.Z);
-                obj.transform.position = dummySpawnPointsAndRotations[Role.Key].Key;
-                obj.transform.rotation = dummySpawnPointsAndRotations[Role.Key].Value;
-                NetworkServer.Spawn(obj);
-                Dummies.Add(obj);
-                Log.Debug($"Spawned dummy {Role.Key} at {obj.transform.position} with id: {obj.GetComponent<QueryProcessor>().PlayerId}", Plugin.Instance.Config.IsDebug);
-                i++;
-            }
-            */
             int Lobbynum;
             if (Plugin.Instance.Config.LobbySchematics.Count == 0)
             {
@@ -127,21 +89,6 @@ namespace ManyThings
 
         public void OnRoundStart()
         {
-            /*
-            foreach (var obj in Dummies)
-            {
-                if (obj != null)
-                {
-                    UnityEngine.Object.Destroy(obj);
-                    Log.Debug($"Dummy {obj} is at {((GameObject)obj).transform.position}", Plugin.Instance.Config.IsDebug);
-                }
-                else
-                {
-                    Log.Debug($"Dummy {obj.name} is null", Plugin.Instance.Config.IsDebug);
-                }
-            }
-            */
-
             List<Player> BulkList = Player.List.ToList();
             List<Player> SCPPlayers = new List<Player> { };
             List<Player> ScientistPlayers = new List<Player> { };
@@ -246,8 +193,8 @@ namespace ManyThings
                     {
                         Player Ply = ClassDPlayers[random.Next(ClassDPlayers.Count)];
                         PlayersToSpawnAsClassD.Add(Ply);
-                        ClassDPlayers.Remove(Ply); // Removing winner from the list
-                        BulkList.Remove(Ply); // Removing the winners from the bulk list
+                        ClassDPlayers.Remove(Ply);
+                        BulkList.Remove(Ply);
                     }
                     ClassDsToSpawn = 0;
                 }

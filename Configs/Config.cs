@@ -1,4 +1,3 @@
-using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Interfaces;
 using System.Collections.Generic;
@@ -16,17 +15,6 @@ public class Config : IConfig
     [Description("Merges Ammo of the same type")]
     public bool AntiLag { get; set; } = true;
 
-    [Description("Might fix the sprint bug (not tested)")]
-    public bool AntiSprintBug { get; set; } = false;
-
-    [Description("Auto Frienly Fire on Round End")]
-    public bool AutoFFToggle { get; set; } = false;
-
-    [Description("Adds a countdown for the Alpha Warhead")]
-    public bool NukeCountdown { get; set; } = false;
-    [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
-    public int NukeHintVertPos { get; set; } = 32;
-
     [Description("Lobby Stuff")]
     public bool DisplayWaitMessage { get; set; } = true;
 
@@ -34,12 +22,11 @@ public class Config : IConfig
     public bool GlobalVoiceChat { get; set; } = false;
     [Description("The delay it takes to spawn the player in the lobby")]
     public float SpawnDelay { get; set; } = 0.5f;
-    
+
     [Description("Determines the position of the Hint on the users screen (32 = Top, 0 = Middle, -15 = Below)")]
     public int HintVertPos { get; set; } = 25;
 
     public bool UseHints { get; set; } = true;
-
 
     [Description("Allows players to drop items in the lobby")]
 
@@ -48,61 +35,47 @@ public class Config : IConfig
     [Description("A List of Schematics that are randomly chosen from")]
 
     public List<string> LobbySchematics { get; private set; } = new List<string>()
-        {
-            "Lobby Blau",
-        };
+    {
+        "Lobby Blau",
+    };
 
     [Description("The items a player gets in the Lobby")]
 
     public List<string> LobbyItems { get; private set; } = new List<string>()
-        {
-            "Coin",
-            "Flashlight",
-        };
+    {
+        "Coin",
+        "Flashlight",
+    };
     [Description("The Roles that players can spawn as in the lobby")]
 
     public List<RoleType> RolesToChoose { get; private set; } = new List<RoleType>()
-        {
-            RoleType.ChaosMarauder,
-            RoleType.Scientist,
-            RoleType.NtfCaptain,
-            RoleType.Tutorial,
-            RoleType.FacilityGuard,
-            RoleType.ClassD,
+    {
+        RoleType.ChaosMarauder,
+        RoleType.Scientist,
+        RoleType.NtfCaptain,
+        RoleType.Tutorial,
+        RoleType.FacilityGuard,
+        RoleType.ClassD,
     };
     [Description("List of ammo given to a player while in lobby:")]
     public Dictionary<AmmoType, ushort> Ammo { get; private set; } = new Dictionary<AmmoType, ushort>()
-        {
-            { AmmoType.Nato556, 0 },
-            { AmmoType.Nato762, 0 },
-            { AmmoType.Nato9, 0 },
-            { AmmoType.Ammo12Gauge, 0 },
-            { AmmoType.Ammo44Cal, 0 },
-        };
+    {
+        { AmmoType.Nato556, 0 },
+        { AmmoType.Nato762, 0 },
+        { AmmoType.Nato9, 0 },
+        { AmmoType.Ammo12Gauge, 0 },
+        { AmmoType.Ammo44Cal, 0 },
+    };
     [Description("Coordinates of where the lobby spawns")]
-
     public SerializedVector3.SerializedVector3 SpawnPoint { get; set; } = new Vector3(240.1f, 1000, 95.8f);
-    
+
     [Description("The Rotation of the Player when they spawn")]
 
     public SerializedVector3.SerializedVector3 SpawnRotation { get; set; } = new Vector3(0, 0, 0);
     [Description("The size of the Spawn Pad")]
-
-    
     public int SpawnPadSize { get; set; } = 4;
 
-    [Description("The size of the NPC's")]
-    
-    public SerializedVector3.SerializedVector3 Npcsize { get; set; } = new Vector3(2.3f, 2.3f, 2.3f);
-    [Description("The offset of the NPC's)")]
-
-    public SerializedVector3.SerializedVector3 NPCSpawnPadOffeset { get; set; } = new Vector3(0, 3, 0);
-
-
-
     [Description("Coordinates of where the spawners are from the spawnpoint of the lobby (use getvector command to get coordinates)")]
-
-
 
     public SerializedVector3.SerializedVector3 ClassDSpawner { get; set; } = new Vector3(-8.5f, 0, 5f);
 

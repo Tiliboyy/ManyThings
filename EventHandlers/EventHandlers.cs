@@ -18,28 +18,12 @@ public class EventHandlers : Plugin<Config>
 
     public void OnRoundStart()
     {
-        if (Plugin.Instance.Config.NukeCountdown)
-        {
-            coroutines.Add(Timing.RunCoroutine(ManyThings.UnityMethods.NukeCountdown()));
-        }
-        if (Plugin.Instance.Config.AutoFFToggle)
-        {
-            Server.FriendlyFire = false;
-        }
         foreach (Player player in Player.List) 
         {
             player.ClearBroadcasts();
         }
     }
 
-    public void OnRoundEnd(EndingRoundEventArgs ev)
-    {
-
-        if (Plugin.Instance.Config.AutoFFToggle)
-        {
-            Server.FriendlyFire = true;
-        }
-    }
     public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
     {
         if (Plugin.Instance.Config.AntiLag)
@@ -50,13 +34,6 @@ public class EventHandlers : Plugin<Config>
     public void RagdollSpawning(SpawningRagdollEventArgs ev)
     {
         Timing.RunCoroutine(ManyThings.UnityMethods.DensifyAmmoBoxes(ev));
-    }
-    public void OnSpawned(SpawnedEventArgs ev)
-    {
-        if (Plugin.Instance.Config.AntiSprintBug)
-        {
-            Timing.RunCoroutine(ManyThings.UnityMethods.AntiSprintBug(ev));
-        }
     }
     
 }

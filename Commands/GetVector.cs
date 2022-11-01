@@ -9,7 +9,7 @@ namespace ManyThings
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     internal class GetVector : ICommand
     {
-        public string Command { get; } = "GetVector";
+        public string Command { get; } = "GetLobbyVectorOffset";
 
         public string[] Aliases { get; } = new string[0];
 

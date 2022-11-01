@@ -31,7 +31,6 @@ namespace ManyThings
 
                     if (id == "*")
                     {
-                        Log.Info(Server.PlayerCount);
                         float.TryParse(arguments.Array[2], out duration);
                         Player player = null;
                         Timing.RunCoroutine(UnityMethods.HandCoroutine(player, duration, true));

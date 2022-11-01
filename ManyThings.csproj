@@ -145,10 +145,8 @@
   <ItemGroup>
     <Compile Include="Commands\Hand.cs" />
     <Compile Include="Commands\GetRotation.cs" />
-    <Compile Include="Commands\SetRotation.cs" />
     <Compile Include="Configs\Translations.cs" />
     <Compile Include="Commands\GetVector.cs" />
-    <Compile Include="Commands\SetVector.cs" />
     <Compile Include="Commands\SpeedSynced.cs" />
     <Compile Include="Commands\SpeedDeSynced.cs" />
     <Compile Include="Lobby\LobbyEventHandlers.cs" />
