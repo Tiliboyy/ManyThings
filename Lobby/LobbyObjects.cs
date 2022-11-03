@@ -1,6 +1,4 @@
 ﻿using Exiled.API.Features;
-using MEC;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ManyThings.LobbySpawner
@@ -13,7 +11,7 @@ namespace ManyThings.LobbySpawner
             var player = Player.Get(other.gameObject);
             if (player == null) return;
             player = Player.Get(other.gameObject);
-            player.Broadcast(60, Plugin.Instance.Translation.Classdmessge, Broadcast.BroadcastFlags.Normal, true);
+            player.Broadcast(200, Plugin.Instance.Translation.Classdmessge, Broadcast.BroadcastFlags.Normal, true);
 
         }
         public void OnTriggerExit(Collider other)
@@ -30,7 +28,7 @@ namespace ManyThings.LobbySpawner
             var player = Player.Get(other.gameObject);
             if (player == null) return;
             player = Player.Get(other.gameObject);
-            player.Broadcast(60, Plugin.Instance.Translation.Scpmessage, Broadcast.BroadcastFlags.Normal, true);
+            player.Broadcast(200, Plugin.Instance.Translation.Scpmessage, Broadcast.BroadcastFlags.Normal, true);
 
         }
         public void OnTriggerExit(Collider other)
@@ -47,7 +45,7 @@ namespace ManyThings.LobbySpawner
             var player = Player.Get(other.gameObject);
             if (player == null) return;
             player = Player.Get(other.gameObject);
-            player.Broadcast(60, Plugin.Instance.Translation.Guardmessage, Broadcast.BroadcastFlags.Normal, true);
+            player.Broadcast(200, Plugin.Instance.Translation.Guardmessage, Broadcast.BroadcastFlags.Normal, true);
         }
 
         public void OnTriggerExit(Collider other)
@@ -64,7 +62,7 @@ namespace ManyThings.LobbySpawner
             var player = Player.Get(other.gameObject);
             if (player == null) return;
             player = Player.Get(other.gameObject);
-            player.Broadcast(60, Plugin.Instance.Translation.Scientistmessage, Broadcast.BroadcastFlags.Normal, true);
+            player.Broadcast(200, Plugin.Instance.Translation.Scientistmessage, Broadcast.BroadcastFlags.Normal, true);
         }
         public void OnTriggerExit(Collider other)
         {
@@ -72,6 +70,6 @@ namespace ManyThings.LobbySpawner
             if (player == null) return;
             player.ClearBroadcasts();
         }
-        
+
     }
 }

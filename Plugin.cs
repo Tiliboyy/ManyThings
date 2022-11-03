@@ -40,8 +40,6 @@ public class Plugin : Plugin<Config, Translation>
             Player.Dying += LobbyEventHandlers.OnDying;
 
             Log.Info($"ManyThings v{Version} by Tiliboyy has been loaded!");
-            Timing.WaitForSeconds(5f);
-            CustomItem.RegisterItems();
         }
         catch (Exception e)
         {
@@ -68,8 +66,6 @@ public class Plugin : Plugin<Config, Translation>
         Player.DroppingItem -= LobbyEventHandlers.OnDrop;
         Player.ThrowingItem -= LobbyEventHandlers.OnThrow;
         MapEvent.PlacingBlood -= LobbyEventHandlers.OnPlacingBlood;
-        Timing.WaitForSeconds(5f);
-        CustomItem.RegisterItems();
-
+        
     }
 }

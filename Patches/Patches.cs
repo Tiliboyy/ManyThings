@@ -6,6 +6,7 @@ using UnityEngine;
 using ManyThings;
 using Exiled.API.Features;
 using Log = Exiled.API.Features.Log;
+using CommandSystem.Commands.RemoteAdmin;
 
 namespace ManyThings
 {

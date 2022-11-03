@@ -86,7 +86,6 @@ namespace ManyThings
             GameObject4.AddComponent<GuardSpawner>();
             GameObject4.transform.position = LobbyEventHandlers.SpawnPoint + Plugin.Instance.Config.GuardSpawner;
         }
-
         public void OnRoundStart()
         {
             List<Player> BulkList = Player.List.ToList();
@@ -99,7 +98,7 @@ namespace ManyThings
             List<Player> PlayersToSpawnAsScientist = new List<Player> { };
             List<Player> PlayersToSpawnAsGuard = new List<Player> { };
             List<Player> PlayersToSpawnAsClassD = new List<Player> { };
-    
+
             int SCPsToSpawn = 0;
             int ClassDsToSpawn = 0;
             int ScientistsToSpawn = 0;
@@ -290,7 +289,7 @@ namespace ManyThings
 
                 for (int x = 0; x < SCPsToSpawn; x++)
                 {
-                    if(BulkList.Count != 0)
+                    if (BulkList.Count != 0)
                     {
                         Player Ply = BulkList[random.Next(BulkList.Count)];
                         PlayersToSpawnAsSCP.Add(Ply);
@@ -359,9 +358,8 @@ namespace ManyThings
             }
 
         }
-        
 
-        
+
 
         public void VerifiedPlayer(VerifiedEventArgs ev)
         {
