@@ -14,6 +14,6 @@ Just put it into your Exiled plugin folder
 
 
 ### Credits
-Kognitys Playhouse Playhouse for the Custom Spawner and Anti Lag
+Kognitys Playhouse for the Custom Spawner and Anti Lag
  
 
